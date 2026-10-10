@@ -31,7 +31,7 @@ def dumps(facts: dict[str, Any]) -> str:
 
 def save(facts: dict[str, Any], path: Path = FACTS) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(dumps(facts), encoding="utf-8")
+    path.write_text(dumps(facts), encoding="utf-8", newline="\n")
 
 
 def fingerprint(path: Path = FACTS) -> str:
