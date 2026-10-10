@@ -43,3 +43,17 @@ CI (`.github/workflows/ci.yml`) runs the self-tests, builds the site from the
 committed facts and runs `check --strict` (missing translations fail) on
 Ubuntu (3.10, 3.12) and Windows (3.12). The built site is attached to each run
 as the `wiki-site` artifact. CI never touches the game repository.
+
+## GitHub Pages
+
+The `pages.yml` workflow tests, builds and validates the committed snapshot,
+then publishes `site/` on every push to `main`. It does not sync the game.
+
+For the initial setup, open repository **Settings > Pages** and select
+**GitHub Actions** as the build source. Private repositories require a GitHub
+plan that supports Pages; keep this repository private unless publication of
+its source is intended. A published Pages site may be publicly accessible even
+when the source repository is private.
+
+After enabling Pages, run **Deploy Wiki to GitHub Pages** from the Actions tab
+(or push a commit to `main`). The deployment environment shows the final site URL.
