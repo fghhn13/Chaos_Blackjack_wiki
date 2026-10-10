@@ -20,7 +20,7 @@ PROSE_FOLDERS = {"chaos_rules": "chaos", "items": "items", "design_docs": "desig
 # Changes here are expected on every new commit and are not worth listing one by one.
 NOISY = ("source", "changelog", "transcript")
 # Diffed by hand: a changed doc makes its wiki summary stale.
-SPECIAL = ("design_docs",)
+SPECIAL = ("design_docs", "sim")
 
 
 def load(path: Path = FACTS) -> dict[str, Any]:
@@ -109,6 +109,17 @@ def diff(old: dict[str, Any], new: dict[str, Any]) -> list[tuple[str, str, str]]
         elif a[d] != b[d]:
             out.append(("auto", f"design_docs.{d}", f"now on {b[d]['ref']} @ {b[d]['commit']}"
                         + (" (merged into main)" if b[d]["on_main"] and not a[d]["on_main"] else "")))
+    so, sn = old.get("sim") or {}, new.get("sim") or {}
+    for key in sorted((so.keys() | sn.keys()) - {"measured", "measured_on", "game_commit", "source"}):
+        if so.get(key) != sn.get(key):
+            out.append(("auto", f"sim.{key}", "simulator options changed; re-read the simulator page"))
+    if so.get("measured") != sn.get("measured") and sn.get("measured"):
+        out.append(("auto", "sim.measured", f"re-measured: game {sn.get('measured_on')}, "
+                                            f"simulator {sn.get('source', {}).get('commit')}"))
+    for band in (sn.get("measured") or {}).get("bands", []):
+        if band.get("ok") != "yes":
+            out.append(("auto", "sim.bands", f"OUT OF BAND: {band['metric']} = {band['value']} "
+                                             f"(band {band['band']}); a game change moved balance"))
     if old.get("transcript") != new.get("transcript") and old:
         out.append(("auto", "transcript", "agent transcript changed (re-read the agents page)"))
     gone = ids(old) - ids(new)

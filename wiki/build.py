@@ -295,11 +295,18 @@ class Site:
                      ["enabled", self.fmt(e.get("enabled"))]]
             if e.get("stub_weight") is not None:
                 rows.append(["stub_weight", self.fmt(e["stub_weight"])])
+            ev = self.sim_rule_rows(eid)
+            if ev:
+                rows.append(["sim_rule_ev", "<br>".join(ev) + f' · <a href="balance.html">{self.t["sim_more"]}</a>'])
         else:
             price = e.get("price")
             rows += [["price", f"{price} {self.t['chips']}" if price is not None else self.t["not_sold"]]]
             if e.get("params"):
                 rows.append(["params", html.escape(self.fmt(e["params"]))])
+            gain = next((r for r in self._measured("items") if r["item"] == eid), None)
+            if gain:
+                rows.append(["sim_item_gain", f'{self._ev_pill(gain["ev"])} <span class="muted">{html.escape(gain["se"])}</span>'
+                                              f' · <a href="balance.html">{self.t["sim_more"]}</a>'])
         facts_tbl = "".join(f"<tr><th>{self.t[k]}</th><td>{v}</td></tr>" for k, v in rows)
         note = "" if text_ok else f' <span class="badge" title="{self.t["untranslated"]}">EN</span>'
         prose = self.expand(body, where) if body.strip() else f'<p class="muted">{self.t["no_notes"]}</p>'
@@ -331,6 +338,84 @@ class Site:
                  f'<h1>{html.escape(title)}</h1><div class="banner {"" if doc["on_main"] else "planned"}">{banner}</div>'
                  f'{notes}{prose}')
         return self.layout(f"design-{d}", title, html_, self._heads if body.strip() else [], active="design")
+
+    # --- simulator ----------------------------------------------------------
+
+    def _sim(self) -> dict[str, Any]:
+        return self.facts.get("sim") or {}
+
+    def _measured(self, key: str) -> list[dict[str, Any]]:
+        return (self._sim().get("measured") or {}).get(key, [])
+
+    def _ev_pill(self, ev: str) -> str:
+        cls = "ok" if ev.startswith("+") and ev.strip("+%0.") else ("warn" if ev.startswith("-") else "")
+        return f'<span class="pill {cls}">{html.escape(ev)}</span>'
+
+    def sim_rule_rows(self, rid: str) -> list[str]:
+        """EV rows for one game rule (a rule can have several simulated variants)."""
+        from wiki.sim import game_rule
+
+        rules = set(self.facts.get("chaos_rules", {}))
+        return [f"{self._ev_pill(r['ev'])} <span class=\"muted\">{html.escape(r['se'])} · <code>{html.escape(r['rule'])}</code></span>"
+                for r in self._measured("edge") if game_rule(r["rule"], rules) == rid]
+
+    def t_sim_edge(self) -> str:
+        from wiki.sim import game_rule
+
+        rules = set(self.facts.get("chaos_rules", {}))
+        rows = []
+        for r in self._measured("edge"):
+            gid = game_rule(r["rule"], rules)
+            name = (f'<a href="rule-{gid}.html">{html.escape(self.name("chaos_rules", gid))}</a>'
+                    if gid else self.t["sim_no_rule"])
+            rows.append([f"<code>{html.escape(r['rule'])}</code>", name, self._ev_pill(r["ev"]), html.escape(r["se"])])
+        return self._sim_meta("edge") + self._table(["sim_variant", "name", "sim_ev", "sim_se"], rows)
+
+    def t_sim_items(self) -> str:
+        rows = []
+        for r in self._measured("items"):
+            known = r["item"] in self.facts.get("items", {})
+            name = f'<a href="item-{r["item"]}.html">{html.escape(self.name("items", r["item"]))}</a>' if known else r["item"]
+            rows.append([name, self._ev_pill(r["ev"]), html.escape(r["se"])])
+        return self._sim_meta("items") + self._table(["name", "sim_gain", "sim_se"], rows)
+
+    def t_sim_bands(self) -> str:
+        defs = {d["name"]: d for d in self._sim().get("band_defs", [])}
+        rows = []
+        for b in self._measured("bands"):
+            d = defs.get(b["metric"], {})
+            size = f"{d['rounds']} {self.t['sim_rounds']}" if "rounds" in d else (
+                f"{d['runs']} {self.t['sim_runs']}" if "runs" in d else "")
+            ok = b.get("ok") == "yes"
+            rows.append([html.escape(b["metric"]), html.escape(size), f"<strong>{html.escape(b['value'])}</strong>",
+                         html.escape(b["band"]),
+                         f'<span class="pill {"ok" if ok else "warn"}">{self.t["yes" if ok else "no"]}</span>'])
+        return self._sim_meta("bands") + self._table(["sim_metric", "sim_size", "sim_value", "sim_band", "sim_in_band"], rows)
+
+    def t_sim_commands(self) -> str:
+        rows = [[f"<code>{html.escape(c)}</code>", f"<code>{html.escape(u)}</code>"]
+                for c, u in self._sim().get("commands", {}).items()]
+        return self._table(["command", "sim_usage"], rows)
+
+    def t_sim_options(self) -> str:
+        s = self._sim()
+        fmt = lambda xs: ", ".join(f"<code>{html.escape(x)}</code>" for x in xs)  # noqa: E731
+        rows = [["<code>--chaos</code>", fmt(["off", "stub", "mix", "mix:a+b", *s.get("rules", [])])],
+                ["<code>--bet</code>", fmt(s.get("bet_policies", []))],
+                ["<code>--shop</code>", fmt(s.get("shop_policies", []))],
+                ["<code>--prices</code>", fmt(["game", "fixed:<factor>", "scaled:<pct>"])]]
+        return self._table(["sim_option", "sim_values"], rows)
+
+    def _sim_meta(self, key: str) -> str:
+        s = self._sim()
+        run = (s.get("measured") or {}).get("runs", {}).get(key)
+        if not run:
+            return f'<p class="notice">{self.t["sim_missing"]}</p>'
+        stale = s.get("measured_on") != self.facts["source"].get("commit")
+        text = self.t["sim_meta"].format(args=html.escape(f"python -m bjsim {run['args']}"), seed=run["seed"],
+                                         balance=html.escape(str(run["balance"])), game=s.get("measured_on"),
+                                         sim=s.get("source", {}).get("commit"), title=html.escape(run["title"]))
+        return f'<p class="muted">{text}</p>' + (f'<p class="notice">{self.t["sim_stale"]}</p>' if stale else "")
 
     def t_design_docs(self) -> str:
         rows = []

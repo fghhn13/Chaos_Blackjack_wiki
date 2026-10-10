@@ -1,6 +1,6 @@
 ---
 title: 局外成长、存档与图鉴
-source_blob: dbc1dc45c09c
+source_blob: 24fc9041ffa2
 ---
 以后每轮游戏之间你会有一个**玩家**：一个存档位，里面有代币、永久升级和消耗品。每一轮都会被记录下来，**图鉴**会用动画演示讲解每条规则、每件道具、每种模式和每个 AI。Agent 命令行不加入局外成长，保证 agent 对局公平、可复现。
 
@@ -99,7 +99,7 @@ player (slot 1-3) ── tokens, permanent upgrades (with level), consumables (w
 
 ### 数据模型
 
-游戏数据库新增的表：`player`（存档位 1–3、名字、代币）、`player_upgrade`（永久升级存等级，消耗品存数量）、`run_history`、`codex_seen`（按玩家、类别、条目记录首次见到时间和次数）。平衡配置一侧新增 `meta_upgrade` 商品目录：类型、效果 ID 和 JSON 参数、价格和每级加价、最高等级、是否启用、前置升级。局内存档会关联玩家和对局 ID。
+迁移 `0004_meta_progression.sql`（0003 已被混沌 AI 设置占用）在游戏数据库里新增这些表：`player`（存档位 1–3、名字、代币）、`player_upgrade`（永久升级存等级，消耗品存数量）、`run_history`、`codex_seen`（按玩家、类别、条目记录首次见到时间和次数）。平衡配置一侧新增 `meta_upgrade` 商品目录：类型、效果 ID 和 JSON 参数、价格和每级加价、最高等级、是否启用、前置升级。局内存档会关联玩家和对局 ID。
 
 ### 扩展点
 
@@ -117,14 +117,17 @@ create_player(slot, name) / rename_player(player_id, name) / delete_player(playe
 get_player(player_id) -> Player                  # tokens, upgrades, stats
 meta_shop(player_id, profile=None) -> list[UpgradeOffer]
 buy_upgrade(player_id, upgrade_id) -> Player
-modes() -> list[GameMode]
-start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None) -> RunStart
-finish_run(run_id, controller) -> RunReward      # tokens + breakdown
+modes(player_id=None) -> list[ModeOption]        # mode + unlocked
+start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None, loop_factory=None) -> RunStart
+    # RunStart(run_id, mode, config, applied, controller); the controller saves into the player's run
+resume_run(player_id, *, loop_factory=None) -> RunStart | None   # unfinished run with a save
+finish_run(run_id, controller) -> RunReward      # tokens + breakdown + result; only once the run is over
 abandon_run(run_id) -> None
 history(player_id, limit=50) -> list[RunRecord]
+codex_seen(player_id) -> dict[(kind, entry_id), times]
 ```
 
-会先提供一个行为相同的内存版假实现，让界面可以在真正的存储完成前开工。控制器新增 `add_listener(fn)`，每条通知都会调用它但不会消耗通知；局外层用它来生成对局摘要。
+错误统一为 `MetaError`（一种 `ValueError`），附带玩家能看懂的提示。做界面时可以用 `chaos_blackjack.meta.fake.install_fake()`：它在内存数据库上运行真正的服务，并带有演示数据（1 号位"Ace"有代币、升级和三条历史对局；2 号位"Rookie"；3 号位为空）；`chaos_blackjack.meta.use_service(None)` 切回 `data/game.db`。命令行工具：`python -m chaos_blackjack.data players | history SLOT | grant SLOT TOKENS`。控制器新增 `add_listener(fn)`，每条通知都会调用它但不会消耗通知；局外层用它来生成对局摘要。
 
 ### 图鉴 API（`chaos_blackjack/codex/`）
 

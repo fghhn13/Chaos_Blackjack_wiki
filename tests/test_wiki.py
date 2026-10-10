@@ -96,3 +96,23 @@ def test_design_status_takes_the_bold_part():
     assert _status("Status: **agreed plan**, 2026-10-10. Shared contract") == "agreed plan"
     assert _status("Status: draft. More text") == "draft"
     assert slug("docs/design/META_PROGRESSION.md") == "meta-progression"
+
+
+def test_sim_rule_variants_map_to_game_rules(tmp_path):
+    from wiki.sim import _dict_keys, game_rule
+
+    rules = {"modify_card_value", "tiebreaker_shift", "great_crash"}
+    assert game_rule("modify_card_value-1", rules) == "modify_card_value"
+    assert game_rule("tiebreaker_dealer", rules) == "tiebreaker_shift"
+    assert game_rule("great_crash", rules) == "great_crash"
+    assert game_rule("none", rules) is None
+    src = tmp_path / "bots.py"
+    src.write_text('X: dict[str, int] = {"a": 1, "b": 2}\nY = {"c": 3}\n', encoding="utf-8")
+    assert _dict_keys(src, "X") == ["a", "b"] and _dict_keys(src, "Y") == ["c"]
+
+
+def test_out_of_band_is_reported():
+    sim = {"source": {"commit": "s1"}, "measured_on": "g1",
+           "measured": {"bands": [{"metric": "EV", "value": "+0.5", "band": "[0, 0.1]", "ok": "no"}]}}
+    entries = F.diff({**FACTS, "sim": {}}, {**FACTS, "sim": sim})
+    assert any(k == "auto" and "OUT OF BAND" in d for k, _, d in entries)

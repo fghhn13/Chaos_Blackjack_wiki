@@ -13,7 +13,8 @@ python -m chaos_blackjack.gui
 | 下注 | 左键点筹码加注，右键减注；Clear / Max；Shop | ↑ / ↓ ±1，Enter 发牌，B 打开商店（1–3 购买） |
 | 你的回合 | Hit / Stand / Double / Surrender 按钮 | H / S / D / R |
 | 一局结束 | Next Round | Enter |
-| 任何时候 | — | Esc 回主菜单（会先确认），F11 全屏，F5 重新加载美术 |
+| 混沌模式 | 点击混沌 AI 头像[要建议](chaos-ai.html#向混沌-ai-要建议) | — |
+| 任何时候 | — | Esc 回主菜单（会先确认），F11 全屏，M 静音，+ / − 调音量，F5 重新加载美术和音效 |
 
 在主菜单切换 **Chaos Mode**。美术是可选的：每张图都有程序绘制的占位图（见[美术图鉴](gallery.html)）。
 

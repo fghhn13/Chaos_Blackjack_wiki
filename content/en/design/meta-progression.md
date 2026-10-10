@@ -1,6 +1,6 @@
 ---
 title: Meta progression, saves and the codex
-source_blob: dbc1dc45c09c
+source_blob: 24fc9041ffa2
 ---
 Between runs you will keep a **player**: a save slot with tokens, permanent upgrades and consumables. Every run is recorded, and a **codex** explains every rule, item, mode and AI with an animated demo. The agent CLI stays without meta progression so agent runs remain fair and reproducible.
 
@@ -97,7 +97,7 @@ The main menu keeps **Quick play** (no player, as today) and the developer asset
 
 ### Data model
 
-New tables in the game database: `player` (slot 1–3, name, tokens), `player_upgrade` (level for permanent upgrades, count for consumables), `run_history`, `codex_seen` (per player, kind, entry; first seen, times). On the balance-profile side, `meta_upgrade` holds the catalog: kind, effect id and JSON params, cost and cost step, max level, enabled, requirement. Saved runs gain a player and run id.
+Migration `0004_meta_progression.sql` (0003 went to the Chaos AI settings) adds these tables to the game database: `player` (slot 1–3, name, tokens), `player_upgrade` (level for permanent upgrades, count for consumables), `run_history`, `codex_seen` (per player, kind, entry; first seen, times). On the balance-profile side, `meta_upgrade` holds the catalog: kind, effect id and JSON params, cost and cost step, max level, enabled, requirement. Saved runs gain a player and run id.
 
 ### Extension points
 
@@ -115,14 +115,17 @@ create_player(slot, name) / rename_player(player_id, name) / delete_player(playe
 get_player(player_id) -> Player                  # tokens, upgrades, stats
 meta_shop(player_id, profile=None) -> list[UpgradeOffer]
 buy_upgrade(player_id, upgrade_id) -> Player
-modes() -> list[GameMode]
-start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None) -> RunStart
-finish_run(run_id, controller) -> RunReward      # tokens + breakdown
+modes(player_id=None) -> list[ModeOption]        # mode + unlocked
+start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None, loop_factory=None) -> RunStart
+    # RunStart(run_id, mode, config, applied, controller); the controller saves into the player's run
+resume_run(player_id, *, loop_factory=None) -> RunStart | None   # unfinished run with a save
+finish_run(run_id, controller) -> RunReward      # tokens + breakdown + result; only once the run is over
 abandon_run(run_id) -> None
 history(player_id, limit=50) -> list[RunRecord]
+codex_seen(player_id) -> dict[(kind, entry_id), times]
 ```
 
-An in-memory fake with the same behaviour ships first so the screens can be built before the real store. The controller gains `add_listener(fn)`, called for every notice without consuming it; the meta layer uses it to build the run summary.
+Errors are `MetaError` (a `ValueError`) with a player-readable message. For GUI work, `chaos_blackjack.meta.fake.install_fake()` runs the real service on an in-memory database with demo data (slot 1 "Ace" with tokens, upgrades and three past runs; slot 2 "Rookie"; slot 3 empty); `chaos_blackjack.meta.use_service(None)` switches back to `data/game.db`. Command-line tools: `python -m chaos_blackjack.data players | history SLOT | grant SLOT TOKENS`. The controller gains `add_listener(fn)`, called for every notice without consuming it; the meta layer uses it to build the run summary.
 
 ### Codex API (`chaos_blackjack/codex/`)
 

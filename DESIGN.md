@@ -160,8 +160,8 @@ Done in v1: pages 1–9, 11, 13–15; bilingual content; sync / build / check; s
 
 Next:
 
-1. Content packs page once `codex/content-workflow` merges into `main`.
-2. Balance page from `black-jack-sim` JSON reports.
+1. Content packs page (the content workflow is now in `main`).
+2. Done: Simulator and Balance data pages from `black-jack-sim` runs on game `main`.
 3. Optional scheduled sync (only runs when `main` moved past `facts.source.commit`).
 4. Mention the wiki in the game's AGENTS.md.
 

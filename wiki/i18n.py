@@ -30,6 +30,15 @@ UI: dict[str, dict[str, str]] = {
                          "the rest of this wiki describes what is in <code>main</code>.",
         "design_stale": "The design doc has changed since this page was written; it may be out of date.",
         "design_no_summary": "No wiki summary yet. Read the source design doc in the game repository.",
+        "sim_rule_ev": "Player EV (simulator)", "sim_item_gain": "EV gain per use (simulator)",
+        "sim_more": "all results", "sim_variant": "Simulated rule", "sim_ev": "Player EV / bet", "sim_se": "Std. error",
+        "sim_gain": "EV gain / bet", "sim_no_rule": "no chaos rule", "sim_metric": "Metric", "sim_size": "Sample",
+        "sim_value": "Measured", "sim_band": "Allowed band", "sim_in_band": "In band", "sim_rounds": "rounds",
+        "sim_runs": "runs", "sim_usage": "Usage", "sim_option": "Option", "sim_values": "Values",
+        "sim_meta": "<code>{args}</code> · seed {seed} · balance <code>{balance}</code> · game <code>{game}</code> · "
+                    "simulator <code>{sim}</code> · {title}",
+        "sim_stale": "These results were measured on an older game commit than the rest of this wiki.",
+        "sim_missing": "No simulator results yet: run <code>python -m wiki sync</code> with the simulator present.",
     },
     "zh": {
         "lang_name": "中文", "wiki": "百科", "filter": "筛选页面…", "on_this_page": "本页目录",
@@ -58,6 +67,15 @@ UI: dict[str, dict[str, str]] = {
                          "本百科其他页面描述的是 <code>main</code> 上已有的内容。",
         "design_stale": "设计文档在本页写成之后有过改动，本页可能已过时。",
         "design_no_summary": "还没有百科摘要，请阅读游戏仓库里的原始设计文档。",
+        "sim_rule_ev": "玩家期望值（模拟器）", "sim_item_gain": "每次使用的期望值增益（模拟器）",
+        "sim_more": "全部结果", "sim_variant": "模拟的规则", "sim_ev": "玩家期望值 / 下注", "sim_se": "标准误",
+        "sim_gain": "期望值增益 / 下注", "sim_no_rule": "无混沌规则", "sim_metric": "指标", "sim_size": "样本",
+        "sim_value": "实测值", "sim_band": "允许区间", "sim_in_band": "在区间内", "sim_rounds": "局",
+        "sim_runs": "轮", "sim_usage": "用法", "sim_option": "选项", "sim_values": "可选值",
+        "sim_meta": "<code>{args}</code> · 种子 {seed} · 平衡配置 <code>{balance}</code> · 游戏 <code>{game}</code> · "
+                    "模拟器 <code>{sim}</code> · {title}",
+        "sim_stale": "这些结果测量自比本百科其余部分更旧的游戏提交。",
+        "sim_missing": "还没有模拟器结果：在模拟器存在时运行 <code>python -m wiki sync</code>。",
     },
 }
 
@@ -65,7 +83,8 @@ UI: dict[str, dict[str, str]] = {
 PAGES: list[tuple[str, str]] = [
     ("index", "g_start"), ("rules", "g_start"), ("shop", "g_start"), ("play", "g_start"), ("agents", "g_start"),
     ("chaos", "g_catalog"), ("items", "g_catalog"),
-    ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("architecture", "g_inside"),
+    ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("balance", "g_inside"), ("simulator", "g_inside"),
+    ("architecture", "g_inside"),
     ("design", "g_design"),
     ("gallery", "g_ref"), ("changelog", "g_ref"), ("glossary", "g_ref"),
 ]

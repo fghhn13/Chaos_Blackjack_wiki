@@ -44,6 +44,16 @@ one means the doc changed: read the `git diff` named in DRIFT.md, update both
 languages and `source_blob`. Summarise faithfully; do not invent details the
 doc does not state.
 
+Simulator: when the balance simulator repo exists (`black-jack-sim/` in the game
+checkout, or `$BJSIM_REPO`), `sync` checks out its `main` into
+`<game>/.agent_runs/worktrees/wiki-sim` and runs `bjsim check`, `edge` and
+`items` against the game worktree (about a minute; results are reused while
+neither commit moves). Results feed the Balance data and Simulator pages and
+the rule / item cards. `--no-sim` skips measuring and reports `stale`. A
+`breaking` entry on `sim` means the simulator itself failed against game main:
+that fix belongs in `black-jack-sim`, never in this repo. `OUT OF BAND` in an
+`auto` entry means a game change moved balance; report it, do not hide it.
+
 `check` also warns about stale translations: when the English effect/help of a
 rule or item changes, the Chinese page falls back to English until you update
 its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`.

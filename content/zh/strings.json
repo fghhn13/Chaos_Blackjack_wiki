@@ -11,6 +11,9 @@
   "settings": {
     "bet.max_fraction": "最大下注占当前资金的比例（向下取整）",
     "bet.min": "最小下注",
+    "chaos.guidance_probability": "头像建议选择引导（而非误导）的概率",
+    "chaos.memory_enabled": "收集并保存本轮的混沌 AI 历史",
+    "chaos.memory_limit": "混沌 AI 记忆最多保留的事件数",
     "run.objective": "本轮目标 ID",
     "run.start_money": "开局资金",
     "run.target_money": "达到即获胜的资金",

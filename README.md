@@ -17,6 +17,9 @@ python -m wiki all         # sync facts from game main, build site/, check
   that imports the game) reads ids, numbers, help text, art and a replayed agent
   transcript into `facts/facts.json`; pages combine those facts with Markdown in
   `content/<lang>/`.
+- **Balance numbers are measured.** When the balance simulator
+  (`black-jack-sim`) is present, `sync` runs it on game `main` and stores the
+  results: player EV per chaos rule, item value and the regression bands.
 - **Drift is reported, not guessed.** `sync` writes `DRIFT.md`, which lists what
   changed in the game and what prose needs writing.
 

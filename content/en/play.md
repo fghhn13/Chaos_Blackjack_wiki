@@ -13,7 +13,8 @@ python -m chaos_blackjack.gui
 | Betting | left-click a chip to add, right-click to remove; Clear / Max; Shop | ↑ / ↓ ±1, Enter deals, B opens the shop (1–3 buy) |
 | Your turn | Hit / Stand / Double / Surrender buttons | H / S / D / R |
 | Round over | Next Round | Enter |
-| Anywhere | — | Esc menu (asks first), F11 fullscreen, F5 reload art |
+| Chaos Mode | click the Chaos portrait to [ask for advice](chaos-ai.html#asking-chaos-for-advice) | — |
+| Anywhere | — | Esc menu (asks first), F11 fullscreen, M mute, + / − volume, F5 reload art and sounds |
 
 Toggle **Chaos Mode** on the main menu. Art is optional: every image has a drawn placeholder (see the [art gallery](gallery.html)).
 

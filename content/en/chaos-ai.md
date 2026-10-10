@@ -19,6 +19,16 @@ The Chaos AI never touches the cards. It returns a small structured JSON action,
 
 Prompt files shipped with the game: {{ fact: prompts }}.
 
+## Asking Chaos for advice
+
+In Chaos Mode you can click the Chaos portrait while betting, during your turn, after a round, or with the shop open, to ask for a suggestion. Each time, Chaos secretly decides whether to **guide** you or **mislead** you: it guides with probability {{ fact: settings.chaos.guidance_probability.value }} and never tells you which it chose. Even "guiding" advice is not guaranteed to be right.
+
+Chaos sees more than you do when it answers (hidden cards and the deck order included), but its reply is text only: it cannot buy, play or change rules. Agents have no command for this yet. With a real model each poke is one billed request.
+
+## Memory
+
+Chaos can keep a run-local history of what happened and use it in later prompts. It is off by default (enabled: {{ fact: settings.chaos.memory_enabled.value }}); when switched on in a balance profile it keeps at most {{ fact: settings.chaos.memory_limit.value }} events, and saves restore it.
+
 ## Offline vs real model
 
 Without an API key the AI is a deterministic offline stand-in; tests, CI and the agent interface use it by default. With a real model each chaos phase is one chat request, plus at most one repair request when the JSON is invalid.

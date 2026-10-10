@@ -9,11 +9,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-from wiki import design
+from wiki import design, sim
 from wiki import facts as F
 
 DEFAULT_REF = os.environ.get("WIKI_GAME_REF", "main")
 WORKTREE = Path(".agent_runs") / "worktrees" / "wiki-src"
+SIM_WORKTREE = Path(".agent_runs") / "worktrees" / "wiki-sim"
 DRIFT = F.ROOT / "DRIFT.md"
 
 
@@ -21,6 +22,12 @@ def game_repo() -> Path:
     """$CHAOS_BLACKJACK_REPO, else the sibling checkout ../Black_jack."""
     env = os.environ.get("CHAOS_BLACKJACK_REPO")
     return Path(env).resolve() if env else F.ROOT.parent / "Black_jack"
+
+
+def sim_repo() -> Path:
+    """$BJSIM_REPO, else black-jack-sim/ inside the game checkout."""
+    env = os.environ.get("BJSIM_REPO")
+    return Path(env).resolve() if env else game_repo() / "black-jack-sim"
 
 
 def cmd_extract(args: argparse.Namespace) -> int:
@@ -55,10 +62,14 @@ def cmd_sync(args: argparse.Namespace) -> int:
         return 1
     new = F.load(new_path)
     new["design_docs"] = design.scan(repo, args.ref)  # plans: every local branch, not only `main`
+    sim_facts, sim_problem = sim.collect(sim_repo(), repo / SIM_WORKTREE, wt, new["source"]["commit"],
+                                         old.get("sim"), run=not getattr(args, "no_sim", False))
+    if sim_facts:
+        new["sim"] = sim_facts
     F.save(new)
     new_path.unlink()
     _copy_images(wt, new)
-    entries = F.diff(old, new)
+    entries = F.diff(old, new) + ([(sim_problem[0], "sim", sim_problem[1])] if sim_problem else [])
     entries += [e for e in F.missing_prose(new) if (e[0], e[1]) not in {(k, w) for k, w, _ in entries}]
     _write_drift(old, new, entries)
     counts = {k: sum(1 for e in entries if e[0] == k) for k in ("new", "removed", "stale", "auto")}
@@ -129,6 +140,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = p.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("sync", help="check out the game ref, extract facts, write DRIFT.md")
     s.add_argument("--ref", default=DEFAULT_REF)
+    s.add_argument("--no-sim", action="store_true", help="skip simulator measurements (about a minute)")
     e = sub.add_parser("extract", help="(internal) extract facts from a game checkout")
     e.add_argument("--game", required=True)
     e.add_argument("--ref", default=DEFAULT_REF)
@@ -138,6 +150,7 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--strict", action="store_true", help="treat missing prose / translations as errors")
     a = sub.add_parser("all", help="sync, build, check")
     a.add_argument("--ref", default=DEFAULT_REF)
+    a.add_argument("--no-sim", action="store_true")
     a.add_argument("--strict", action="store_true")
     args = p.parse_args(argv)
     return {"sync": cmd_sync, "extract": cmd_extract, "build": cmd_build, "check": cmd_check,

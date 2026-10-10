@@ -276,6 +276,46 @@
   },
   "changelog": [
     {
+      "commit": "4d3fc7e",
+      "date": "2026-10-10",
+      "subject": "Merge animation-aligned sound and verify the complete integration"
+    },
+    {
+      "commit": "525a997",
+      "date": "2026-10-10",
+      "subject": "Merge table animations while retaining asynchronous Chaos interactions"
+    },
+    {
+      "commit": "df0ad06",
+      "date": "2026-10-10",
+      "subject": "Merge table UI, content packs and casino audio; sell pack items through balance profiles"
+    },
+    {
+      "commit": "3e240e1",
+      "date": "2026-10-10",
+      "subject": "Merge SQLite profile management and align Chaos item tuning"
+    },
+    {
+      "commit": "52d025b",
+      "date": "2026-10-10",
+      "subject": "Merge SQLite profiles and storage with profile-aware Chaos advice"
+    },
+    {
+      "commit": "af26e05",
+      "date": "2026-10-10",
+      "subject": "Document one real API round with Chaos memory enabled"
+    },
+    {
+      "commit": "02ca3bd",
+      "date": "2026-10-10",
+      "subject": "Accept plain Chaos advice and add live memory round harness"
+    },
+    {
+      "commit": "1f93d00",
+      "date": "2026-10-10",
+      "subject": "Add Chaos portrait advice banner and dormant run memory"
+    },
+    {
       "commit": "445d596",
       "date": "2026-10-10",
       "subject": "Keep shop and modal refreshes safe during Chaos AI work"
@@ -335,12 +375,14 @@
       ],
       "icon": "assets/fragile_bust.png",
       "name": "Fragile Bust",
-      "params": {},
+      "params": {
+        "bust_limit": 18
+      },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     },
     "great_crash": {
       "effect": "The Great Crash: all 10/J/Q/K become value 1 (until cleared).",
@@ -348,12 +390,14 @@
       "flags": [],
       "icon": "assets/great_crash.png",
       "name": "Great Crash",
-      "params": {},
+      "params": {
+        "ten_value": 1
+      },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     },
     "modify_card_value": {
       "effect": "Rank values shifted by -2 per card (until cleared).",
@@ -368,7 +412,7 @@
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 1.0
     },
     "odd_even_chaos": {
       "effect": "Odd-Even Chaos: even ranks +2, odd ranks -1 (until cleared).",
@@ -376,12 +420,15 @@
       "flags": [],
       "icon": "assets/odd_even_chaos.png",
       "name": "Odd-Even Chaos",
-      "params": {},
+      "params": {
+        "even_delta": 2,
+        "odd_delta": -1
+      },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     },
     "reverse_bust": {
       "effect": "Reverse bust: high player totals may not count as bust for outcome.",
@@ -396,7 +443,7 @@
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     },
     "suit_power": {
       "effect": "Suit Power: red suits +1, black suits -1 (until cleared).",
@@ -404,12 +451,15 @@
       "flags": [],
       "icon": "assets/suit_power.png",
       "name": "Suit Power",
-      "params": {},
+      "params": {
+        "black_delta": -1,
+        "red_delta": 1
+      },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     },
     "tiebreaker_shift": {
       "effect": "Tiebreaker Shift: ties go to Player (instead of Push).",
@@ -424,13 +474,23 @@
         "easy",
         "hard"
       ],
-      "stub_weight": null
+      "stub_weight": 0.0
     }
   },
   "design_docs": {
+    "codex": {
+      "blob": "4b483e5d3ec0",
+      "commit": "1926f2c",
+      "date": "2026-10-10",
+      "on_main": false,
+      "path": "docs/design/CODEX.md",
+      "ref": "feat/codex-core",
+      "status": null,
+      "title": "Headless codex and controller demonstrations (M4a)"
+    },
     "meta-progression": {
-      "blob": "dbc1dc45c09c",
-      "commit": "d70a92a",
+      "blob": "24fc9041ffa2",
+      "commit": "f24cdb1",
       "date": "2026-10-10",
       "on_main": false,
       "path": "docs/design/META_PROGRESSION.md",
@@ -451,7 +511,9 @@
       "help": "Reveal the ranks of the next 3 cards in the deck.",
       "icon": "assets/fate_oracle.png",
       "name": "Fate Oracle",
-      "params": {},
+      "params": {
+        "cards": 3
+      },
       "price": 25
     },
     "hole_card_hacker": {
@@ -526,23 +588,45 @@
   },
   "prompts": [
     "aggressive",
-    "chaotic"
+    "chaotic",
+    "poke"
   ],
   "schema": 1,
   "settings": {
     "bet.max_fraction": {
       "description": "Largest bet as a share of the bankroll (rounded down)",
-      "max": null,
-      "min": null,
+      "max": 1.0,
+      "min": 0.01,
       "type": "float",
       "value": 0.5
     },
     "bet.min": {
       "description": "Smallest bet",
       "max": null,
-      "min": null,
+      "min": 1.0,
       "type": "int",
       "value": 1
+    },
+    "chaos.guidance_probability": {
+      "description": "Probability of guiding rather than misleading portrait advice",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "float",
+      "value": 0.5
+    },
+    "chaos.memory_enabled": {
+      "description": "Collect and persist run-local Chaos history",
+      "max": null,
+      "min": null,
+      "type": "bool",
+      "value": false
+    },
+    "chaos.memory_limit": {
+      "description": "Maximum number of retained Chaos memory events",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 32
     },
     "run.objective": {
       "description": "Run objective id",
@@ -554,28 +638,28 @@
     "run.start_money": {
       "description": "Bankroll at the start of a run",
       "max": null,
-      "min": null,
+      "min": 2.0,
       "type": "int",
       "value": 100
     },
     "run.target_money": {
       "description": "Bankroll that wins the run",
       "max": null,
-      "min": null,
+      "min": 3.0,
       "type": "int",
       "value": 400
     },
     "shop.refresh_rounds": {
       "description": "Rounds between restocks",
       "max": null,
-      "min": null,
+      "min": 1.0,
       "type": "int",
       "value": 2
     },
     "shop.slots": {
       "description": "Different items on sale per restock",
       "max": null,
-      "min": null,
+      "min": 1.0,
       "type": "int",
       "value": 3
     },
@@ -596,30 +680,268 @@
     "table.blackjack_pays_den": {
       "description": "Natural blackjack payout denominator (2 in 3:2)",
       "max": null,
-      "min": null,
+      "min": 1.0,
       "type": "int",
       "value": 2
     },
     "table.blackjack_pays_num": {
       "description": "Natural blackjack payout numerator (3 in 3:2)",
       "max": null,
-      "min": null,
+      "min": 1.0,
       "type": "int",
       "value": 3
     },
     "table.dealer_stand_on": {
       "description": "Dealer stands on this total or more",
-      "max": null,
-      "min": null,
+      "max": 30.0,
+      "min": 2.0,
       "type": "int",
       "value": 17
     }
   },
+  "sim": {
+    "band_defs": [
+      {
+        "chaos": "off",
+        "kind": "edge",
+        "max": 0.02,
+        "min": -0.02,
+        "name": "EV, no chaos",
+        "rounds": 50000
+      },
+      {
+        "chaos": "stub",
+        "kind": "edge",
+        "max": -0.075,
+        "min": -0.12,
+        "name": "EV, offline stub chaos (values -1)",
+        "rounds": 50000
+      },
+      {
+        "chaos": "mix",
+        "kind": "edge",
+        "max": 0.025,
+        "min": -0.015,
+        "name": "EV, uniform mix of all rules",
+        "rounds": 50000
+      },
+      {
+        "chaos": "off",
+        "item": "peek",
+        "kind": "edge",
+        "max": 0.15,
+        "min": 0.11,
+        "name": "EV with one peek per hand",
+        "rounds": 50000
+      },
+      {
+        "bet": "pct25",
+        "chaos": "off",
+        "kind": "runs",
+        "max": 0.235,
+        "min": 0.165,
+        "name": "Win rate, no chaos, bet 25%",
+        "runs": 2000
+      },
+      {
+        "bet": "pct25",
+        "chaos": "stub",
+        "kind": "runs",
+        "max": 0.13,
+        "min": 0.075,
+        "name": "Win rate, offline stub chaos, bet 25%",
+        "runs": 2000
+      }
+    ],
+    "bands_about": "Regression bands for the current game balance (measured 2026-10-10, game shop@1b7a861, seed 1). About +-3.5 standard errors. When a balance change is intended, re-measure and update the band in the same change.",
+    "bet_policies": [
+      "flat10",
+      "pct10",
+      "pct25",
+      "max",
+      "pct25_max_with_item"
+    ],
+    "commands": {
+      "check": "python -m bjsim check  [--bands bands.json]  regression gate (exit 1 if out of band)",
+      "edge": "python -m bjsim edge  [--rules all|none|<name>,...]  EV per chaos rule",
+      "items": "python -m bjsim items  [--rules none,...] [--items ...]  EV gain per item use",
+      "runs": "python -m bjsim runs  [--chaos off|stub|mix|<rule>] [--bet pct25] [--shop never] [--prices game]",
+      "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]"
+    },
+    "game_commit": "4d3fc7e",
+    "measured": {
+      "bands": [
+        {
+          "band": "[-0.020, +0.020]",
+          "metric": "EV, no chaos",
+          "ok": "yes",
+          "value": "+0.0000"
+        },
+        {
+          "band": "[-0.120, -0.075]",
+          "metric": "EV, offline stub chaos (values -1)",
+          "ok": "yes",
+          "value": "-0.0968"
+        },
+        {
+          "band": "[-0.015, +0.025]",
+          "metric": "EV, uniform mix of all rules",
+          "ok": "yes",
+          "value": "+0.0047"
+        },
+        {
+          "band": "[+0.110, +0.150]",
+          "metric": "EV with one peek per hand",
+          "ok": "yes",
+          "value": "+0.1309"
+        },
+        {
+          "band": "[+0.165, +0.235]",
+          "metric": "Win rate, no chaos, bet 25%",
+          "ok": "yes",
+          "value": "+0.1980"
+        },
+        {
+          "band": "[+0.075, +0.130]",
+          "metric": "Win rate, offline stub chaos, bet 25%",
+          "ok": "yes",
+          "value": "+0.1020"
+        }
+      ],
+      "edge": [
+        {
+          "ev": "+0.95%",
+          "rule": "none",
+          "se": "±0.78%"
+        },
+        {
+          "ev": "-9.94%",
+          "rule": "modify_card_value-1",
+          "se": "±0.84%"
+        },
+        {
+          "ev": "-0.40%",
+          "rule": "modify_card_value+1",
+          "se": "±0.74%"
+        },
+        {
+          "ev": "+26.86%",
+          "rule": "reverse_bust",
+          "se": "±0.76%"
+        },
+        {
+          "ev": "-29.66%",
+          "rule": "great_crash",
+          "se": "±0.81%"
+        },
+        {
+          "ev": "+4.13%",
+          "rule": "odd_even_chaos",
+          "se": "±0.73%"
+        },
+        {
+          "ev": "-4.88%",
+          "rule": "suit_power",
+          "se": "±0.78%"
+        },
+        {
+          "ev": "+21.29%",
+          "rule": "fragile_bust",
+          "se": "±0.68%"
+        },
+        {
+          "ev": "-7.93%",
+          "rule": "tiebreaker_dealer",
+          "se": "±0.81%"
+        },
+        {
+          "ev": "+9.82%",
+          "rule": "tiebreaker_player",
+          "se": "±0.81%"
+        }
+      ],
+      "items": [
+        {
+          "ev": "+19.75%",
+          "item": "fate_oracle",
+          "se": "±1.03%"
+        },
+        {
+          "ev": "+12.57%",
+          "item": "peek",
+          "se": "±1.04%"
+        },
+        {
+          "ev": "+6.54%",
+          "item": "hole_card_hacker",
+          "se": "±1.11%"
+        },
+        {
+          "ev": "+5.88%",
+          "item": "swap",
+          "se": "±1.11%"
+        },
+        {
+          "ev": "+0.00%",
+          "item": "danger_radar",
+          "se": "±1.10%"
+        },
+        {
+          "ev": "+0.00%",
+          "item": "shield",
+          "se": "±1.10%"
+        }
+      ],
+      "runs": {
+        "bands": {
+          "args": "check",
+          "balance": "default@2b81a83a89e1",
+          "seed": 1,
+          "title": "Balance bands"
+        },
+        "edge": {
+          "args": "edge --rules all",
+          "balance": "default@2b81a83a89e1",
+          "seed": 1,
+          "title": "Player EV per round (basic strategy, 20000 rounds)"
+        },
+        "items": {
+          "args": "items --rules none",
+          "balance": "default@2b81a83a89e1",
+          "seed": 1,
+          "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
+        }
+      }
+    },
+    "measured_on": "4d3fc7e",
+    "rules": [
+      "modify_card_value-1",
+      "modify_card_value+1",
+      "reverse_bust",
+      "great_crash",
+      "odd_even_chaos",
+      "suit_power",
+      "fragile_bust",
+      "tiebreaker_dealer",
+      "tiebreaker_player"
+    ],
+    "shop_policies": [
+      "never",
+      "eager",
+      "value"
+    ],
+    "source": {
+      "commit": "6d72252",
+      "date": "2026-10-10",
+      "ref": "main",
+      "subject": "Simulate balance profiles from the game's database"
+    }
+  },
   "source": {
-    "commit": "445d596",
+    "commit": "4d3fc7e",
     "date": "2026-10-10",
     "ref": "main",
-    "subject": "Keep shop and modal refreshes safe during Chaos AI work",
+    "subject": "Merge animation-aligned sound and verify the complete integration",
     "version": "0.2.0"
   },
   "transcript": {
