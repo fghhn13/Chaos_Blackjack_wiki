@@ -9,8 +9,8 @@ python -m wiki all         # sync facts from game main, build site/, check
 # then open site/index.html
 ```
 
-- **Separate repository.** The game never imports it. It normally sits inside the
-  game checkout as `black-jack-wiki/` (excluded there), like `black-jack-sim/`.
+- **Separate repository.** The game never imports it. It sits next to the game
+  checkout (`../Black_jack`, or `$CHAOS_BLACKJACK_REPO`).
 - **Facts are extracted, prose is written.** `wiki/adapter.py` (the only module
   that imports the game) reads ids, numbers, help text, art and a replayed agent
   transcript into `facts/facts.json`; pages combine those facts with Markdown in

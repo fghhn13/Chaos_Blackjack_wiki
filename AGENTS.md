@@ -23,7 +23,7 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
 - `--ref` picks another ref (default `main`, or `$WIKI_GAME_REF`). The site only
   ever describes `main`; other refs are for testing the adapter, so sync back to
   `main` before committing.
-- The game repo is the parent folder, or `$CHAOS_BLACKJACK_REPO`.
+- The game repo is the sibling folder `../Black_jack`, or `$CHAOS_BLACKJACK_REPO`.
 
 ## Handling DRIFT.md
 

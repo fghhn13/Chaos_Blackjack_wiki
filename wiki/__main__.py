@@ -17,8 +17,9 @@ DRIFT = F.ROOT / "DRIFT.md"
 
 
 def game_repo() -> Path:
+    """$CHAOS_BLACKJACK_REPO, else the sibling checkout ../Black_jack."""
     env = os.environ.get("CHAOS_BLACKJACK_REPO")
-    return Path(env).resolve() if env else F.ROOT.parent
+    return Path(env).resolve() if env else F.ROOT.parent / "Black_jack"
 
 
 def cmd_extract(args: argparse.Namespace) -> int:

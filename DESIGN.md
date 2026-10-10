@@ -5,8 +5,8 @@ mostly by agents. v1 is built; the day-to-day procedure is in [AGENTS.md](AGENTS
 
 ## 1. Principles
 
-1. **Independent.** Separate repository (`black-jack-wiki/`, git-ignored in the
-   game checkout, like `black-jack-sim/`). The game never imports it, and the
+1. **Independent.** Separate repository (`Black_jack_wiki/`, next to the game
+   checkout `Black_jack/`). The game never imports it, and the
    wiki never writes to the game.
 2. **One seam.** `wiki/adapter.py` is the only module that imports
    `chaos_blackjack`. When the game's API moves, fix the adapter, nothing else.
@@ -50,7 +50,7 @@ and shows a "no notes yet" badge.
 ## 3. Repository layout
 
 ```text
-black-jack-wiki/
+Black_jack_wiki/
 ├── DESIGN.md                 # this file
 ├── AGENTS.md                 # the update procedure below, short form
 ├── wiki/
@@ -163,14 +163,13 @@ Next:
 1. Content packs page once `codex/content-workflow` merges into `main`.
 2. Balance page from `black-jack-sim` JSON reports.
 3. Optional scheduled sync (only runs when `main` moved past `facts.source.commit`).
-4. Add `black-jack-wiki/` to the game's `.gitignore` and mention the wiki in the game's AGENTS.md
-   (today it is excluded locally via `.git/info/exclude`).
+4. Mention the wiki in the game's AGENTS.md.
 
 ## 6. Decisions
 
 | Question | Decision |
 | --- | --- |
-| Location | separate repository `black-jack-wiki/` inside the game checkout |
+| Location | separate repository `Black_jack_wiki/`, sibling of the game checkout |
 | Language | bilingual: facts shared, prose per language, Chinese falls back to English |
 | Hosting | local only: open `site/index.html` (works from `file://`) |
 | Scope of truth | game `main` only (the local branch, which is ahead of `origin/main` today) |
