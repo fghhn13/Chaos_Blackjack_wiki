@@ -1,5 +1,7 @@
 # Chaos Blackjack Wiki
 
+[![CI](https://github.com/fghhn13/Chaos_Blackjack_wiki/actions/workflows/ci.yml/badge.svg)](https://github.com/fghhn13/Chaos_Blackjack_wiki/actions/workflows/ci.yml)
+
 A static, bilingual (English / 中文) wiki for
 [Chaos Blackjack](https://github.com/fghhn13/Chaos_Blackjack), generated from the
 game's `main` branch and maintained mostly by agents.
@@ -33,3 +35,8 @@ site/          build output (git-ignored)
 ```
 
 Python 3.10+, standard library only; `pytest` for the tests.
+
+CI (`.github/workflows/ci.yml`) runs the self-tests, builds the site from the
+committed facts and runs `check --strict` (missing translations fail) on
+Ubuntu (3.10, 3.12) and Windows (3.12). The built site is attached to each run
+as the `wiki-site` artifact. CI never touches the game repository.

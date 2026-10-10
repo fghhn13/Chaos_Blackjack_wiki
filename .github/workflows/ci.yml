@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  PYTHONUTF8: "1"
+
+jobs:
+  wiki:
+    name: build + check (${{ matrix.os }}, py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python: ["3.10", "3.12"]
+        include:
+          - os: windows-latest
+            python: "3.12"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install
+        run: python -m pip install pytest
+
+      - name: Self-tests
+        run: python -m pytest -q
+
+      # Builds from the committed facts/facts.json; no game checkout needed.
+      - name: Build site
+        run: python -m wiki build
+
+      # --strict: missing prose or Chinese translations fail too.
+      - name: Check
+        run: python -m wiki check --strict
+
+      - name: Upload site
+        if: matrix.os == 'ubuntu-latest' && matrix.python == '3.12'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiki-site
+          path: site/
+          retention-days: 14
