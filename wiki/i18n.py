@@ -23,6 +23,13 @@ UI: dict[str, dict[str, str]] = {
         "date": "Date", "commit": "Commit", "change": "Change",
         "step": "Step", "you_send": "You send", "events": "Events", "result": "Table after",
         "chips": "chips", "all_rules": "All chaos rules", "all_items": "All items", "back": "Back",
+        "g_design": "Design", "all_design": "All design docs", "state": "State", "doc_status": "Doc status",
+        "source": "Source", "design_planned": "planned", "design_on_main": "in main",
+        "design_banner": "<strong>{state}</strong> · design doc <code>{path}</code> on <code>{ref}</code> @ "
+                         "<code>{commit}</code> ({date}) · status: {status}. Plans can change before they ship; "
+                         "the rest of this wiki describes what is in <code>main</code>.",
+        "design_stale": "The design doc has changed since this page was written; it may be out of date.",
+        "design_no_summary": "No wiki summary yet. Read the source design doc in the game repository.",
     },
     "zh": {
         "lang_name": "中文", "wiki": "百科", "filter": "筛选页面…", "on_this_page": "本页目录",
@@ -44,6 +51,13 @@ UI: dict[str, dict[str, str]] = {
         "date": "日期", "commit": "提交", "change": "变更",
         "step": "步", "you_send": "发送", "events": "事件", "result": "之后的牌桌",
         "chips": "筹码", "all_rules": "全部混沌规则", "all_items": "全部道具", "back": "返回",
+        "g_design": "设计", "all_design": "全部设计文档", "state": "状态", "doc_status": "文档状态",
+        "source": "来源", "design_planned": "计划中", "design_on_main": "已进 main",
+        "design_banner": "<strong>{state}</strong> · 设计文档 <code>{path}</code>，位于 <code>{ref}</code> @ "
+                         "<code>{commit}</code>（{date}）· 状态：{status}。计划在上线前仍可能变化；"
+                         "本百科其他页面描述的是 <code>main</code> 上已有的内容。",
+        "design_stale": "设计文档在本页写成之后有过改动，本页可能已过时。",
+        "design_no_summary": "还没有百科摘要，请阅读游戏仓库里的原始设计文档。",
     },
 }
 
@@ -52,5 +66,6 @@ PAGES: list[tuple[str, str]] = [
     ("index", "g_start"), ("rules", "g_start"), ("shop", "g_start"), ("play", "g_start"), ("agents", "g_start"),
     ("chaos", "g_catalog"), ("items", "g_catalog"),
     ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("architecture", "g_inside"),
+    ("design", "g_design"),
     ("gallery", "g_ref"), ("changelog", "g_ref"), ("glossary", "g_ref"),
 ]

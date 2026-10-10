@@ -42,7 +42,16 @@ def problems() -> tuple[list[str], list[str]]:
             if not (F.CONTENT / lang / f"{page}.md").exists():
                 warnings.append(f"content/{lang}/{page}.md missing (falls back to English)")
     warnings += [f"{w}: {d}" for _, w, d in F.missing_prose(facts)]
+    for d, doc in facts.get("design_docs", {}).items():
+        for lang in F.LANGS:
+            p = F.CONTENT / lang / "design" / f"{d}.md"
+            meta = front_matter(p.read_text(encoding="utf-8"))[0] if p.exists() else {}
+            if p.exists() and meta.get("source_blob") != doc["blob"]:
+                warnings.append(f"{lang}: design page {d} was written from blob {meta.get('source_blob')}, "
+                                f"the doc is now {doc['blob']} ({doc['ref']}); update it and `source_blob`")
     for coll, folder in F.PROSE_FOLDERS.items():
+        if coll == "design_docs":
+            continue
         key = "effect" if coll == "chaos_rules" else "help"
         for eid, e in facts.get(coll, {}).items():
             for lang in F.LANGS[1:]:

@@ -14,11 +14,13 @@ CONTENT = ROOT / "content"
 LANGS = ("en", "zh")
 
 # Collections whose keys are game ids: an added key needs a wiki card, a removed one orphans prose.
-ID_COLLECTIONS = ("settings", "chaos_rules", "items", "assets", "permissions")
+ID_COLLECTIONS = ("settings", "chaos_rules", "items", "assets", "permissions", "design_docs")
 # Collections with a prose page per id (content/<lang>/<folder>/<id>.md).
-PROSE_FOLDERS = {"chaos_rules": "chaos", "items": "items"}
+PROSE_FOLDERS = {"chaos_rules": "chaos", "items": "items", "design_docs": "design"}
 # Changes here are expected on every new commit and are not worth listing one by one.
 NOISY = ("source", "changelog", "transcript")
+# Diffed by hand: a changed doc makes its wiki summary stale.
+SPECIAL = ("design_docs",)
 
 
 def load(path: Path = FACTS) -> dict[str, Any]:
@@ -85,8 +87,9 @@ def diff(old: dict[str, Any], new: dict[str, Any]) -> list[tuple[str, str, str]]
             out.append(("new", f"{coll}.{i}", _new_detail(coll, i)))
         for i in sorted(a.keys() - b.keys()):
             out.append(("removed", f"{coll}.{i}", _removed_detail(coll, i)))
-    fa, fb = flatten({k: v for k, v in old.items() if k not in NOISY}), flatten(
-        {k: v for k, v in new.items() if k not in NOISY})
+    skip = NOISY + SPECIAL
+    fa, fb = flatten({k: v for k, v in old.items() if k not in skip}), flatten(
+        {k: v for k, v in new.items() if k not in skip})
     touched = {w for _, w, _ in out}
     for path in sorted(fa.keys() | fb.keys()):
         if any(path == t or path.startswith(t + ".") for t in touched):
@@ -96,6 +99,16 @@ def diff(old: dict[str, Any], new: dict[str, Any]) -> list[tuple[str, str, str]]
             continue  # an empty container gained or lost children; the children are listed
         if a != b:
             out.append(("auto", path, f"{_fmt(fa.get(path, '<absent>'))} -> {_fmt(fb.get(path, '<absent>'))}"))
+    a, b = old.get("design_docs", {}), new.get("design_docs", {})
+    for d in sorted(a.keys() & b.keys()):
+        if a[d]["blob"] != b[d]["blob"]:
+            out.append(("stale", f"design_docs.{d}",
+                        f"{b[d]['path']} changed on {b[d]['ref']} @ {b[d]['commit']}; see "
+                        f"`git diff {a[d]['blob']} {b[d]['blob']}` in the game repo, update "
+                        f"content/{{en,zh}}/design/{d}.md and its `source_blob`"))
+        elif a[d] != b[d]:
+            out.append(("auto", f"design_docs.{d}", f"now on {b[d]['ref']} @ {b[d]['commit']}"
+                        + (" (merged into main)" if b[d]["on_main"] and not a[d]["on_main"] else "")))
     if old.get("transcript") != new.get("transcript") and old:
         out.append(("auto", "transcript", "agent transcript changed (re-read the agents page)"))
     gone = ids(old) - ids(new)

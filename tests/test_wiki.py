@@ -78,3 +78,21 @@ def test_stale_translation_falls_back_to_english(tmp_path, monkeypatch):
     p.write_text("---\nname: 偷看\nhelp: 看下一张\nhelp_en: Old English text.\n---\n", encoding="utf-8")
     assert site.blurb("items", "peek") == ("See the next card.", False)
     assert site.name("items", "peek") == "偷看"
+
+
+def test_changed_design_doc_is_stale():
+    doc = {"path": "docs/design/X.md", "ref": "feat/x", "commit": "aaa", "date": "2026-10-10",
+           "blob": "111", "title": "X", "status": "plan", "on_main": False}
+    old = {**FACTS, "design_docs": {"x": doc}}
+    new = {**FACTS, "design_docs": {"x": {**doc, "blob": "222", "commit": "bbb"}}}
+    assert [(k, w) for k, w, _ in F.diff(old, new)] == [("stale", "design_docs.x")]
+    merged = {**FACTS, "design_docs": {"x": {**doc, "ref": "main", "on_main": True}}}
+    assert [(k, w) for k, w, _ in F.diff(old, merged)] == [("auto", "design_docs.x")]
+
+
+def test_design_status_takes_the_bold_part():
+    from wiki.design import _status, slug
+
+    assert _status("Status: **agreed plan**, 2026-10-10. Shared contract") == "agreed plan"
+    assert _status("Status: draft. More text") == "draft"
+    assert slug("docs/design/META_PROGRESSION.md") == "meta-progression"

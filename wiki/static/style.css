@@ -130,3 +130,8 @@ table.transcript td:nth-child(2) { white-space: nowrap; }
   article { padding: 20px 16px; }
   .hero { flex-direction: column; align-items: flex-start; }
 }
+
+/* design docs */
+.banner { margin: 0 0 16px; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+  background: var(--surface-2); border-left: 3px solid var(--ok); }
+.banner.planned { border-left-color: var(--chaos); }

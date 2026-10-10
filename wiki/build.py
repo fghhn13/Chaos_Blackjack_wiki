@@ -21,6 +21,8 @@ STAMP = SITE / ".stamp"
 
 PLACEHOLDER = re.compile(r"\{\{\s*(\w+)\s*(?::\s*([^}]*?))?\s*\}\}")
 ENTITY = {"chaos_rules": ("rule", "chaos"), "items": ("item", "items")}  # collection -> (page prefix, folder)
+# Catalog page -> (collection, page prefix) whose entries are listed under it in the nav.
+NAV_SUBS = {"chaos": ("chaos_rules", "rule"), "items": ("items", "item"), "design": ("design_docs", "design")}
 
 
 def input_hash() -> str:
@@ -54,6 +56,8 @@ def build(out: Path = SITE) -> list[str]:
         for coll, (prefix, _) in ENTITY.items():
             for eid in facts.get(coll, {}):
                 (out / lang / f"{prefix}-{eid}.html").write_text(site.entity(coll, eid), encoding="utf-8")
+        for d in facts.get("design_docs", {}):
+            (out / lang / f"design-{d}.html").write_text(site.design_doc(d), encoding="utf-8")
     if out == SITE:
         STAMP.write_text(input_hash() + "\n", encoding="utf-8")
     return sorted(set(errors))
@@ -77,11 +81,13 @@ class Site:
         return {}, "", False
 
     def entity_text(self, coll: str, eid: str) -> tuple[dict[str, str], str, bool]:
-        return self._read(f"{ENTITY[coll][1]}/{eid}.md")
+        return self._read(f"{F.PROSE_FOLDERS[coll]}/{eid}.md")
 
     def name(self, coll: str, eid: str) -> str:
         meta, _, ok = self.entity_text(coll, eid)
-        return meta.get("name") if ok and meta.get("name") else self.facts[coll][eid]["name"]
+        own = meta.get("name") or meta.get("title")
+        e = self.facts[coll][eid]
+        return own if ok and own else e.get("name") or e.get("title") or eid
 
     def blurb(self, coll: str, eid: str) -> tuple[str, bool]:
         """Localized effect / help text and whether it is translated."""
@@ -306,6 +312,38 @@ class Site:
                  f'<div class="table-wrap"><table class="facts">{facts_tbl}</table></div>{prose}')
         return self.layout(f"{prefix}-{eid}", name, html_, self._heads if body.strip() else [], active=back)
 
+    def design_doc(self, d: str) -> str:
+        doc = self.facts["design_docs"][d]
+        meta, body, ok = self.entity_text("design_docs", d)
+        title = self.name("design_docs", d)
+        where = f"{self.lang}/design/{d}.md"
+        state = self.t["design_on_main"] if doc["on_main"] else self.t["design_planned"]
+        banner = self.t["design_banner"].format(
+            state=state, path=html.escape(doc["path"]), ref=html.escape(doc["ref"]), commit=doc["commit"],
+            date=doc["date"], status=html.escape(doc.get("status") or "—"))
+        notes = ""
+        if body and meta.get("source_blob") != doc["blob"]:
+            notes += f'<p class="notice">{self.t["design_stale"]}</p>'
+        if body and not ok:
+            notes += f'<p class="notice">{self.t["untranslated"]}</p>'
+        prose = self.expand(body, where) if body.strip() else f'<p class="muted">{self.t["design_no_summary"]}</p>'
+        html_ = (f'<p class="crumb"><a href="design.html">← {self.t["all_design"]}</a></p>'
+                 f'<h1>{html.escape(title)}</h1><div class="banner {"" if doc["on_main"] else "planned"}">{banner}</div>'
+                 f'{notes}{prose}')
+        return self.layout(f"design-{d}", title, html_, self._heads if body.strip() else [], active="design")
+
+    def t_design_docs(self) -> str:
+        rows = []
+        for d, doc in self.facts.get("design_docs", {}).items():
+            state = self.t["design_on_main"] if doc["on_main"] else self.t["design_planned"]
+            rows.append([f'<a href="design-{d}.html">{html.escape(self.name("design_docs", d))}</a>',
+                         f'<span class="pill {"ok" if doc["on_main"] else "warn"}">{state}</span>',
+                         html.escape(doc.get("status") or "—"),
+                         f'<code>{html.escape(doc["ref"])}</code> @ <code>{doc["commit"]}</code>', doc["date"]])
+        if not rows:
+            return f'<p class="muted">{self.t["none"]}</p>'
+        return self._table(["name", "state", "doc_status", "source", "date"], rows)
+
     def layout(self, slug: str, title: str, article: str, heads: list[tuple[int, str, str]],
                active: str | None = None) -> str:
         t, src = self.t, self.facts["source"]
@@ -315,9 +353,8 @@ class Site:
             meta, _, _ = self._read(f"{page}.md")
             cur = ' aria-current="page"' if page == active else ""
             groups.setdefault(group, []).append(f'<a href="{page}.html"{cur}>{html.escape(meta.get("title", page))}</a>')
-            if page in ("chaos", "items"):
-                coll = "chaos_rules" if page == "chaos" else "items"
-                prefix = ENTITY[coll][0]
+            if page in NAV_SUBS:
+                coll, prefix = NAV_SUBS[page]
                 for eid in self.facts.get(coll, {}):
                     cur = ' aria-current="page"' if slug == f"{prefix}-{eid}" else ""
                     groups[group].append(f'<a class="sub" href="{prefix}-{eid}.html"{cur}>{html.escape(self.name(coll, eid))}</a>')

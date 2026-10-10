@@ -427,6 +427,18 @@
       "stub_weight": null
     }
   },
+  "design_docs": {
+    "meta-progression": {
+      "blob": "dbc1dc45c09c",
+      "commit": "d70a92a",
+      "date": "2026-10-10",
+      "on_main": false,
+      "path": "docs/design/META_PROGRESSION.md",
+      "ref": "feat/meta-core",
+      "status": "agreed plan",
+      "title": "Meta progression, player saves, run history and the codex"
+    }
+  },
   "items": {
     "danger_radar": {
       "help": "Show how many 10/J/Q/K cards remain in the deck.",

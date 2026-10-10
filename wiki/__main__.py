@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from wiki import design
 from wiki import facts as F
 
 DEFAULT_REF = os.environ.get("WIKI_GAME_REF", "main")
@@ -53,9 +54,12 @@ def cmd_sync(args: argparse.Namespace) -> int:
         print(f"BREAKING: extract failed, see {DRIFT.name}", file=sys.stderr)
         return 1
     new = F.load(new_path)
-    new_path.replace(F.FACTS)
+    new["design_docs"] = design.scan(repo, args.ref)  # plans: every local branch, not only `main`
+    F.save(new)
+    new_path.unlink()
     _copy_images(wt, new)
-    entries = F.diff(old, new) + F.missing_prose(new)
+    entries = F.diff(old, new)
+    entries += [e for e in F.missing_prose(new) if (e[0], e[1]) not in {(k, w) for k, w, _ in entries}]
     _write_drift(old, new, entries)
     counts = {k: sum(1 for e in entries if e[0] == k) for k in ("new", "removed", "stale", "auto")}
     print(f"facts updated; drift: " + ", ".join(f"{v} {k}" for k, v in counts.items()) + f" -> {DRIFT.name}")

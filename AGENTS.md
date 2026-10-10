@@ -30,10 +30,19 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
 | Kind | Meaning | What you do |
 | --- | --- | --- |
 | `breaking` | extracting facts failed (game API moved) | fix `wiki/adapter.py` only; `facts.json` is left untouched until it works |
-| `new` | new rule / item / setting / asset, or a rule / item without prose | write `content/en/<chaos\|items>/<id>.md` **and** `content/zh/...` (see below) |
+| `new` | new rule / item / setting / asset / design doc, or one without prose | write `content/en/<chaos\|items>/<id>.md` **and** `content/zh/...` (see below) |
 | `removed` | id gone from the game | delete its `content/*/<folder>/<id>.md`; fix prose that mentions it |
 | `stale` | prose mentions an id that was removed | rewrite that sentence |
 | `auto` | a number or text changed | nothing to write; tables update themselves. Re-read the prose of that page if the change alters strategy |
+
+Design docs: `sync` also scans `docs/design/*.md` on **every local branch** of the
+game (newest version wins). They are plans, not facts, so they get their own
+"Design" section with a "planned / in main" banner. A `new` design doc needs
+`content/{en,zh}/design/<slug>.md` (`META_PROGRESSION.md` -> `meta-progression`)
+with `title:` and `source_blob:` (the doc's `blob` from `facts.json`); a `stale`
+one means the doc changed: read the `git diff` named in DRIFT.md, update both
+languages and `source_blob`. Summarise faithfully; do not invent details the
+doc does not state.
 
 `check` also warns about stale translations: when the English effect/help of a
 rule or item changes, the Chinese page falls back to English until you update
