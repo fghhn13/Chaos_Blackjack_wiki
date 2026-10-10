@@ -1,0 +1,25 @@
+{
+  "error_codes": {
+    "illegal_action": "现在不允许（阶段不对、下注超范围、没有这件道具）。",
+    "invalid_argument": "参数缺失或格式不对。",
+    "invalid_json": "流式模式：这一行不是合法 JSON。",
+    "run_over": "本轮已结束；开一局新的。",
+    "step_limit": "达到步数上限；开一局新的。",
+    "unknown_command": "未知命令。",
+    "usage": "没有或无效的状态文件，或命令行用法错误（退出码 2）。"
+  },
+  "settings": {
+    "bet.max_fraction": "最大下注占当前资金的比例（向下取整）",
+    "bet.min": "最小下注",
+    "run.objective": "本轮目标 ID",
+    "run.start_money": "开局资金",
+    "run.target_money": "达到即获胜的资金",
+    "shop.refresh_rounds": "商店每隔几局补货",
+    "shop.slots": "每次上架的不同道具数",
+    "table.allow_double": "第一次决策时允许加倍",
+    "table.allow_surrender": "第一次决策时允许投降",
+    "table.blackjack_pays_den": "天生 21 点赔率分母（3:2 中的 2）",
+    "table.blackjack_pays_num": "天生 21 点赔率分子（3:2 中的 3）",
+    "table.dealer_stand_on": "庄家达到此点数或以上就停牌"
+  }
+}

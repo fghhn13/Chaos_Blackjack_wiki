@@ -1,0 +1,11 @@
+{
+  "error_codes": {
+    "illegal_action": "Not allowed right now (wrong phase, bet out of range, item you don't own).",
+    "invalid_argument": "Missing or malformed argument.",
+    "invalid_json": "Streaming mode: the line is not valid JSON.",
+    "run_over": "The run has ended; start a new one.",
+    "step_limit": "The step limit was reached; start a new run.",
+    "unknown_command": "Unknown command.",
+    "usage": "No or invalid run file, or bad command-line usage (exit code 2)."
+  }
+}

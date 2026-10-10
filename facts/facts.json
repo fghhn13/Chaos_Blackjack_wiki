@@ -1,0 +1,913 @@
+{
+  "agent": {
+    "actions": {
+      "bet": "start the round: bet <amount>",
+      "buy": "buy a shop item before betting: buy <item_id>",
+      "double": "double the bet, take exactly one card, then stand (first decision only)",
+      "hit": "take one more card",
+      "stand": "end your turn; the dealer plays",
+      "surrender": "give up the hand and get half the bet back (first decision only)",
+      "use_item": "use an item: act use_item <item_id>"
+    },
+    "commands": {
+      "act": "act in your turn",
+      "bet": "place a bet",
+      "buy": "buy a shop item (betting phase)",
+      "help": "list game commands",
+      "new": "start a new run (overwrites the run file)",
+      "observe": "show the current observation",
+      "play": "streaming JSON-lines mode on stdin/stdout"
+    },
+    "error_codes": [
+      "illegal_action",
+      "invalid_argument",
+      "invalid_json",
+      "run_over",
+      "step_limit",
+      "unknown_command",
+      "usage"
+    ],
+    "obs_schema": 2
+  },
+  "assets": {
+    "card_back": {
+      "category": "card",
+      "file": null,
+      "name": "Card back",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_front_blank": {
+      "category": "card",
+      "file": null,
+      "name": "Blank card face",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "chaos_angry": {
+      "category": "character",
+      "file": null,
+      "name": "Chaos AI (angry)",
+      "size": [
+        512,
+        512
+      ]
+    },
+    "chaos_calm": {
+      "category": "character",
+      "file": null,
+      "name": "Chaos AI (calm)",
+      "size": [
+        512,
+        512
+      ]
+    },
+    "chaos_laugh": {
+      "category": "character",
+      "file": null,
+      "name": "Chaos AI (laugh)",
+      "size": [
+        512,
+        512
+      ]
+    },
+    "chaos_smug": {
+      "category": "character",
+      "file": null,
+      "name": "Chaos AI (smug)",
+      "size": [
+        512,
+        512
+      ]
+    },
+    "chip_1": {
+      "category": "chip",
+      "file": null,
+      "name": "1 chip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chip_10": {
+      "category": "chip",
+      "file": null,
+      "name": "10 chip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chip_25": {
+      "category": "chip",
+      "file": null,
+      "name": "25 chip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chip_5": {
+      "category": "chip",
+      "file": null,
+      "name": "5 chip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "danger_radar": {
+      "category": "item",
+      "file": "assets/danger_radar.png",
+      "name": "Danger Radar",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ending_bankrupt": {
+      "category": "background",
+      "file": null,
+      "name": "Bankrupt ending",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "ending_victory": {
+      "category": "background",
+      "file": null,
+      "name": "Victory ending",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "fate_oracle": {
+      "category": "item",
+      "file": "assets/fate_oracle.png",
+      "name": "Fate Oracle",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "fragile_bust": {
+      "category": "rule",
+      "file": "assets/fragile_bust.png",
+      "name": "Fragile Bust",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "great_crash": {
+      "category": "rule",
+      "file": "assets/great_crash.png",
+      "name": "Great Crash",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "hole_card_hacker": {
+      "category": "item",
+      "file": "assets/hole_card_hacker.png",
+      "name": "Hole Card Hacker",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "menu_background": {
+      "category": "background",
+      "file": null,
+      "name": "Menu background",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "modify_card_value": {
+      "category": "rule",
+      "file": "assets/modify_card_value.png",
+      "name": "Value Shift",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "odd_even_chaos": {
+      "category": "rule",
+      "file": "assets/odd_even_chaos.png",
+      "name": "Odd-Even Chaos",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "peek": {
+      "category": "item",
+      "file": "assets/peek.png",
+      "name": "Peek",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "reverse_bust": {
+      "category": "rule",
+      "file": "assets/reverse_bust.png",
+      "name": "Reverse Bust",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "shield": {
+      "category": "item",
+      "file": "assets/shield.png",
+      "name": "Shield",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "suit_power": {
+      "category": "rule",
+      "file": "assets/suit_power.png",
+      "name": "Suit Power",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "swap": {
+      "category": "item",
+      "file": "assets/swap.png",
+      "name": "Swap",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "table_background": {
+      "category": "background",
+      "file": null,
+      "name": "Table background",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "tiebreaker_shift": {
+      "category": "rule",
+      "file": "assets/tiebreaker_shift.png",
+      "name": "Tiebreaker Shift",
+      "size": [
+        256,
+        256
+      ]
+    }
+  },
+  "changelog": [
+    {
+      "commit": "445d596",
+      "date": "2026-10-10",
+      "subject": "Keep shop and modal refreshes safe during Chaos AI work"
+    },
+    {
+      "commit": "3242747",
+      "date": "2026-10-10",
+      "subject": "Merge background Chaos AI into shop integration"
+    },
+    {
+      "commit": "db9339b",
+      "date": "2026-10-10",
+      "subject": "Merge item shop into integration"
+    },
+    {
+      "commit": "e2e4ac2",
+      "date": "2026-10-10",
+      "subject": "Merge pull request #3 from fghhn13/feat/table-ui"
+    },
+    {
+      "commit": "5dac61c",
+      "date": "2026-10-10",
+      "subject": "Merge pull request #2 from fghhn13/feat/gui-framework"
+    },
+    {
+      "commit": "5c003b5",
+      "date": "2026-04-03",
+      "subject": "离线部分"
+    },
+    {
+      "commit": "66cbb60",
+      "date": "2026-04-03",
+      "subject": "全局规则更新"
+    },
+    {
+      "commit": "aebfe97",
+      "date": "2026-04-03",
+      "subject": "v2"
+    },
+    {
+      "commit": "6bd948c",
+      "date": "2026-04-03",
+      "subject": "MPV"
+    },
+    {
+      "commit": "e37ebb1",
+      "date": "2026-04-03",
+      "subject": "first commition"
+    }
+  ],
+  "chaos_rules": {
+    "fragile_bust": {
+      "effect": "Fragile Table: bust threshold reduced to 18 (instead of 21).",
+      "enabled": true,
+      "flags": [
+        "fragile_bust"
+      ],
+      "icon": "assets/fragile_bust.png",
+      "name": "Fragile Bust",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "great_crash": {
+      "effect": "The Great Crash: all 10/J/Q/K become value 1 (until cleared).",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/great_crash.png",
+      "name": "Great Crash",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "modify_card_value": {
+      "effect": "Rank values shifted by -2 per card (until cleared).",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/modify_card_value.png",
+      "name": "Value Shift",
+      "params": {
+        "delta": -2
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "odd_even_chaos": {
+      "effect": "Odd-Even Chaos: even ranks +2, odd ranks -1 (until cleared).",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/odd_even_chaos.png",
+      "name": "Odd-Even Chaos",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "reverse_bust": {
+      "effect": "Reverse bust: high player totals may not count as bust for outcome.",
+      "enabled": true,
+      "flags": [
+        "reverse_bust"
+      ],
+      "icon": "assets/reverse_bust.png",
+      "name": "Reverse Bust",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "suit_power": {
+      "effect": "Suit Power: red suits +1, black suits -1 (until cleared).",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/suit_power.png",
+      "name": "Suit Power",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    },
+    "tiebreaker_shift": {
+      "effect": "Tiebreaker Shift: ties go to Player (instead of Push).",
+      "enabled": true,
+      "flags": [
+        "player_wins_ties"
+      ],
+      "icon": "assets/tiebreaker_shift.png",
+      "name": "Tiebreaker Shift",
+      "params": {},
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": null
+    }
+  },
+  "items": {
+    "danger_radar": {
+      "help": "Show how many 10/J/Q/K cards remain in the deck.",
+      "icon": "assets/danger_radar.png",
+      "name": "Danger Radar",
+      "params": {},
+      "price": 10
+    },
+    "fate_oracle": {
+      "help": "Reveal the ranks of the next 3 cards in the deck.",
+      "icon": "assets/fate_oracle.png",
+      "name": "Fate Oracle",
+      "params": {},
+      "price": 25
+    },
+    "hole_card_hacker": {
+      "help": "Flip the dealer's face-down card face up for the rest of the round.",
+      "icon": "assets/hole_card_hacker.png",
+      "name": "Hole Card Hacker",
+      "params": {},
+      "price": 25
+    },
+    "peek": {
+      "help": "Reveal the rank of the next card in the deck.",
+      "icon": "assets/peek.png",
+      "name": "Peek",
+      "params": {},
+      "price": 10
+    },
+    "shield": {
+      "help": "Dispel every active chaos rule for the rest of this round.",
+      "icon": "assets/shield.png",
+      "name": "Shield",
+      "params": {},
+      "price": 30
+    },
+    "swap": {
+      "help": "Replace your first card with the top card of the deck.",
+      "icon": "assets/swap.png",
+      "name": "Swap",
+      "params": {},
+      "price": 20
+    }
+  },
+  "permissions": {
+    "easy": {
+      "allowed_items": [
+        "danger_radar",
+        "fate_oracle",
+        "hole_card_hacker",
+        "peek",
+        "shield",
+        "swap"
+      ],
+      "allowed_rules": [
+        "fragile_bust",
+        "great_crash",
+        "modify_card_value",
+        "odd_even_chaos",
+        "reverse_bust",
+        "suit_power",
+        "tiebreaker_shift"
+      ],
+      "chaos_budget": 5,
+      "charge_per_effect": 1,
+      "max_actions_per_turn": 1,
+      "max_active_effects": 1
+    },
+    "hard": {
+      "allowed_items": [],
+      "allowed_rules": [
+        "fragile_bust",
+        "great_crash",
+        "modify_card_value",
+        "odd_even_chaos",
+        "reverse_bust",
+        "suit_power",
+        "tiebreaker_shift"
+      ],
+      "chaos_budget": 2,
+      "charge_per_effect": 1,
+      "max_actions_per_turn": 1,
+      "max_active_effects": 1
+    }
+  },
+  "prompts": [
+    "aggressive",
+    "chaotic"
+  ],
+  "schema": 1,
+  "settings": {
+    "bet.max_fraction": {
+      "description": "Largest bet as a share of the bankroll (rounded down)",
+      "max": null,
+      "min": null,
+      "type": "float",
+      "value": 0.5
+    },
+    "bet.min": {
+      "description": "Smallest bet",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 1
+    },
+    "run.objective": {
+      "description": "Run objective id",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "double_money"
+    },
+    "run.start_money": {
+      "description": "Bankroll at the start of a run",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 100
+    },
+    "run.target_money": {
+      "description": "Bankroll that wins the run",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 400
+    },
+    "shop.refresh_rounds": {
+      "description": "Rounds between restocks",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 2
+    },
+    "shop.slots": {
+      "description": "Different items on sale per restock",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 3
+    },
+    "table.allow_double": {
+      "description": "Double down allowed on the first decision",
+      "max": null,
+      "min": null,
+      "type": "bool",
+      "value": true
+    },
+    "table.allow_surrender": {
+      "description": "Surrender allowed on the first decision",
+      "max": null,
+      "min": null,
+      "type": "bool",
+      "value": true
+    },
+    "table.blackjack_pays_den": {
+      "description": "Natural blackjack payout denominator (2 in 3:2)",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 2
+    },
+    "table.blackjack_pays_num": {
+      "description": "Natural blackjack payout numerator (3 in 3:2)",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 3
+    },
+    "table.dealer_stand_on": {
+      "description": "Dealer stands on this total or more",
+      "max": null,
+      "min": null,
+      "type": "int",
+      "value": 17
+    }
+  },
+  "source": {
+    "commit": "445d596",
+    "date": "2026-10-10",
+    "ref": "main",
+    "subject": "Keep shop and modal refreshes safe during Chaos AI work",
+    "version": "0.2.0"
+  },
+  "transcript": {
+    "chaos": true,
+    "seed": 7,
+    "steps": [
+      {
+        "command": {
+          "amount": 10,
+          "cmd": "bet"
+        },
+        "events": [
+          "Round 1 started, bet 10",
+          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+        ],
+        "obs": {
+          "bankroll": 100,
+          "hint": "Your move: act hit | stand | double | surrender",
+          "legal_actions": [
+            "hit",
+            "stand",
+            "double",
+            "surrender"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 1. Bankroll 100/400. Bet 10. You: 8♣ 3♥ = 9. Dealer: K♣ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: Q"
+        ],
+        "obs": {
+          "bankroll": 100,
+          "hint": "Your move: act hit | stand",
+          "legal_actions": [
+            "hit",
+            "stand"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 1. Bankroll 100/400. Bet 10. You: 8♣ 3♥ Q♥ = 18. Dealer: K♣ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "stand",
+          "cmd": "act"
+        },
+        "events": [
+          "Dealer draws: 8",
+          "Dealer stands at 20."
+        ],
+        "obs": {
+          "bankroll": 90,
+          "bet_range": [
+            1,
+            45
+          ],
+          "hint": "Place a bet: bet <amount> with 1 <= amount <= 45. Or buy first: buy <item_id> (see obs.shop).",
+          "last_round": {
+            "bet": 10,
+            "dealer_blackjack": false,
+            "dealer_cards": [
+              "K♣",
+              "5♥",
+              "8♦"
+            ],
+            "dealer_total": 20,
+            "delta": -10,
+            "doubled": false,
+            "money_after": 90,
+            "outcome": "dealer",
+            "player_bust": false,
+            "player_total": 18,
+            "round": 1,
+            "your_cards": [
+              "8♣",
+              "3♥",
+              "Q♥"
+            ]
+          },
+          "legal_actions": [
+            "bet",
+            "buy"
+          ],
+          "phase": "betting",
+          "summary": "Round 2. Bankroll 90/400. Shop: danger_radar 10, swap 20, hole_card_hacker 25 (restocks in 1 round)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "amount": 10,
+          "cmd": "bet"
+        },
+        "events": [
+          "Round 2 started, bet 10",
+          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+        ],
+        "obs": {
+          "bankroll": 90,
+          "hint": "Your move: act hit | stand | double | surrender",
+          "legal_actions": [
+            "hit",
+            "stand",
+            "double",
+            "surrender"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ = 14. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: A"
+        ],
+        "obs": {
+          "bankroll": 90,
+          "hint": "Your move: act hit | stand",
+          "legal_actions": [
+            "hit",
+            "stand"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ A♠ = 14. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: 8"
+        ],
+        "obs": {
+          "bankroll": 90,
+          "hint": "Your move: act hit | stand",
+          "legal_actions": [
+            "hit",
+            "stand"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ A♠ 8♣ = 21. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "stand",
+          "cmd": "act"
+        },
+        "events": [
+          "Dealer draws: J",
+          "Dealer draws: K",
+          "Dealer stands at 21.",
+          "The shop has new stock."
+        ],
+        "obs": {
+          "bankroll": 90,
+          "bet_range": [
+            1,
+            45
+          ],
+          "hint": "Place a bet: bet <amount> with 1 <= amount <= 45. Or buy first: buy <item_id> (see obs.shop).",
+          "last_round": {
+            "bet": 10,
+            "dealer_blackjack": false,
+            "dealer_cards": [
+              "A♦",
+              "4♥",
+              "J♥",
+              "K♥"
+            ],
+            "dealer_total": 21,
+            "delta": 0,
+            "doubled": false,
+            "money_after": 90,
+            "outcome": "push",
+            "player_bust": false,
+            "player_total": 21,
+            "round": 2,
+            "your_cards": [
+              "6♥",
+              "Q♦",
+              "A♠",
+              "8♣"
+            ]
+          },
+          "legal_actions": [
+            "bet",
+            "buy"
+          ],
+          "phase": "betting",
+          "summary": "Round 3. Bankroll 90/400. Shop: peek 10, hole_card_hacker 25, shield 30 (restocks in 2 rounds)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "amount": 10,
+          "cmd": "bet"
+        },
+        "events": [
+          "Round 3 started, bet 10",
+          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+        ],
+        "obs": {
+          "bankroll": 90,
+          "hint": "Your move: act hit | stand | double | surrender",
+          "legal_actions": [
+            "hit",
+            "stand",
+            "double",
+            "surrender"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 3. Bankroll 90/400. Bet 10. You: J♠ 4♠ = 12. Dealer: K♥ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: 5"
+        ],
+        "obs": {
+          "bankroll": 90,
+          "hint": "Your move: act hit | stand",
+          "legal_actions": [
+            "hit",
+            "stand"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 3. Bankroll 90/400. Bet 10. You: J♠ 4♠ 5♠ = 16. Dealer: K♥ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: 7",
+          "💀 BUST!"
+        ],
+        "obs": {
+          "bankroll": 80,
+          "bet_range": [
+            1,
+            40
+          ],
+          "hint": "Place a bet: bet <amount> with 1 <= amount <= 40. Or buy first: buy <item_id> (see obs.shop).",
+          "last_round": {
+            "bet": 10,
+            "dealer_blackjack": false,
+            "dealer_cards": [
+              "K♥",
+              "8♥"
+            ],
+            "dealer_total": 16,
+            "delta": -10,
+            "doubled": false,
+            "money_after": 80,
+            "outcome": "dealer",
+            "player_bust": true,
+            "player_total": 22,
+            "round": 3,
+            "your_cards": [
+              "J♠",
+              "4♠",
+              "5♠",
+              "7♣"
+            ]
+          },
+          "legal_actions": [
+            "bet",
+            "buy"
+          ],
+          "phase": "betting",
+          "summary": "Round 4. Bankroll 80/400. Shop: peek 10, hole_card_hacker 25, shield 30 (restocks in 1 round)."
+        },
+        "ok": true
+      }
+    ]
+  }
+}

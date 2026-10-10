@@ -1,0 +1,13 @@
+[project]
+name = "chaos-blackjack-wiki"
+version = "0.1.0"
+description = "Static, agent-maintained wiki for Chaos Blackjack"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--basetemp=.pytest_tmp"

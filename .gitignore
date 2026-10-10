@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.pytest_tmp/
+
+# Build output: `python -m wiki build`
+site/
+
+# Transient sync report: `python -m wiki sync`
+DRIFT.md
+facts/facts.new.json
