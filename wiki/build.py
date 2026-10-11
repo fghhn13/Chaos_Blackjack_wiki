@@ -175,7 +175,7 @@ class Site:
             text, ok = self.blurb(coll, eid)
             extra = ""
             if coll == "items":
-                extra = f'<span class="pill">{self.fmt(e.get("price")) if e.get("price") is not None else self.t["not_sold"]} {self.t["chips"] if e.get("price") is not None else ""}</span>'
+                extra = f'<span class="pill">{self.item_price(e)}</span>'
             cards.append(
                 f'<a class="card {prefix}" href="{prefix}-{eid}.html">{self._icon(eid, e["name"])}'
                 f'<span class="card-body"><strong>{html.escape(name)}</strong>{extra}'
@@ -198,12 +198,20 @@ class Site:
                          s.get("type", ""), rng, html.escape(desc)])
         return self._table(["key", "value", "type", "range", "description"], rows)
 
+    def item_price(self, item: dict[str, Any]) -> str:
+        price = item.get("price")
+        if price is None:
+            return self.t["not_sold"]
+        if item.get("price_mode") == "bankroll_pct":
+            return self.t["bankroll_price"].format(price=self.fmt(price))
+        return f"{self.fmt(price)} {self.t['chips']}"
+
     def t_prices(self) -> str:
         rows = []
         for eid, e in sorted(self.facts.get("items", {}).items(), key=lambda kv: (kv[1].get("price") is None, kv[1].get("price") or 0)):
             text, _ = self.blurb("items", eid)
             rows.append([f'<a href="item-{eid}.html">{html.escape(self.name("items", eid))}</a>',
-                         self.fmt(e.get("price")) if e.get("price") is not None else self.t["not_sold"], inline(text)])
+                         self.item_price(e), inline(text)])
         return self._table(["name", "price", "help"], rows)
 
     def t_permissions(self) -> str:
@@ -299,8 +307,7 @@ class Site:
             if ev:
                 rows.append(["sim_rule_ev", "<br>".join(ev) + f' · <a href="balance.html">{self.t["sim_more"]}</a>'])
         else:
-            price = e.get("price")
-            rows += [["price", f"{price} {self.t['chips']}" if price is not None else self.t["not_sold"]]]
+            rows += [["price", self.item_price(e)]]
             if e.get("params"):
                 rows.append(["params", html.escape(self.fmt(e["params"]))])
             gain = next((r for r in self._measured("items") if r["item"] == eid), None)

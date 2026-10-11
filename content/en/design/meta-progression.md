@@ -1,10 +1,10 @@
 ---
 title: Meta progression, saves and the codex
-source_blob: 24fc9041ffa2
+source_blob: 61b37b6dc12c
 ---
-Between runs you will keep a **player**: a save slot with tokens, permanent upgrades and consumables. Every run is recorded, and a **codex** explains every rule, item, mode and AI with an animated demo. The agent CLI stays without meta progression so agent runs remain fair and reproducible.
+Between runs you keep a **player**: a save slot with tokens, permanent upgrades and consumables. Every run is recorded, and a **codex** explains rules, items, modes and AIs, with animated demos where available. The agent CLI stays without meta progression so agent runs remain fair and reproducible.
 
-All numbers below are **placeholders** from the design; the real values will live in the balance profile.
+This page summarises the shared design contract. Rewards below use the extracted defaults; the design's balance v1 catalog defers to `seed/default.sql` for authoritative prices and tuning.
 
 ## Decisions
 
@@ -35,28 +35,31 @@ player (slot 1-3) ── tokens, permanent upgrades (with level), consumables (w
 
 | Setting | Default | Meaning |
 | --- | --- | --- |
-| `meta.win_tokens` | 10 | tokens for a victory |
-| `meta.loss_per_round` | 0.2 | consolation per round survived |
-| `meta.loss_per_peak_gain` | 4 | consolation per 100 % of the start bankroll gained at the peak |
-| `meta.loss_cap` | 5 | consolation maximum |
+| `meta.win_tokens` | {{ fact: settings.meta.win_tokens.value }} | tokens for a victory |
+| `meta.chaos_win_bonus` | {{ fact: settings.meta.chaos_win_bonus.value }} | extra tokens for a Chaos victory |
+| `meta.loss_per_round` | {{ fact: settings.meta.loss_per_round.value }} | consolation per round survived |
+| `meta.loss_per_peak_gain` | {{ fact: settings.meta.loss_per_peak_gain.value }} | consolation per 100 % of the start bankroll gained at the peak |
+| `meta.loss_cap` | {{ fact: settings.meta.loss_cap.value }} | consolation maximum |
 
 ```text
 consolation = min(loss_cap, floor(rounds × loss_per_round
                                   + max(0, peak − start) / start × loss_per_peak_gain))
 ```
 
-Example: a defeat after 20 rounds with a peak of 150 from a start of 100 pays min(5, floor(4 + 2)) = 5 tokens.
+Abandoning a run pays no tokens.
 
-## Meta shop: first catalog
+## Meta shop: balance v1 catalog
 
 | Upgrade | Kind | Effect | Cost | Max level |
 | --- | --- | --- | --- | --- |
-| `start_money` | permanent | +10 starting bankroll per level | 15, +10 per level | 3 |
-| `shop_slot` | permanent | +1 item on the run shop's shelf | 40 | 1 |
-| `shop_discount` | permanent | −10 % run shop prices per level | 25, +15 per level | 2 |
-| `start_<item>` | consumable | start the next run holding that item (one per shop item) | about half the item's shop price | — |
+| `start_money` | permanent | +10 starting bankroll per level | 20, +10 per level | 3 |
+| `bag_space` | permanent | bring one more kind of consumable | 25, +15 per level | 2 |
+| `reroll_pass` | permanent | one free shop reroll per run | 30 | 1 |
+| `start_<item>` | consumable | start the next run holding that item (one entry per shop item) | design guideline: about half the opening shop price; consult the live offer | 3 |
 
 Level *n* of an upgrade costs `cost + (n − 1) × cost_step`. An upgrade can require another one to be owned first.
+
+The base limit is {{ fact: settings.meta.bring_kinds.value }} different consumable kinds per run. `shop.slots_add` and `shop.discount_pct` remain available for custom profiles but are absent from the default catalog; the design reports little measured value for them.
 
 ## Game modes
 
@@ -84,14 +87,15 @@ Quitting mid-run records `abandoned` and pays no tokens.
 
 | Screen | Content |
 | --- | --- |
-| Player select | 3 slots: create, continue, rename, delete (with confirmation) |
-| Hub | tokens; Start run (mode picker and consumables to bring); Meta shop; History; Codex; Settings |
-| Meta shop | permanent upgrades (level pips, next cost) and consumables (owned count) |
-| Run result | victory or defeat, token breakdown, back to the hub |
+| Home | current player; Continue run with summary / New run / Start game; Upgrades; Collection; Run history; Settings; Quit |
+| Players | 3 slots: play, create, rename, delete (with confirmation) |
+| Run setup | mode picker, rules showcase, permanent upgrades in effect, consumables to bring, Start run |
+| Upgrades | tabs for permanent upgrades (level pips, next cost) and consumables (owned count) |
+| Run result | victory or defeat, token breakdown, back to Home |
 | History | list of runs; detail with the summary |
 | Codex | tabs per kind, grid of icon + name; detail with animated demo and text |
 
-The main menu keeps **Quick play** (no player, as today) and the developer asset gallery.
+The game starts on **Home**. There is no quick play and no in-game asset gallery.
 
 ## For developers
 
@@ -119,6 +123,7 @@ modes(player_id=None) -> list[ModeOption]        # mode + unlocked
 start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None, loop_factory=None) -> RunStart
     # RunStart(run_id, mode, config, applied, controller); the controller saves into the player's run
 resume_run(player_id, *, loop_factory=None) -> RunStart | None   # unfinished run with a save
+pending_run(player_id) -> PendingRun | None       # saved run summary without loading it
 finish_run(run_id, controller) -> RunReward      # tokens + breakdown + result; only once the run is over
 abandon_run(run_id) -> None
 history(player_id, limit=50) -> list[RunRecord]

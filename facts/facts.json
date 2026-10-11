@@ -5,6 +5,7 @@
       "buy": "buy a shop item before betting: buy <item_id>",
       "double": "double the bet, take exactly one card, then stand (first decision only)",
       "hit": "take one more card",
+      "reroll": "roll the shop's stock again (once per stock; obs.shop.reroll_price chips)",
       "stand": "end your turn; the dealer plays",
       "surrender": "give up the hand and get half the bet back (first decision only)",
       "use_item": "use an item: act use_item <item_id>"
@@ -16,7 +17,8 @@
       "help": "list game commands",
       "new": "start a new run (overwrites the run file)",
       "observe": "show the current observation",
-      "play": "streaming JSON-lines mode on stdin/stdout"
+      "play": "streaming JSON-lines mode on stdin/stdout",
+      "reroll": "roll the shop's stock again (betting phase, once per stock)"
     },
     "error_codes": [
       "illegal_action",
@@ -192,6 +194,24 @@
         1080
       ]
     },
+    "mode_chaos": {
+      "category": "mode",
+      "file": "assets/mode_chaos.png",
+      "name": "Chaos",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "mode_normal": {
+      "category": "mode",
+      "file": "assets/mode_normal.png",
+      "name": "Classic",
+      "size": [
+        256,
+        256
+      ]
+    },
     "modify_card_value": {
       "category": "rule",
       "file": "assets/modify_card_value.png",
@@ -275,6 +295,86 @@
     }
   },
   "changelog": [
+    {
+      "commit": "b436e1d",
+      "date": "2026-10-11",
+      "subject": "Revise run economy and use Poker Head as the default dealer"
+    },
+    {
+      "commit": "72dad7b",
+      "date": "2026-10-11",
+      "subject": "Merge branch 'feat/poker-head' into codex/balance-persona-integration"
+    },
+    {
+      "commit": "449f96a",
+      "date": "2026-10-11",
+      "subject": "Merge branch 'feat/balance-v1' into codex/balance-persona-integration"
+    },
+    {
+      "commit": "b99016a",
+      "date": "2026-10-11",
+      "subject": "Enable sign in only after the account client is ready"
+    },
+    {
+      "commit": "ea00873",
+      "date": "2026-10-11",
+      "subject": "Run the original Pygame GUI in an authenticated WebAssembly client"
+    },
+    {
+      "commit": "2d76cde",
+      "date": "2026-10-11",
+      "subject": "Wait for session check before enabling sign in"
+    },
+    {
+      "commit": "505133a",
+      "date": "2026-10-11",
+      "subject": "Support standard HTTP health and page HEAD checks"
+    },
+    {
+      "commit": "dd66510",
+      "date": "2026-10-11",
+      "subject": "Add authenticated browser game and continuous deployment"
+    },
+    {
+      "commit": "f9f58ce",
+      "date": "2026-10-11",
+      "subject": "Merge pull request #5 from fghhn13/feat/home-menu-redesign"
+    },
+    {
+      "commit": "6d1aa6e",
+      "date": "2026-10-10",
+      "subject": "Make history scroll regression portable across system fonts"
+    },
+    {
+      "commit": "4ecf755",
+      "date": "2026-10-10",
+      "subject": "Document assembled game and validate application and wheel in CI"
+    },
+    {
+      "commit": "59f9358",
+      "date": "2026-10-10",
+      "subject": "Record completed animation and sound PR in final integration"
+    },
+    {
+      "commit": "ea799d9",
+      "date": "2026-10-10",
+      "subject": "Merge codex gallery and deterministic gameplay demonstrations"
+    },
+    {
+      "commit": "1895841",
+      "date": "2026-10-10",
+      "subject": "Merge shared meta configuration and reward helpers"
+    },
+    {
+      "commit": "200ed33",
+      "date": "2026-10-10",
+      "subject": "Merge player progression screens and meta service"
+    },
+    {
+      "commit": "750d871",
+      "date": "2026-10-10",
+      "subject": "Preserve run config fingerprints when filtering unloaded shop items"
+    },
     {
       "commit": "4d3fc7e",
       "date": "2026-10-10",
@@ -368,7 +468,7 @@
   ],
   "chaos_rules": {
     "fragile_bust": {
-      "effect": "Fragile Table: bust threshold reduced to 18 (instead of 21).",
+      "effect": "Fragile Table: bust threshold reduced to 19 (instead of 21).",
       "enabled": true,
       "flags": [
         "fragile_bust"
@@ -376,28 +476,28 @@
       "icon": "assets/fragile_bust.png",
       "name": "Fragile Bust",
       "params": {
-        "bust_limit": 18
+        "bust_limit": 19
       },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 15.0
     },
     "great_crash": {
-      "effect": "The Great Crash: all 10/J/Q/K become value 1 (until cleared).",
+      "effect": "The Great Crash: all 10/J/Q/K become value 8 (until cleared).",
       "enabled": true,
       "flags": [],
       "icon": "assets/great_crash.png",
       "name": "Great Crash",
       "params": {
-        "ten_value": 1
+        "ten_value": 8
       },
       "profiles": [
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 10.0
     },
     "modify_card_value": {
       "effect": "Rank values shifted by -2 per card (until cleared).",
@@ -412,10 +512,10 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 1.0
+      "stub_weight": 15.0
     },
     "odd_even_chaos": {
-      "effect": "Odd-Even Chaos: even ranks +2, odd ranks -1 (until cleared).",
+      "effect": "Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared).",
       "enabled": true,
       "flags": [],
       "icon": "assets/odd_even_chaos.png",
@@ -428,10 +528,10 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 22.0
     },
     "reverse_bust": {
-      "effect": "Reverse bust: high player totals may not count as bust for outcome.",
+      "effect": "Reverse Bust: if you bust this round, it is a push instead of a loss.",
       "enabled": true,
       "flags": [
         "reverse_bust"
@@ -443,7 +543,7 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 3.0
     },
     "suit_power": {
       "effect": "Suit Power: red suits +1, black suits -1 (until cleared).",
@@ -459,7 +559,7 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 20.0
     },
     "tiebreaker_shift": {
       "effect": "Tiebreaker Shift: ties go to Player (instead of Push).",
@@ -474,38 +574,39 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 0.0
+      "stub_weight": 15.0
     }
   },
   "design_docs": {
     "codex": {
-      "blob": "4b483e5d3ec0",
-      "commit": "1926f2c",
-      "date": "2026-10-10",
-      "on_main": false,
+      "blob": "59faeb3196e5",
+      "commit": "6be8e02",
+      "date": "2026-10-11",
+      "on_main": true,
       "path": "docs/design/CODEX.md",
-      "ref": "feat/codex-core",
+      "ref": "main",
       "status": null,
       "title": "Headless codex and controller demonstrations (M4a)"
     },
     "meta-progression": {
-      "blob": "24fc9041ffa2",
-      "commit": "f24cdb1",
-      "date": "2026-10-10",
-      "on_main": false,
+      "blob": "61b37b6dc12c",
+      "commit": "6be8e02",
+      "date": "2026-10-11",
+      "on_main": true,
       "path": "docs/design/META_PROGRESSION.md",
-      "ref": "feat/meta-core",
+      "ref": "main",
       "status": "agreed plan",
       "title": "Meta progression, player saves, run history and the codex"
     }
   },
   "items": {
     "danger_radar": {
-      "help": "Show how many 10/J/Q/K cards remain in the deck.",
+      "help": "Tell whether your next hit would bust you (under the rules in force).",
       "icon": "assets/danger_radar.png",
       "name": "Danger Radar",
       "params": {},
-      "price": 10
+      "price": 6,
+      "price_mode": "bankroll_pct"
     },
     "fate_oracle": {
       "help": "Reveal the ranks of the next 3 cards in the deck.",
@@ -514,35 +615,40 @@
       "params": {
         "cards": 3
       },
-      "price": 25
+      "price": 8,
+      "price_mode": "bankroll_pct"
     },
     "hole_card_hacker": {
       "help": "Flip the dealer's face-down card face up for the rest of the round.",
       "icon": "assets/hole_card_hacker.png",
       "name": "Hole Card Hacker",
       "params": {},
-      "price": 25
+      "price": 3,
+      "price_mode": "bankroll_pct"
     },
     "peek": {
       "help": "Reveal the rank of the next card in the deck.",
       "icon": "assets/peek.png",
       "name": "Peek",
       "params": {},
-      "price": 10
+      "price": 4,
+      "price_mode": "bankroll_pct"
     },
     "shield": {
       "help": "Dispel every active chaos rule for the rest of this round.",
       "icon": "assets/shield.png",
       "name": "Shield",
       "params": {},
-      "price": 30
+      "price": 5,
+      "price_mode": "bankroll_pct"
     },
     "swap": {
       "help": "Replace your first card with the top card of the deck.",
       "icon": "assets/swap.png",
       "name": "Swap",
       "params": {},
-      "price": 20
+      "price": 2,
+      "price_mode": "bankroll_pct"
     }
   },
   "permissions": {
@@ -605,7 +711,7 @@
       "max": null,
       "min": 1.0,
       "type": "int",
-      "value": 1
+      "value": 5
     },
     "chaos.guidance_probability": {
       "description": "Probability of guiding rather than misleading portrait advice",
@@ -628,6 +734,55 @@
       "type": "int",
       "value": 32
     },
+    "chaos.stub_calm_weight": {
+      "description": "Offline Chaos AI weight for a calm round (no rule), next to each rule stub_weight",
+      "max": null,
+      "min": 0.0,
+      "type": "float",
+      "value": 15.0
+    },
+    "meta.bring_kinds": {
+      "description": "Different consumables a player may bring to one run",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "meta.chaos_win_bonus": {
+      "description": "Extra tokens for winning a run with Chaos on",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 4
+    },
+    "meta.loss_cap": {
+      "description": "Most consolation tokens for a lost run",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 5
+    },
+    "meta.loss_per_peak_gain": {
+      "description": "Consolation tokens per 100% of the start bankroll gained at the peak",
+      "max": null,
+      "min": 0.0,
+      "type": "float",
+      "value": 4.0
+    },
+    "meta.loss_per_round": {
+      "description": "Consolation tokens per round survived in a lost run",
+      "max": null,
+      "min": 0.0,
+      "type": "float",
+      "value": 0.2
+    },
+    "meta.win_tokens": {
+      "description": "Tokens for winning a run",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 10
+    },
     "run.objective": {
       "description": "Run objective id",
       "max": null,
@@ -647,7 +802,7 @@
       "max": null,
       "min": 3.0,
       "type": "int",
-      "value": 400
+      "value": 300
     },
     "shop.refresh_rounds": {
       "description": "Rounds between restocks",
@@ -655,6 +810,13 @@
       "min": 1.0,
       "type": "int",
       "value": 2
+    },
+    "shop.reroll_price": {
+      "description": "Chips for one reroll of the current stock (once per stock)",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 3
     },
     "shop.slots": {
       "description": "Different items on sale per restock",
@@ -762,13 +924,15 @@
       "pct25_max_with_item"
     ],
     "commands": {
+      "career": "python -m bjsim career --policy mixed --careers 200 --length 40 [run options]",
       "check": "python -m bjsim check  [--bands bands.json]  regression gate (exit 1 if out of band)",
       "edge": "python -m bjsim edge  [--rules all|none|<name>,...]  EV per chaos rule",
       "items": "python -m bjsim items  [--rules none,...] [--items ...]  EV gain per item use",
       "runs": "python -m bjsim runs  [--chaos off|stub|mix|<rule>] [--bet pct25] [--shop never] [--prices game]",
-      "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]"
+      "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
+      "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "4d3fc7e",
+    "game_commit": "b436e1d",
     "measured": {
       "bands": [
         {
@@ -780,14 +944,14 @@
         {
           "band": "[-0.120, -0.075]",
           "metric": "EV, offline stub chaos (values -1)",
-          "ok": "yes",
-          "value": "-0.0968"
+          "ok": "**NO**",
+          "value": "-0.0239"
         },
         {
           "band": "[-0.015, +0.025]",
           "metric": "EV, uniform mix of all rules",
           "ok": "yes",
-          "value": "+0.0047"
+          "value": "-0.0117"
         },
         {
           "band": "[+0.110, +0.150]",
@@ -798,14 +962,14 @@
         {
           "band": "[+0.165, +0.235]",
           "metric": "Win rate, no chaos, bet 25%",
-          "ok": "yes",
-          "value": "+0.1980"
+          "ok": "**NO**",
+          "value": "+0.2570"
         },
         {
           "band": "[+0.075, +0.130]",
           "metric": "Win rate, offline stub chaos, bet 25%",
-          "ok": "yes",
-          "value": "+0.1020"
+          "ok": "**NO**",
+          "value": "+0.2340"
         }
       ],
       "edge": [
@@ -815,39 +979,39 @@
           "se": "±0.78%"
         },
         {
-          "ev": "-9.94%",
+          "ev": "-7.36%",
           "rule": "modify_card_value-1",
-          "se": "±0.84%"
+          "se": "±0.86%"
         },
         {
-          "ev": "-0.40%",
+          "ev": "-4.26%",
           "rule": "modify_card_value+1",
-          "se": "±0.74%"
+          "se": "±0.75%"
         },
         {
-          "ev": "+26.86%",
+          "ev": "+13.91%",
           "rule": "reverse_bust",
-          "se": "±0.76%"
+          "se": "±0.73%"
         },
         {
-          "ev": "-29.66%",
+          "ev": "-11.94%",
           "rule": "great_crash",
-          "se": "±0.81%"
+          "se": "±0.87%"
         },
         {
-          "ev": "+4.13%",
+          "ev": "+3.77%",
           "rule": "odd_even_chaos",
           "se": "±0.73%"
         },
         {
-          "ev": "-4.88%",
+          "ev": "-5.20%",
           "rule": "suit_power",
-          "se": "±0.78%"
+          "se": "±0.79%"
         },
         {
-          "ev": "+21.29%",
+          "ev": "+5.56%",
           "rule": "fragile_bust",
-          "se": "±0.68%"
+          "se": "±0.76%"
         },
         {
           "ev": "-7.93%",
@@ -895,25 +1059,25 @@
       "runs": {
         "bands": {
           "args": "check",
-          "balance": "default@2b81a83a89e1",
+          "balance": "default@4a1c35ec8128",
           "seed": 1,
           "title": "Balance bands"
         },
         "edge": {
           "args": "edge --rules all",
-          "balance": "default@2b81a83a89e1",
+          "balance": "default@4a1c35ec8128",
           "seed": 1,
           "title": "Player EV per round (basic strategy, 20000 rounds)"
         },
         "items": {
           "args": "items --rules none",
-          "balance": "default@2b81a83a89e1",
+          "balance": "default@4a1c35ec8128",
           "seed": 1,
           "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
         }
       }
     },
-    "measured_on": "4d3fc7e",
+    "measured_on": "b436e1d",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -931,17 +1095,17 @@
       "value"
     ],
     "source": {
-      "commit": "6d72252",
+      "commit": "d11d84e",
       "date": "2026-10-10",
       "ref": "main",
-      "subject": "Simulate balance profiles from the game's database"
+      "subject": "Measure meta upgrades and token economy"
     }
   },
   "source": {
-    "commit": "4d3fc7e",
-    "date": "2026-10-10",
+    "commit": "b436e1d",
+    "date": "2026-10-11",
     "ref": "main",
-    "subject": "Merge animation-aligned sound and verify the complete integration",
+    "subject": "Revise run economy and use Poker Head as the default dealer",
     "version": "0.2.0"
   },
   "transcript": {
@@ -954,8 +1118,7 @@
           "cmd": "bet"
         },
         "events": [
-          "Round 1 started, bet 10",
-          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+          "Round 1 started, bet 10"
         ],
         "obs": {
           "bankroll": 100,
@@ -967,7 +1130,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/400. Bet 10. You: 8♣ 3♥ = 9. Dealer: K♣ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ = 11. Dealer: K♣ ?? = ?."
         },
         "ok": true
       },
@@ -987,7 +1150,7 @@
             "stand"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/400. Bet 10. You: 8♣ 3♥ Q♥ = 18. Dealer: K♣ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ Q♥ = 21. Dealer: K♣ ?? = ?."
         },
         "ok": true
       },
@@ -998,15 +1161,15 @@
         },
         "events": [
           "Dealer draws: 8",
-          "Dealer stands at 20."
+          "Dealer busts."
         ],
         "obs": {
-          "bankroll": 90,
+          "bankroll": 110,
           "bet_range": [
-            1,
-            45
+            5,
+            55
           ],
-          "hint": "Place a bet: bet <amount> with 1 <= amount <= 45. Or buy first: buy <item_id> (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 55. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
@@ -1015,13 +1178,13 @@
               "5♥",
               "8♦"
             ],
-            "dealer_total": 20,
-            "delta": -10,
+            "dealer_total": 23,
+            "delta": 10,
             "doubled": false,
-            "money_after": 90,
-            "outcome": "dealer",
+            "money_after": 110,
+            "outcome": "player",
             "player_bust": false,
-            "player_total": 18,
+            "player_total": 21,
             "round": 1,
             "your_cards": [
               "8♣",
@@ -1031,10 +1194,11 @@
           },
           "legal_actions": [
             "bet",
-            "buy"
+            "buy",
+            "reroll"
           ],
           "phase": "betting",
-          "summary": "Round 2. Bankroll 90/400. Shop: danger_radar 10, swap 20, hole_card_hacker 25 (restocks in 1 round)."
+          "summary": "Round 2. Bankroll 110/300. Shop: swap 2, hole_card_hacker 3, danger_radar 6 (restocks in 1 round; reroll 3)."
         },
         "ok": true
       },
@@ -1045,10 +1209,10 @@
         },
         "events": [
           "Round 2 started, bet 10",
-          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+          "⚡ Chaos effect applied: Odd Even Chaos"
         ],
         "obs": {
-          "bankroll": 90,
+          "bankroll": 110,
           "hint": "Your move: act hit | stand | double | surrender",
           "legal_actions": [
             "hit",
@@ -1057,47 +1221,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ = 14. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
-        },
-        "ok": true
-      },
-      {
-        "command": {
-          "action": "hit",
-          "cmd": "act"
-        },
-        "events": [
-          "You draw: A"
-        ],
-        "obs": {
-          "bankroll": 90,
-          "hint": "Your move: act hit | stand",
-          "legal_actions": [
-            "hit",
-            "stand"
-          ],
-          "phase": "player_turn",
-          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ A♠ = 14. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
-        },
-        "ok": true
-      },
-      {
-        "command": {
-          "action": "hit",
-          "cmd": "act"
-        },
-        "events": [
-          "You draw: 8"
-        ],
-        "obs": {
-          "bankroll": 90,
-          "hint": "Your move: act hit | stand",
-          "legal_actions": [
-            "hit",
-            "stand"
-          ],
-          "phase": "player_turn",
-          "summary": "Round 2. Bankroll 90/400. Bet 10. You: 6♥ Q♦ A♠ 8♣ = 21. Dealer: A♦ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ = 18. Dealer: A♦ ?? = ?. Active chaos rules: Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared)."
         },
         "ok": true
       },
@@ -1107,48 +1231,43 @@
           "cmd": "act"
         },
         "events": [
-          "Dealer draws: J",
-          "Dealer draws: K",
-          "Dealer stands at 21.",
+          "Dealer stands at 17.",
           "The shop has new stock."
         ],
         "obs": {
-          "bankroll": 90,
+          "bankroll": 120,
           "bet_range": [
-            1,
-            45
+            5,
+            60
           ],
-          "hint": "Place a bet: bet <amount> with 1 <= amount <= 45. Or buy first: buy <item_id> (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 60. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
             "dealer_cards": [
               "A♦",
-              "4♥",
-              "J♥",
-              "K♥"
+              "4♥"
             ],
-            "dealer_total": 21,
-            "delta": 0,
+            "dealer_total": 17,
+            "delta": 10,
             "doubled": false,
-            "money_after": 90,
-            "outcome": "push",
+            "money_after": 120,
+            "outcome": "player",
             "player_bust": false,
-            "player_total": 21,
+            "player_total": 18,
             "round": 2,
             "your_cards": [
               "6♥",
-              "Q♦",
-              "A♠",
-              "8♣"
+              "Q♦"
             ]
           },
           "legal_actions": [
             "bet",
-            "buy"
+            "buy",
+            "reroll"
           ],
           "phase": "betting",
-          "summary": "Round 3. Bankroll 90/400. Shop: peek 10, hole_card_hacker 25, shield 30 (restocks in 2 rounds)."
+          "summary": "Round 3. Bankroll 120/300. Shop: hole_card_hacker 4, peek 5, shield 6 (restocks in 2 rounds; reroll 3)."
         },
         "ok": true
       },
@@ -1159,10 +1278,10 @@
         },
         "events": [
           "Round 3 started, bet 10",
-          "⚡ Chaos Effect Triggered: rank adjustment -1 per card"
+          "⚡ Chaos effect applied: Fragile Bust"
         ],
         "obs": {
-          "bankroll": 90,
+          "bankroll": 120,
           "hint": "Your move: act hit | stand | double | surrender",
           "legal_actions": [
             "hit",
@@ -1171,7 +1290,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 3. Bankroll 90/400. Bet 10. You: J♠ 4♠ = 12. Dealer: K♥ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+          "summary": "Round 3. Bankroll 120/300. Bet 10. You: J♠ 4♠ = 14. Dealer: K♥ ?? = ?. Active chaos rules: Fragile Table: bust threshold reduced to 19 (instead of 21)."
         },
         "ok": true
       },
@@ -1184,33 +1303,32 @@
           "You draw: 5"
         ],
         "obs": {
-          "bankroll": 90,
+          "bankroll": 120,
           "hint": "Your move: act hit | stand",
           "legal_actions": [
             "hit",
             "stand"
           ],
           "phase": "player_turn",
-          "summary": "Round 3. Bankroll 90/400. Bet 10. You: J♠ 4♠ 5♠ = 16. Dealer: K♥ ?? = ?. Active chaos rules: Rank values shifted by -1 per card (until cleared)."
+          "summary": "Round 3. Bankroll 120/300. Bet 10. You: J♠ 4♠ 5♠ = 19. Dealer: K♥ ?? = ?. Active chaos rules: Fragile Table: bust threshold reduced to 19 (instead of 21)."
         },
         "ok": true
       },
       {
         "command": {
-          "action": "hit",
+          "action": "stand",
           "cmd": "act"
         },
         "events": [
-          "You draw: 7",
-          "💀 BUST!"
+          "Dealer stands at 18."
         ],
         "obs": {
-          "bankroll": 80,
+          "bankroll": 130,
           "bet_range": [
-            1,
-            40
+            5,
+            65
           ],
-          "hint": "Place a bet: bet <amount> with 1 <= amount <= 40. Or buy first: buy <item_id> (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 65. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
@@ -1218,27 +1336,27 @@
               "K♥",
               "8♥"
             ],
-            "dealer_total": 16,
-            "delta": -10,
+            "dealer_total": 18,
+            "delta": 10,
             "doubled": false,
-            "money_after": 80,
-            "outcome": "dealer",
-            "player_bust": true,
-            "player_total": 22,
+            "money_after": 130,
+            "outcome": "player",
+            "player_bust": false,
+            "player_total": 19,
             "round": 3,
             "your_cards": [
               "J♠",
               "4♠",
-              "5♠",
-              "7♣"
+              "5♠"
             ]
           },
           "legal_actions": [
             "bet",
-            "buy"
+            "buy",
+            "reroll"
           ],
           "phase": "betting",
-          "summary": "Round 4. Bankroll 80/400. Shop: peek 10, hole_card_hacker 25, shield 30 (restocks in 1 round)."
+          "summary": "Round 4. Bankroll 130/300. Shop: hole_card_hacker 4, peek 5, shield 6 (restocks in 1 round; reroll 3)."
         },
         "ok": true
       }

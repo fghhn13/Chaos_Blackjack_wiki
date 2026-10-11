@@ -20,6 +20,8 @@ The first row is plain blackjack. Rules with parameters are simulated with speci
 
 Measured without chaos. A {{ link: items.shield }} only helps while a rule is active, so it measures nothing here; an information item shows no gain when the bots' item policy cannot act on what it reveals.
 
+The current bot policy does not act on {{ link: items.danger_radar }}'s next-hit warning. Its zero here measures that policy's limitation, not the item's usefulness to a player.
+
 {{ table: sim_items }}
 
 ## Regression bands

@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Turn on **Chaos Mode** in the main menu to meet the Chaos AI. Prefer the terminal? See [How to play](play.html). Writing a bot or an LLM agent? See [Agent players](agents.html).
+On Home, use **Start game** to create a player, then select Classic or Chaos in **New run** and choose **Start run**. **Continue run** restores an unfinished run. Prefer the terminal? See [How to play](play.html). Writing a bot or an LLM agent? See [Agent players](agents.html).
 
 ## Where to look
 

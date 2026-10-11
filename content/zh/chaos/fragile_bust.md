@@ -1,9 +1,9 @@
 ---
 name: 脆弱爆牌
-effect: 脆弱牌桌：爆牌线降到 18（原本是 21）。
-effect_en: Fragile Table: bust threshold reduced to 18 (instead of 21).
+effect: 脆弱牌桌：爆牌线降到 19（原本是 21）。
+effect_en: Fragile Table: bust threshold reduced to 19 (instead of 21).
 ---
-双方的爆牌线都降低了。21 点现在算爆牌，所以天生 21 点不复存在；庄家平时会停的点数，现在也可能爆。
+双方的爆牌线都降到 {{ fact: chaos_rules.fragile_bust.params.bust_limit }}。原始牌面的天生 21 点在混沌生效前结算；其他手牌超过新上限就爆牌，包括因规则变动而超过上限的起手牌。
 
 ## 应对
 

@@ -50,6 +50,9 @@ def static_facts(sim: Path) -> dict[str, Any]:
 def measure(sim: Path, game: Path, jobs: int | None = None) -> dict[str, Any]:
     """Run the experiments; raises RuntimeError with the simulator's stderr on failure."""
     env = {**os.environ, "CHAOS_BLACKJACK_ROOT": str(game), "CHAOS_USE_LLM": "0", "PYTHONUTF8": "1"}
+    # The simulator tries an import before consulting CHAOS_BLACKJACK_ROOT.
+    # Ensure an installed game or inherited path cannot shadow this checkout.
+    env["PYTHONPATH"] = os.pathsep.join(filter(None, (str(game.resolve()), env.get("PYTHONPATH", ""))))
     jobs = jobs or max(1, (os.cpu_count() or 2) - 2)
     out: dict[str, Any] = {}
     with tempfile.TemporaryDirectory(prefix="wiki-sim-") as tmp:

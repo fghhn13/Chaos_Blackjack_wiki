@@ -19,8 +19,8 @@ title: 规则
 ## 一局的流程
 
 1. 你和庄家各拿两张牌，庄家第二张扣着（*暗牌*）。
-2. 混沌模式下，[混沌 AI](chaos-ai.html) 出手一次。
-3. **天生 21 点**：头两张正好 21，赔率 {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}（向下取整）。庄家天生 21 点时，你还没出手这局就结束了；双方都是天生 21 点则算平局。
+2. **天生 21 点**先于混沌结算：原始牌面的 A 加一张 10 点牌，赔率 {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}（向下取整）。庄家天生 21 点时，你还没出手这局就结束；双方都是天生 21 点则算平局。
+3. 否则，混沌模式下[混沌 AI](chaos-ai.html) 出手一次。规则可能让起手牌立即爆牌；{{ link: chaos_rules.reverse_bust }} 会把玩家爆牌改为平局。规则改出的 21 点不享受天生 21 点赔付。
 4. 轮到你：**要牌**、**停牌**、**加倍**或**投降**，也可以用[道具](items.html)。
 5. 庄家翻开暗牌，一直抽到 {{ fact: settings.table.dealer_stand_on.value }} 点或以上。
 6. 结算：赢 `+下注`，输 `-下注`，平局 `0`。

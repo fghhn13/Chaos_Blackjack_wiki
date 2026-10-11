@@ -1,6 +1,6 @@
-Tells you how many ten-value cards remain. It is a probability tool, not a guarantee.
+Checks whether the next card would bust your current hand under the active rules. It does not reveal the card's rank or predict later draws.
 
 ## When to use
 
-- To decide a hit on 12–16: many tens left means a bust is likely.
-- Less useful under rules that change what ten-value cards are worth.
+- Use it before a risky hit, especially when a chaos rule changes card values or the bust limit.
+- Recheck after changing your hand or clearing a rule; the previous answer describes the previous state.

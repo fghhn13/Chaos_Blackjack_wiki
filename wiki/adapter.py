@@ -117,6 +117,7 @@ def _balance() -> dict[str, Any]:
         return {
             "settings": settings,
             "prices": dict(b.shop_prices),
+            "percentage_items": set(getattr(b, "shop_bankroll_pct", ())),
             "item_params": dict(b.item_params),
             "rules": {r.rule_id: {"enabled": r.enabled, "params": dict(r.params),
                                   "stub_weight": r.stub_weight, "stub_params": dict(r.stub_params)}
@@ -136,7 +137,8 @@ def _balance() -> dict[str, Any]:
     }
     settings = {k: {"value": v, "type": _SETTING_DOCS[k][0], "min": None, "max": None,
                     "description": _SETTING_DOCS[k][1]} for k, v in values.items()}
-    return {"settings": settings, "prices": dict(rc.shop_prices), "item_params": {}, "rules": {}}
+    return {"settings": settings, "prices": dict(rc.shop_prices), "percentage_items": set(),
+            "item_params": {}, "rules": {}}
 
 
 def _sqlite_settings(data: Any) -> dict[str, Any]:
@@ -221,6 +223,7 @@ def _items(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
             "name": _title(iid, manifest),
             "help": ITEM_HELP.get(iid, ""),
             "price": balance["prices"].get(iid),
+            "price_mode": "bankroll_pct" if iid in balance["percentage_items"] else "fixed",
             "params": _jsonable(balance["item_params"].get(iid, {})),
             "icon": _icon(root, iid),
         }

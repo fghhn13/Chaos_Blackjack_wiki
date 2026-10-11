@@ -1,9 +1,9 @@
 ---
 name: 奇偶混沌
-effect: 奇偶混沌：偶数牌 +2，奇数牌 −1（直到被清除）。
-effect_en: Odd-Even Chaos: even ranks +2, odd ranks -1 (until cleared).
+effect: 奇偶混沌：2/4/6/8 各 +2，3/5/7/9 各 −1；A/10/J/Q/K 不变（直到被清除）。
+effect_en: Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared).
 ---
-偶数牌（2、4、6、8）变重，奇数牌（3、5、7、9）变轻，人头牌不受影响。
+偶数牌（2、4、6、8）变重，奇数牌（3、5、7、9）变轻，A、10 和人头牌不受影响。
 
 ## 应对
 

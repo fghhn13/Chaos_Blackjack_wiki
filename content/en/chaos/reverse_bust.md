@@ -1,6 +1,6 @@
-Your bust no longer counts as an automatic loss. If you go over on a hit, the round still ends at once, but totals are compared and the higher total wins.
+If you bust, the round ends immediately as a push and your stake is returned. A high bust total does not win a comparison with the dealer.
 
 ## Playing against it
 
-- A high total, even a bust, can beat the dealer: compare with the dealer's visible card.
-- Hitting is riskless in a new way; think about what the dealer is likely to finish with.
+- You can hit more freely while the rule is active: busting preserves your stake.
+- You still need a winning non-bust hand to make a profit; clearing the rule removes this protection.

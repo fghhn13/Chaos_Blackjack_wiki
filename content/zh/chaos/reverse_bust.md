@@ -1,11 +1,11 @@
 ---
 name: 反转爆牌
-effect: 反转爆牌：玩家点数过高时不一定判为爆牌输。
-effect_en: Reverse bust: high player totals may not count as bust for outcome.
+effect: 反转爆牌：本局你爆牌时按平局结算，而不是判负。
+effect_en: Reverse Bust: if you bust this round, it is a push instead of a loss.
 ---
-爆牌不再自动判输。你要牌爆了，这一局仍会立刻结束，但会直接比点数，大的赢。
+你爆牌时，这局立即按平局结算并退回下注。爆牌后的高点数不会通过和庄家比大小来赢。
 
 ## 应对
 
-- 点数高（哪怕爆了）也可能赢庄家：对照庄家的明牌判断。
-- 要牌的风险变了，多想想庄家最后大概会停在几点。
+- 规则生效时可以更放心地要牌：爆牌会保住下注。
+- 想盈利仍需要一手没爆的赢家牌；清除规则会失去这层保护。

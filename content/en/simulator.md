@@ -23,6 +23,8 @@ Common options: `--profile NAME` (simulate a balance profile from the game's dat
 - `--chaos stub` is the game's own offline Chaos AI as the balance profile sets it; `mix` picks uniformly from all rules.
 - `--shop eager` buys anything useful (keeping a reserve); `--shop value` buys one item when it is worth it at a maximum bet.
 - `--prices fixed:<factor>` multiplies the game's prices; `scaled:<pct>` makes peek cost that share of the bankroll and the others proportionally.
+- `upgrades` measures upgrade levels on matched deals, reporting changes in win rate and tokens per run, plus token payback time.
+- `career` simulates repeated runs and meta purchases with `--policy none|permanent|consumable|mixed`, `--careers N` and `--length N`; comma-separated policies can be compared in one report.
 
 ## Bots
 
@@ -31,6 +33,8 @@ Bots play classic basic strategy without splitting, shifted when a rule moves th
 ## Regression bands
 
 The simulator keeps a list of key metrics with allowed ranges (`bands.json`). `python -m bjsim check` measures them; a value outside its band means a game change moved the balance. When that is intended, the band is re-measured and updated in the same change.
+
+The current report has out-of-band measurements, shown below. The wiki preserves them; updating the simulator's regression bands belongs in its separate repository. The stub metric's label still describes the earlier value-shift-only setup, while the current profile draws a weighted mix including calm rounds.
 
 {{ table: sim_bands }}
 

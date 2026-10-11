@@ -1,6 +1,6 @@
-Ten-value cards collapse to 1. High cards stop being dangerous, so hitting becomes cheap for both you and the dealer, and a natural becomes impossible.
+Ten-value cards become worth {{ fact: chaos_rules.great_crash.params.ten_value }}. Recalculate the hand before acting: high cards are lighter, but can still bust you. Original natural blackjacks settle before chaos and keep their normal payout.
 
 ## Playing against it
 
-- Hit more freely: most of the deck can no longer bust you.
-- The dealer also keeps drawing small totals; expect long dealer hands.
+- Judge each hit against the displayed total rather than the usual ten-value assumption.
+- The dealer also draws using the reduced values, so its usual upcard strength can be misleading.

@@ -1,4 +1,4 @@
-The bust limit drops for both sides. A 21 is now a bust, so naturals disappear, and the dealer busts on totals it would normally stand on.
+The bust limit drops to {{ fact: chaos_rules.fragile_bust.params.bust_limit }} for both sides. Original natural blackjacks settle before chaos; other hands above the new limit bust, including starting hands pushed over it by a rule.
 
 ## Playing against it
 

@@ -16,7 +16,15 @@ python -m chaos_blackjack.gui
 | Chaos Mode | click the Chaos portrait to [ask for advice](chaos-ai.html#asking-chaos-for-advice) | — |
 | Anywhere | — | Esc menu (asks first), F11 fullscreen, M mute, + / − volume, F5 reload art and sounds |
 
-Toggle **Chaos Mode** on the main menu. Art is optional: every image has a drawn placeholder (see the [art gallery](gallery.html)).
+The game opens on **Home**. Create a named player with **Start game**; the **Players** page lets you switch, rename or delete saves. In **New run**, choose Classic or Chaos, review permanent upgrades and select consumables. Only **Start run** consumes selected items; you may bring {{ fact: settings.meta.bring_kinds.value }} different kinds before Bag Space upgrades.
+
+Home offers **Continue run**, **Upgrades**, **Collection** and **Run history**. Runs save automatically; leaving the table with Escape asks you to abandon the run, which pays no tokens. Wins pay {{ fact: settings.meta.win_tokens.value }} tokens, plus {{ fact: settings.meta.chaos_win_bonus.value }} in Chaos; losses receive consolation capped at {{ fact: settings.meta.loss_cap.value }}. See [Meta progression](design-meta-progression.html) for the reward formula and upgrade catalog.
+
+**Collection** shows rules, items, modes and AI profiles with live details and offline demos. Space pauses, R replays and Left / Right steps through frames. Demos do not change player progress. Art is optional: every image has a drawn placeholder (see the [art gallery](gallery.html)).
+
+## Browser edition
+
+The authenticated browser edition runs the original Pygame interface in WebAssembly, including progression, upgrades and account saves. Registration requires a 16-digit invitation token. See the game's [browser compatibility and builds](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md) and [deployment guide](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md) for access and hosting details.
 
 ## Text CLI
 

@@ -19,8 +19,8 @@ You enter with **{{ fact: settings.run.start_money.value }}** chips. Reach **{{ 
 ## A round
 
 1. You and the dealer get two cards each; the dealer's second card is face down (the *hole card*).
-2. In chaos mode, the [Chaos AI](chaos-ai.html) acts once.
-3. **Naturals**: a two-card 21 is a natural blackjack and pays {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}, rounded down. If the dealer has a natural the round ends before you act; two naturals push.
+2. **Naturals** settle before chaos: an original Ace plus a ten-value card pays {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}, rounded down. The dealer's natural ends the round before you act; two naturals push.
+3. Otherwise, in chaos mode the [Chaos AI](chaos-ai.html) acts once. A rule can immediately bust a starting hand; {{ link: chaos_rules.reverse_bust }} changes a player bust to a push. A hand changed to 21 by a rule does not gain the natural payout.
 4. Your turn: **hit**, **stand**, **double** or **surrender**, or use an [item](items.html).
 5. The dealer reveals the hole card and draws until reaching {{ fact: settings.table.dealer_stand_on.value }} or more.
 6. Settlement: win `+bet`, lose `-bet`, push `0`.

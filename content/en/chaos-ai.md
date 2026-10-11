@@ -19,6 +19,10 @@ The Chaos AI never touches the cards. It returns a small structured JSON action,
 
 Prompt files shipped with the game: {{ fact: prompts }}.
 
+The default dealer appearance is **Poker Head**, with expressions and dialogue reacting to table events. This visual default keeps the usual Chaos rule weights. The separately selectable `poker_head` content pack supplies its own AI profile; do not confuse that profile with the default portrait.
+
+For a direct offline content-pack game, run `python -m chaos_blackjack.content play poker_head`, or use `python -m chaos_blackjack.agent new --pack poker_head --ai poker_head --chaos`. Its persona is polite and hostile to the player, favours small rule changes and calm rounds, and does not use the player's items.
+
 ## Asking Chaos for advice
 
 In Chaos Mode you can click the Chaos portrait while betting, during your turn, after a round, or with the shop open, to ask for a suggestion. Each time, Chaos secretly decides whether to **guide** you or **mislead** you: it guides with probability {{ fact: settings.chaos.guidance_probability.value }} and never tells you which it chose. Even "guiding" advice is not guaranteed to be right.
@@ -32,3 +36,5 @@ Chaos can keep a run-local history of what happened and use it in later prompts.
 ## Offline vs real model
 
 Without an API key the AI is a deterministic offline stand-in; tests, CI and the agent interface use it by default. With a real model each chaos phase is one chat request, plus at most one repair request when the JSON is invalid.
+
+The default offline draw combines each rule's weight with a calm-round weight of {{ fact: settings.chaos.stub_calm_weight.value }}. These are relative weights, not percentages; a calm draw leaves the rules unchanged.

@@ -19,6 +19,10 @@ title: 混沌 AI
 
 游戏自带的提示词文件：{{ fact: prompts }}。
 
+默认庄家形象是 **Poker Head（扑克头）**，表情和台词会响应牌桌事件；这个外观默认值仍使用普通混沌规则权重。另选的 `poker_head` 内容包有自己的 AI 档案，不要把它和默认头像混为一谈。
+
+直接体验离线内容包可运行 `python -m chaos_blackjack.content play poker_head`，或使用 `python -m chaos_blackjack.agent new --pack poker_head --ai poker_head --chaos`。它彬彬有礼但不站在玩家这边，偏好小幅改规则和平静局，不会使用玩家的道具。
+
 ## 向混沌 AI 要建议
 
 混沌模式下，在下注时、你的回合中、一局结束后，或者打开商店时，点击混沌 AI 的头像就可以向它要建议。每次它都会暗中决定是**引导**你还是**误导**你：引导的概率是 {{ fact: settings.chaos.guidance_probability.value }}，而且它不会告诉你选了哪一种。就算是"引导"，建议也不保证正确。
@@ -32,3 +36,5 @@ title: 混沌 AI
 ## 离线替身与真实模型
 
 没有 API key 时，AI 是一个确定性的离线替身；测试、CI 和 agent 接口默认都用它。接入真实模型后，每个混沌阶段发一次聊天请求，JSON 不合法时最多再发一次修复请求。
+
+默认离线抽样把各规则的权重与 {{ fact: settings.chaos.stub_calm_weight.value }} 的平静局权重放在一起。这些是相对权重，不是百分比；抽到平静局就不改变规则。

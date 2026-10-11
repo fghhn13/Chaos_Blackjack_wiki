@@ -116,3 +116,44 @@ def test_out_of_band_is_reported():
            "measured": {"bands": [{"metric": "EV", "value": "+0.5", "band": "[0, 0.1]", "ok": "no"}]}}
     entries = F.diff({**FACTS, "sim": {}}, {**FACTS, "sim": sim})
     assert any(k == "auto" and "OUT OF BAND" in d for k, _, d in entries)
+
+
+@pytest.mark.parametrize("lang", ["en", "zh"])
+def test_percentage_prices_on_all_item_surfaces(lang):
+    from wiki.i18n import UI
+
+    expected = UI[lang]["bankroll_price"].format(price=4)
+    facts = copy.deepcopy(FACTS)
+    facts["items"]["peek"].update(price=4, price_mode="bankroll_pct")
+    site = Site(facts, lang, [])
+    for output in (site.t_prices(), site.t_item_cards(), site.entity("items", "peek")):
+        assert expected in output
+    facts["items"]["peek"].pop("price_mode")
+    assert f"4 {site.t['chips']}" in site.t_prices()
+    facts["items"]["peek"]["price"] = None
+    assert site.t["not_sold"] in site.t_prices()
+
+
+def test_sim_measure_uses_requested_game_over_inherited_import(tmp_path, monkeypatch):
+    from wiki.sim import measure
+
+    game, decoy, simulator = (tmp_path / name for name in ("game", "decoy", "simulator"))
+    for root, value in ((game, "requested"), (decoy, "wrong")):
+        package = root / "chaos_blackjack"
+        package.mkdir(parents=True)
+        (package / "__init__.py").write_text(f"VALUE = {value!r}\n", encoding="utf-8")
+    package = simulator / "bjsim"
+    package.mkdir(parents=True)
+    (package / "__init__.py").write_text("", encoding="utf-8")
+    (package / "__main__.py").write_text(
+        "import json, sys\nfrom pathlib import Path\nimport chaos_blackjack\n"
+        "output = Path(sys.argv[sys.argv.index('--out') + 1])\n"
+        "output.write_text(json.dumps({'tables': [{'title': 'fixture', "
+        "'rows': [['fixture', chaos_blackjack.VALUE, 'band', 'yes']]}]}), encoding='utf-8')\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("PYTHONPATH", str(decoy))
+    results = measure(simulator, game, jobs=1)
+    assert results["bands"][0]["value"] == "requested"
+    assert results["edge"][0]["ev"] == "requested"
+    assert results["items"][0]["ev"] == "requested"

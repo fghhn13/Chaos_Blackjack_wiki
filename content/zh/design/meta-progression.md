@@ -1,10 +1,10 @@
 ---
 title: 局外成长、存档与图鉴
-source_blob: 24fc9041ffa2
+source_blob: 61b37b6dc12c
 ---
-以后每轮游戏之间你会有一个**玩家**：一个存档位，里面有代币、永久升级和消耗品。每一轮都会被记录下来，**图鉴**会用动画演示讲解每条规则、每件道具、每种模式和每个 AI。Agent 命令行不加入局外成长，保证 agent 对局公平、可复现。
+每轮游戏之间你有一个**玩家**：一个存档位，里面有代币、永久升级和消耗品。每一轮都会记录，**图鉴**讲解规则、道具、模式和 AI，有演示的条目还会播放动画。Agent 命令行不加入局外成长，保证 agent 对局公平、可复现。
 
-下面所有数值都是设计中的**占位值**，正式数值会放在平衡配置里。
+本页概述共享设计约定。下方奖励引用自动提取的默认值；设计中的 balance v1 商品目录以 `seed/default.sql` 的价格和参数为准。
 
 ## 决定
 
@@ -37,28 +37,31 @@ player (slot 1-3) ── tokens, permanent upgrades (with level), consumables (w
 
 | 参数 | 默认值 | 含义 |
 | --- | --- | --- |
-| `meta.win_tokens` | 10 | 胜利获得的代币 |
-| `meta.loss_per_round` | 0.2 | 每存活一局的安慰奖 |
-| `meta.loss_per_peak_gain` | 4 | 资金峰值每比开局资金多 100% 的安慰奖 |
-| `meta.loss_cap` | 5 | 安慰奖上限 |
+| `meta.win_tokens` | {{ fact: settings.meta.win_tokens.value }} | 胜利获得的代币 |
+| `meta.chaos_win_bonus` | {{ fact: settings.meta.chaos_win_bonus.value }} | 混沌模式胜利额外获得的代币 |
+| `meta.loss_per_round` | {{ fact: settings.meta.loss_per_round.value }} | 每存活一局的安慰奖 |
+| `meta.loss_per_peak_gain` | {{ fact: settings.meta.loss_per_peak_gain.value }} | 资金峰值每比开局资金多 100% 的安慰奖 |
+| `meta.loss_cap` | {{ fact: settings.meta.loss_cap.value }} | 安慰奖上限 |
 
 ```text
 安慰奖 = min(loss_cap, floor(局数 × loss_per_round
                             + max(0, 峰值 − 开局) / 开局 × loss_per_peak_gain))
 ```
 
-例：开局 100，打了 20 局后失败，期间资金峰值 150，获得 min(5, floor(4 + 2)) = 5 个代币。
+放弃一轮不发代币。
 
-## 局外商店：首批商品
+## 局外商店：balance v1 商品目录
 
 | 升级 | 类型 | 效果 | 价格 | 最高等级 |
 | --- | --- | --- | --- | --- |
-| `start_money` | 永久 | 每级开局资金 +10 | 15，每级 +10 | 3 |
-| `shop_slot` | 永久 | 局内商店多上架 1 件道具 | 40 | 1 |
-| `shop_discount` | 永久 | 每级局内商店价格 −10% | 25，每级 +15 | 2 |
-| `start_<道具>` | 消耗品 | 下一轮开局就带着这件道具（每种商店道具一个） | 约为该道具商店价的一半 | — |
+| `start_money` | 永久 | 每级开局资金 +10 | 20，每级 +10 | 3 |
+| `bag_space` | 永久 | 多带一种消耗品 | 25，每级 +15 | 2 |
+| `reroll_pass` | 永久 | 每轮一次免费商店刷新 | 30 | 1 |
+| `start_<道具>` | 消耗品 | 下一轮开局就带着这件道具（每种商店道具一个条目） | 设计建议约为开局商店价的一半，实际以商品显示为准 | 3 |
 
 升级的第 *n* 级价格为 `cost + (n − 1) × cost_step`。一个升级可以要求先拥有另一个升级。
+
+每轮基础携带上限为 {{ fact: settings.meta.bring_kinds.value }} 种消耗品。`shop.slots_add` 和 `shop.discount_pct` 效果仍可用于自定义配置，但默认商店不再出售；设计文档说明它们的实测价值很低。
 
 ## 游戏模式
 
@@ -86,14 +89,15 @@ player (slot 1-3) ── tokens, permanent upgrades (with level), consumables (w
 
 | 界面 | 内容 |
 | --- | --- |
-| 选择玩家 | 3 个存档位：新建、继续、改名、删除（需确认） |
-| 大厅 | 代币；开始一轮（选模式和要带的消耗品）；局外商店；对局记录；图鉴；设置 |
-| 局外商店 | 永久升级（等级点、下一级价格）和消耗品（已拥有数量） |
-| 一轮结算 | 胜利或失败、代币明细、返回大厅 |
+| 主页 | 当前玩家；带摘要的 Continue run / New run / Start game；升级、图鉴、对局记录、设置、退出 |
+| 玩家 | 3 个存档位：游玩、新建、改名、删除（需确认） |
+| 开局准备 | 模式选择、规则展示、生效的永久升级、要带的消耗品、Start run |
+| 升级 | 按类型分页展示永久升级（等级点、下一级价格）和消耗品（已拥有数量） |
+| 一轮结算 | 胜利或失败、代币明细、返回主页 |
 | 对局记录 | 历史对局列表；详情里显示摘要 |
 | 图鉴 | 按类别分页，图标 + 名称的网格；详情里有动画演示和文字 |
 
-主菜单保留**快速游戏**（不选玩家，和现在一样）和开发用的美术图鉴。
+游戏从**主页**开始，不再提供快速游戏或游戏内美术素材图鉴。
 
 ## 开发者参考
 
@@ -121,6 +125,7 @@ modes(player_id=None) -> list[ModeOption]        # mode + unlocked
 start_run(player_id, mode_id, *, consumables=(), profile=None, seed=None, loop_factory=None) -> RunStart
     # RunStart(run_id, mode, config, applied, controller); the controller saves into the player's run
 resume_run(player_id, *, loop_factory=None) -> RunStart | None   # unfinished run with a save
+pending_run(player_id) -> PendingRun | None       # saved run summary without loading it
 finish_run(run_id, controller) -> RunReward      # tokens + breakdown + result; only once the run is over
 abandon_run(run_id) -> None
 history(player_id, limit=50) -> list[RunRecord]

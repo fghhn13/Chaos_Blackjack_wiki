@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-在主菜单打开 **Chaos Mode**，混沌 AI 就会入场。喜欢命令行？看[玩法](play.html)。想写机器人或 LLM agent 来玩？看[Agent 玩家](agents.html)。
+在主页点 **Start game** 创建玩家，再在 **New run** 中选 Classic 或 Chaos，点 **Start run** 开始；**Continue run** 恢复未完成的一轮。喜欢命令行？看[玩法](play.html)。想写机器人或 LLM agent 来玩？看[Agent 玩家](agents.html)。
 
 ## 从哪里看起
 
