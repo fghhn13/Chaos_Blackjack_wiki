@@ -47,6 +47,9 @@ def build(out: Path = SITE) -> list[str]:
         shutil.copy2(f, out / f.name)
     for f in IMG.glob("*.png"):
         shutil.copy2(f, out / "img" / f.name)
+    # Editorial portraits stay separate from game snapshots removed by sync.
+    for f in (F.CONTENT / "img").glob("*.png"):
+        shutil.copy2(f, out / "img" / f.name)
     (out / "index.html").write_text(_landing(facts), encoding="utf-8")
     for lang in F.LANGS:
         site = Site(facts, lang, errors)

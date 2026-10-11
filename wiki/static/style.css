@@ -71,6 +71,10 @@ article h1 { margin: 0 0 12px; font-size: 30px; line-height: 1.25; }
 article h2 { margin-top: 36px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 22px; }
 article h3 { margin-top: 24px; font-size: 18px; }
 article img { max-width: 100%; }
+article img[src="../img/poker-head.png"] {
+  display: block; width: min(100%, 420px); height: auto;
+  margin: 20px auto; border-radius: var(--radius);
+}
 blockquote { margin: 16px 0; padding: 4px 16px; border-left: 3px solid var(--gold); background: var(--surface-2); border-radius: 0 8px 8px 0; }
 .stamp { margin-top: 14px; font-size: 13px; color: var(--muted); text-align: center; }
 .notice { padding: 8px 12px; border-radius: 8px; background: var(--surface-2); color: var(--warn); font-size: 14px; }
