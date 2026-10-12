@@ -1,41 +1,43 @@
 ---
 title: 玩法
 ---
-## Pygame 窗口
+## 桌面版
 
 ```bash
 pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
+Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)或[扑克头的牌桌](table-chaos.html)。检查目标、下注范围、规则、荷官和赔率，再勾选开局物品；只有点 **Start run** 才消耗物品。
+
+新一轮先播放荷官台词，Enter／点击翻页，Escape 跳过。**Continue run** 恢复检查点，不重复播放开场。
+
 | 阶段 | 鼠标 | 键盘 |
 | --- | --- | --- |
-| 下注 | 左键点筹码加注，右键减注；Clear / Max；Shop | ↑ / ↓ ±1，Enter 发牌，B 打开商店（1–3 购买） |
-| 你的回合 | Hit / Stand / Double / Surrender 按钮 | H / S / D / R |
-| 一局结束 | Next Round | Enter |
-| 混沌模式 | 点击混沌 AI 头像[要建议](chaos-ai.html#向混沌-ai-要建议) | — |
-| 任何时候 | — | Esc 回主菜单（会先确认），F11 全屏，M 静音，+ / − 调音量，F5 重新加载美术和音效 |
+| 下注 | 左键筹码加注、右键减注；Clear / Max；局内 Shop | 上下键微调，Enter 发牌，B 打开商店 |
+| 你的回合 | 要牌／停牌／加倍／投降；背包 | H / S / D / R；I 打开道具列表 |
+| 回合结束 | Next Round | Enter |
+| 扑克头的牌桌 | 点荷官头像问建议 | Enter 关闭回复 |
+| 任何时候 | Settings | Escape 确认离开；F11 全屏；M 静音；+ / − 音量；F5 重新载入美术和音效 |
 
-游戏打开后进入**主页**。点 **Start game** 创建有名字的玩家；**Players** 页面可切换、改名或删除存档。在 **New run** 中选 Classic 或 Chaos，查看永久升级并勾选消耗品。只有点 **Start run** 才消耗所选道具；升级 Bag Space 前最多带 {{ fact: settings.meta.bring_kinds.value }} 种。
+主页 **Shop** 花代币买升级、装扮和开局物品；**局内 Shop** 花本轮筹码。详见[玩家成长](progression.html)。点击玩家信息打开[个人资料](profile.html)，**Switch player** 管理槽位。
 
-主页提供 **Continue run**、**Upgrades**、**Collection** 和 **Run history**。游戏自动保存；牌桌按 Escape 离开时会确认放弃，本轮不发代币。胜利获得 {{ fact: settings.meta.win_tokens.value }} 代币，混沌模式额外加 {{ fact: settings.meta.chaos_win_bonus.value }}；失败的安慰奖上限为 {{ fact: settings.meta.loss_cap.value }}。奖励公式和升级目录见[局外成长](design-meta-progression.html)。
+**Collection** 按经典牌桌和荷官系列分组。经典区展示基础牌桌和通用道具；扑克头区介绍角色、规则池和专属道具。Tab 切换，滚轮或 Page Up / Page Down 滚动。规则和道具详情可播放固定发牌的离线演示：空格暂停、R 重播、左右键逐帧查看，不花代币、不改变进度。
 
-**Collection** 按规则、道具、模式和 AI 展示实时说明与离线演示。空格暂停、R 重播、左右键逐帧查看，演示不影响玩家进度。美术是可选的，每张图都有程序绘制的占位图（见[美术图鉴](gallery.html)）。
+## 浏览器与手机
 
-## 浏览器版
+需要登录的浏览器版通过 WebAssembly 运行同一套 Pygame 游戏，支持账号存档。注册需要 16 位数字邀请码。首次加载可能较慢，提示会区分下载与启动阶段；出现提示时点击 **Start game** 启动并启用音效，iOS Safari 也使用这个触摸入口。允许自动播放音效的浏览器可能跳过提示。触屏设备新建或改名使用支持输入法组合输入的原生文本框，Save／完成按钮确认，Cancel 保留原名。
 
-需要登录的浏览器版通过 WebAssembly 运行原来的 Pygame 界面，包含局外成长、升级和账号存档。注册需要 16 位数字邀请码。访问和部署说明见游戏的[浏览器兼容性与构建文档](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md)和[部署指南](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md)。
+访问和部署说明见[浏览器兼容性与构建](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md)和[部署指南](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md)。
 
-## 文字命令行
+## 文字命令行与 Agent
 
 ```bash
-python cli/main.py                 # 菜单：新游戏、读档、退出
+python cli/main.py
 python cli/main.py --enable-chaos
-python cli/main.py demo            # 自动打一局
+python -m chaos_blackjack.agent new --seed 7 --chaos
 ```
 
-文字命令行还是最初的要牌 / 停牌玩法；加倍、投降和商店只在窗口版和 agent 接口里有。
+文字命令行保留原来的要牌／停牌循环。Agent 支持控制器动作，但不应用玩家的局外升级；`--chaos` 参数仍可使用，详见[Agent 玩家](agents.html)。
 
-## 接入真实大模型（可选）
-
-默认情况下混沌 AI 是离线替身：不联网、不花钱。可以在 git 忽略的 `.env` 文件里开启真实模型，详见游戏 README 的 "Real LLM" 一节。真实请求会计费。
+默认混沌后端离线。按游戏配置接入真实模型时，请求会计费；具体设置见游戏 README。

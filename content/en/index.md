@@ -1,7 +1,7 @@
 ---
 title: Home
 ---
-**Chaos Blackjack** is blackjack with a twist: a sandboxed Chaos AI may bend the rules every round. Start with {{ fact: settings.run.start_money.value }} chips and reach {{ fact: settings.run.target_money.value }} before you go broke.
+**Chaos Blackjack** is a journey through dealers' tables. Each Table combines its host, goal, rules and items into a play style. Learn the game at the Classic Table, then take a seat with [Poker Head](dealer-poker_head.html).
 
 ## Start playing
 
@@ -10,18 +10,17 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-On Home, use **Start game** to create a player, then select Classic or Chaos in **New run** and choose **Start run**. **Continue run** restores an unfinished run. Prefer the terminal? See [How to play](play.html). Writing a bot or an LLM agent? See [Agent players](agents.html).
+Home's **Start game** creates a player. **New run** lets you select the Classic Table or Poker Head's Table, review upgrades and choose starter items. **Continue run** restores an unfinished run. [How to play](play.html) covers desktop, browser and phone controls.
 
-## Where to look
+## Choose a table
 
-| If you want to… | Read |
-| --- | --- |
-| learn the table rules | [Rules](rules.html) |
-| know what each chaos rule does | [Chaos rules](chaos.html) |
-| decide what to buy | [Items](items.html) and [Shop & economy](shop.html) |
-| understand how the AI is kept in check | [The Chaos AI](chaos-ai.html) |
-| look up every tunable number | [Balance settings](settings.html) |
+{{ table: tables }}
 
-## About this wiki
+## Explore
 
-Every number, id, price and command on these pages is extracted from the game's `main` branch; only the explanations are written by hand. The footer of each page names the exact commit it describes.
+- [Dealers](dealers.html): characters and their tables. [J-54](dealer-j54.html) is a **design draft** about probability and deck reconstruction.
+- [Chaos rules](chaos.html) and [Items](items.html): effects and the tables that use them.
+- [Player progression](progression.html), [Cosmetics](cosmetics.html), [Achievements](achievements.html) and [Profile](profile.html): what persists between runs.
+- [Agent players](agents.html), [Balance data](balance.html) and [The Chaos AI](chaos-ai.html): technical reference.
+
+Released mechanics and numbers are extracted from game main. Author-supplied drafts carry their own status banner and are not playable mechanics. Every page's footer names the game snapshot; draft banners identify the separate source of proposed content.

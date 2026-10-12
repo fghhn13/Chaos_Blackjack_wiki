@@ -8,6 +8,7 @@ Documented exceptions to "public API only":
 - the registry has no listing method, so rule and item ids are read from
   `Registry._chaos_rules` / `Registry._items`;
 - agent CLI commands and error codes are scraped from the agent sources.
+- the default deck size is read from the core's deck factory.
 """
 
 from __future__ import annotations
@@ -53,7 +54,7 @@ def extract_facts(root: Path, ref: str) -> dict[str, Any]:
     pkg = load_game(root)
     balance = _balance()
     return {
-        "schema": 1,
+        "schema": 2,
         "source": _source(root, ref, getattr(pkg, "__version__", None)),
         "settings": balance["settings"],
         "chaos_rules": _chaos_rules(root, balance),
@@ -64,6 +65,7 @@ def extract_facts(root: Path, ref: str) -> dict[str, Any]:
         "agent": _agent(root),
         "transcript": _transcript(),
         "changelog": _changelog(root),
+        **_catalogs(root),
     }
 
 
@@ -195,7 +197,8 @@ def _chaos_rules(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
     out = {}
     for rid in sorted(reg._chaos_rules):
         tuned = balance["rules"].get(rid, {})
-        mod = reg.build_chaos_rule(rid, tuned.get("params") or {})
+        preset = {**(tuned.get("stub_params") or {}), **(tuned.get("params") or {})}
+        mod = reg.build_chaos_rule(rid, preset)
         params = {}
         if mod is not None and dataclasses.is_dataclass(mod):
             params = {k: v for k, v in dataclasses.asdict(mod).items() if k not in ("id", "chaos_flags")}
@@ -228,6 +231,69 @@ def _items(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
             "icon": _icon(root, iid),
         }
     return out
+
+
+def _catalogs(root: Path) -> dict[str, Any]:
+    """Public mode and progression registries, with the shipped balance applied."""
+    from chaos_blackjack.app.config import RunConfig
+    from chaos_blackjack.data import default_balance
+    from chaos_blackjack.modes import modes, series_list, sold_items
+    from chaos_blackjack.content.builtin_persona import HOST_NAMES, host_persona
+    from chaos_blackjack.content.host_script import host_profile
+    from chaos_blackjack.cosmetics import cosmetics
+    from chaos_blackjack.achievements import achievements_catalog, AchievementContext
+    from chaos_blackjack.core.game_loop import _standard_deck
+    from chaos_blackjack.registry import get_registry
+    from chaos_blackjack.meta.effects import get_effect
+
+    balance = default_balance()
+    base = RunConfig.from_balance(balance)
+    enabled = {r.rule_id for r in balance.chaos_rules if r.enabled}
+    tables, dealers = {}, {}
+    for mode in modes():
+        config = mode.apply(base)
+        tables[mode.id] = {
+            "name": mode.name, "description": mode.description, "host": mode.host,
+            "series": mode.series, "ai_id": config.ai_id, "icon_asset": mode.icon,
+            "rule_pool": list(mode.rules) if mode.rules is not None else None,
+            "item_pool": list(mode.items) if mode.items is not None else None,
+            "rules": sorted((enabled & set(mode.rules) if mode.rules is not None else enabled)
+                            - set(config.disabled_rules)) if config.enable_chaos else [],
+            "items": sorted(sold_items(config) & set(get_registry()._items)), "unlocked_by": mode.unlocked_by,
+            "start_money": config.start_money, "target_money": config.target_money,
+            "min_bet": config.min_bet, "max_bet_fraction": config.max_bet_fraction,
+            "blackjack_pays": list(config.blackjack_pays), "chaos": config.enable_chaos,
+        }
+        if mode.host not in dealers:
+            profile, quote = host_profile(mode.host)
+            dealers[mode.host] = {"name": HOST_NAMES.get(mode.host, mode.host), "profile": list(profile),
+                                  "quote": quote, "portrait_asset": host_persona(mode.host).asset_id("welcome"),
+                                  "tables": []}
+        dealers[mode.host]["tables"].append(mode.id)
+    rewards = {r.achievement_id: r for r in balance.achievement_rewards}
+    prices = {p.cosmetic_id: p.cost for p in balance.cosmetic_prices}
+    looks = {c.id: {"name": c.name, "description": c.description, "slot": c.slot, "series": c.series,
+                    "rarity": c.rarity, "default": c.default, "hidden": c.hidden,
+                    "assets": c.asset_map(), "preview_asset": c.preview_asset, "price": prices.get(c.id),
+                    "achievements": sorted(r.achievement_id for r in balance.achievement_rewards
+                                            if c.id in r.cosmetic_ids)} for c in cosmetics()}
+    achievements = {}
+    context = AchievementContext(totals={}, best={}, seen=set(), run=None)
+    for entry in achievements_catalog():
+        reward = rewards.get(entry.id)
+        achievements[entry.id] = {"name": entry.name, "description": entry.description,
+                                  "stat": entry.stat, "goal": entry.progress(context)[1], "scope": entry.scope,
+                                  "hidden": entry.hidden, "tokens": reward.tokens if reward else 0,
+                                  "cosmetics": list(reward.cosmetic_ids) if reward else []}
+    upgrades = {u.upgrade_id: {"name": get_effect(u.effect).title(dict(u.params)),
+                              "description": get_effect(u.effect).describe(dict(u.params), 1),
+                              "kind": u.kind, "effect": u.effect, "params": dict(u.params),
+                              "cost": u.cost, "cost_step": u.cost_step, "max_level": u.max_level,
+                              "requires": u.requires, "mode": u.mode} for u in balance.meta_upgrades}
+    return {"tables": tables, "dealers": dealers, "cosmetics": looks, "achievements": achievements,
+            "upgrades": upgrades, "series": {s.id: {"name": s.name, "expansion": s.expansion}
+                                               for s in series_list()},
+            "deck": {"cards": len(_standard_deck()), "reset": "round"}}
 
 
 def _permissions(root: Path) -> dict[str, Any]:

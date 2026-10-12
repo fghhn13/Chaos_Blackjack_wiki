@@ -88,6 +88,14 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
 - Page list and nav groups: `wiki/i18n.py` (`PAGES`); interface strings in both
   languages: `UI` in the same file; per-language data strings (setting and error
   code descriptions): `content/<lang>/strings.json`.
+- Dealer and Table pages use `content/<lang>/{dealers,tables}/<game-id>.md`.
+  Their relationships, goals and effective rule/item pools come from facts.
+  Progression, cosmetic and achievement catalogs are generated too; Chinese
+  `strings.json` catalog entries retain `name_en` / `description_en` for drift checks.
+- Author-supplied designs are editorial pages, not game facts. J-54 lives in
+  `dealer-j54.md` and `table-j54.md`, with `status: draft` and `source: user`.
+  Keep their bilingual draft banners; do not invent game ids, prices or measured
+  results. Editorial portraits live in `content/img/`, which sync never prunes.
 - Repository language: code, comments and commits in English; Chinese only in
   `content/zh/` and the `zh` interface strings.
 

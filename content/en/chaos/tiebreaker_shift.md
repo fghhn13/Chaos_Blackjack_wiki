@@ -1,4 +1,4 @@
-A tie is no longer a push: it goes to one side. The direction is chosen when the rule is applied and shown in the active rule text; the default shown above favours the player, but the Chaos AI can pick either side.
+A tie is no longer a push: it goes to one side. The direction is chosen when the rule is applied and shown in the active rule text. The shipped offline preset shown above favours the dealer; another proposal or profile may favour the player.
 
 ## Playing against it
 

@@ -1,6 +1,8 @@
 ---
-title: Shop & economy
+title: Table shop & bankroll
 ---
+This is the **table shop**, which spends bankroll. Home's [Shop](progression.html) spends tokens.
+
 The shop is open only while you are betting.
 
 - It shows **{{ fact: settings.shop.slots.value }}** different items. Each offer can be bought once.

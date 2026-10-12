@@ -1,9 +1,9 @@
 ---
 name: 平局偏移
-effect: 平局偏移：平局判给玩家（而不是退还下注）。
-effect_en: Tiebreaker Shift: ties go to Player (instead of Push).
+effect: 平局偏移：平局判给庄家，而不是和局。
+effect_en: Tiebreaker Shift: ties go to Dealer (instead of Push).
 ---
-平局不再退还下注，而是判给某一方。方向在规则生效时决定，并写在当前规则的文字里；上方默认参数是判给玩家，但混沌 AI 可以选任意一方。
+平局不再退还下注，而是判给某一方。方向在规则生效时决定，并写在当前规则的文字里。上方展示的默认离线预设判给庄家；其他提议或平衡配置也可能判给玩家。
 
 ## 应对
 

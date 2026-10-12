@@ -5,23 +5,7 @@ The Chaos AI never touches the cards. It returns a small structured JSON action,
 
 ## Poker Head
 
-**First official character**
-
-![Poker Head's official portrait: a card-headed dealer on a theatre stage](../img/poker-head.png)
-
-**“Welcome! Rest assured, at least the rules at this table still listen to reason.”**
-
-The first opponent you meet in the game, and the familiar face who stays with you the longest throughout your journey.
-
-A crisp suit, four playing cards always neatly arranged, and impeccable dealer etiquette—apart from lacking an actual head, Poker Head is almost everything you would expect from a classic casino dealer.
-
-Polite and unhurried, he greets the next round with a smile whether you have won a fortune or lost your last chip. Of course, nobody knows quite how a playing card manages to smile.
-
-Unlike the eccentric opponents who delight in breaking the rules, Poker Head prefers an honest game of Blackjack. At least, that is what he claims.
-
-**However far you travel, however many absurd games you endure, there will always be an old friend willing to play one more hand with you.**
-
-An old friend is still an old friend, of course. But he will collect every chip he is owed.
+Read the [character introduction and hosted tables](dealer-poker_head.html).
 
 ## Pipeline
 
@@ -35,17 +19,17 @@ An old friend is still an old friend, of course. But he will collect every chip 
 
 {{ table: permissions }}
 
-## Personalities
+## Hosts and optional AI profiles
 
 Prompt files shipped with the game: {{ fact: prompts }}.
 
-The default dealer appearance is **Poker Head**, with expressions and dialogue reacting to table events. This visual default keeps the usual Chaos rule weights. The separately selectable `poker_head` content pack supplies its own AI profile; do not confuse that profile with the default portrait.
+**Poker Head** hosts both the Classic Table and his own table. At Classic he keeps the rules fixed; at his own table he may change them. A mode supplies its host, rule pool, item pool and goal. The optional `poker_head` content pack has a separate AI profile; the built-in table uses the default pipeline.
 
 For a direct offline content-pack game, run `python -m chaos_blackjack.content play poker_head`, or use `python -m chaos_blackjack.agent new --pack poker_head --ai poker_head --chaos`. Its persona is polite and hostile to the player, favours small rule changes and calm rounds, and does not use the player's items.
 
 ## Asking Chaos for advice
 
-In Chaos Mode you can click the Chaos portrait while betting, during your turn, after a round, or with the shop open, to ask for a suggestion. Each time, Chaos secretly decides whether to **guide** you or **mislead** you: it guides with probability {{ fact: settings.chaos.guidance_probability.value }} and never tells you which it chose. Even "guiding" advice is not guaranteed to be right.
+At Poker Head's Table you can click the Chaos portrait while betting, during your turn, after a round, or with the shop open, to ask for a suggestion. Each time, Chaos secretly decides whether to **guide** you or **mislead** you: it guides with probability {{ fact: settings.chaos.guidance_probability.value }} and never tells you which it chose. Even "guiding" advice is not guaranteed to be right.
 
 Chaos sees more than you do when it answers (hidden cards and the deck order included), but its reply is text only: it cannot buy, play or change rules. Agents have no command for this yet. With a real model each poke is one billed request.
 

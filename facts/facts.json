@@ -1,4 +1,145 @@
 {
+  "achievements": {
+    "bare_hands": {
+      "cosmetics": [],
+      "description": "Win a run without using an item.",
+      "goal": 1,
+      "hidden": false,
+      "name": "Bare Hands",
+      "scope": "total",
+      "stat": "item_free_victories",
+      "tokens": 12
+    },
+    "blackjack_collector": {
+      "cosmetics": [
+        "card_back_royal"
+      ],
+      "description": "Get 50 blackjacks.",
+      "goal": 50,
+      "hidden": false,
+      "name": "Blackjack Collector",
+      "scope": "total",
+      "stat": "blackjacks",
+      "tokens": 10
+    },
+    "chaos_conqueror": {
+      "cosmetics": [
+        "deck_poker_head",
+        "table_poker_head"
+      ],
+      "description": "Win a run against Poker Head.",
+      "goal": 1,
+      "hidden": false,
+      "name": "Poker Face",
+      "scope": "total",
+      "stat": "victories_chaos",
+      "tokens": 10
+    },
+    "double_trouble": {
+      "cosmetics": [],
+      "description": "Double down 25 times.",
+      "goal": 25,
+      "hidden": false,
+      "name": "Double Trouble",
+      "scope": "total",
+      "stat": "doubles",
+      "tokens": 10
+    },
+    "first_win": {
+      "cosmetics": [],
+      "description": "Win a run.",
+      "goal": 1,
+      "hidden": false,
+      "name": "First Win",
+      "scope": "total",
+      "stat": "victories",
+      "tokens": 10
+    },
+    "five_card_trick": {
+      "cosmetics": [],
+      "description": "Win a hand holding five or more cards.",
+      "goal": 1,
+      "hidden": false,
+      "name": "Five Card Trick",
+      "scope": "total",
+      "stat": "five_card_hands",
+      "tokens": 8
+    },
+    "hot_streak": {
+      "cosmetics": [],
+      "description": "Win 5 hands in a row.",
+      "goal": 5,
+      "hidden": false,
+      "name": "Hot Streak",
+      "scope": "run",
+      "stat": "win_streak",
+      "tokens": 10
+    },
+    "hundred_hands": {
+      "cosmetics": [
+        "chips_gold"
+      ],
+      "description": "Win 100 hands.",
+      "goal": 100,
+      "hidden": false,
+      "name": "Hundred Hands",
+      "scope": "total",
+      "stat": "hands_won",
+      "tokens": 10
+    },
+    "marathon": {
+      "cosmetics": [],
+      "description": "Play 250 rounds.",
+      "goal": 250,
+      "hidden": false,
+      "name": "Marathon",
+      "scope": "total",
+      "stat": "rounds",
+      "tokens": 15
+    },
+    "natural_talent": {
+      "cosmetics": [],
+      "description": "Get 3 blackjacks in one run.",
+      "goal": 3,
+      "hidden": false,
+      "name": "Natural Talent",
+      "scope": "run",
+      "stat": "blackjacks",
+      "tokens": 8
+    },
+    "regular": {
+      "cosmetics": [],
+      "description": "Finish 10 runs.",
+      "goal": 10,
+      "hidden": false,
+      "name": "Regular",
+      "scope": "total",
+      "stat": "runs",
+      "tokens": 8
+    },
+    "rule_scholar": {
+      "cosmetics": [],
+      "description": "Meet 5 different Chaos rules.",
+      "goal": 5,
+      "hidden": false,
+      "name": "Rule Scholar",
+      "scope": "total",
+      "stat": null,
+      "tokens": 10
+    },
+    "white_flag": {
+      "cosmetics": [
+        "avatar_joker"
+      ],
+      "description": "Surrender 30 times.",
+      "goal": 30,
+      "hidden": true,
+      "name": "White Flag",
+      "scope": "total",
+      "stat": "surrenders",
+      "tokens": 5
+    }
+  },
   "agent": {
     "actions": {
       "bet": "start the round: bet <amount>",
@@ -32,6 +173,33 @@
     "obs_schema": 2
   },
   "assets": {
+    "avatar": {
+      "category": "avatar",
+      "file": null,
+      "name": "Player avatar",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "avatar_joker": {
+      "category": "avatar",
+      "file": null,
+      "name": "White Flag",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "avatar_spade": {
+      "category": "avatar",
+      "file": null,
+      "name": "Ace of Spades",
+      "size": [
+        256,
+        256
+      ]
+    },
     "card_back": {
       "category": "card",
       "file": null,
@@ -41,10 +209,46 @@
         768
       ]
     },
+    "card_back_crimson": {
+      "category": "card",
+      "file": null,
+      "name": "Crimson Lattice",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_back_poker_head": {
+      "category": "card",
+      "file": null,
+      "name": "Poker Head's Deck",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_back_royal": {
+      "category": "card",
+      "file": null,
+      "name": "Royal Flush",
+      "size": [
+        512,
+        768
+      ]
+    },
     "card_front_blank": {
       "category": "card",
       "file": null,
       "name": "Blank card face",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_front_poker_head": {
+      "category": "card",
+      "file": null,
+      "name": "Poker Head's Deck",
       "size": [
         512,
         768
@@ -117,6 +321,78 @@
       "category": "chip",
       "file": null,
       "name": "5 chip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_gold_1": {
+      "category": "chip",
+      "file": null,
+      "name": "Gold Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_gold_10": {
+      "category": "chip",
+      "file": null,
+      "name": "Gold Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_gold_25": {
+      "category": "chip",
+      "file": null,
+      "name": "Gold Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_gold_5": {
+      "category": "chip",
+      "file": null,
+      "name": "Gold Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_neon_1": {
+      "category": "chip",
+      "file": null,
+      "name": "Neon Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_neon_10": {
+      "category": "chip",
+      "file": null,
+      "name": "Neon Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_neon_25": {
+      "category": "chip",
+      "file": null,
+      "name": "Neon Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_neon_5": {
+      "category": "chip",
+      "file": null,
+      "name": "Neon Chips",
       "size": [
         256,
         256
@@ -212,6 +488,15 @@
         256
       ]
     },
+    "mode_poker_head": {
+      "category": "mode",
+      "file": null,
+      "name": "Poker Head",
+      "size": [
+        256,
+        256
+      ]
+    },
     "modify_card_value": {
       "category": "rule",
       "file": "assets/modify_card_value.png",
@@ -284,6 +569,33 @@
         1080
       ]
     },
+    "table_chaos": {
+      "category": "background",
+      "file": null,
+      "name": "Chaos Velvet",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "table_midnight": {
+      "category": "background",
+      "file": null,
+      "name": "Midnight Felt",
+      "size": [
+        1920,
+        1080
+      ]
+    },
+    "table_poker_head": {
+      "category": "background",
+      "file": null,
+      "name": "Poker Head's Table",
+      "size": [
+        1920,
+        1080
+      ]
+    },
     "tiebreaker_shift": {
       "category": "rule",
       "file": "assets/tiebreaker_shift.png",
@@ -295,6 +607,41 @@
     }
   },
   "changelog": [
+    {
+      "commit": "3deed1d",
+      "date": "2026-10-12",
+      "subject": "Fix iOS browser startup with trusted touch activation"
+    },
+    {
+      "commit": "1d7b5b2",
+      "date": "2026-10-12",
+      "subject": "Merge pull request #7 from fghhn13/feat/ai-modes"
+    },
+    {
+      "commit": "2ad9d3c",
+      "date": "2026-10-12",
+      "subject": "Ship all browser migrations and validate staged startup"
+    },
+    {
+      "commit": "87ad8d9",
+      "date": "2026-10-12",
+      "subject": "Merge pull request #6 from fghhn13/feat/cosmetics-achievements"
+    },
+    {
+      "commit": "d157776",
+      "date": "2026-10-12",
+      "subject": "Add native mobile name input and preserve Unicode browser saves"
+    },
+    {
+      "commit": "095d0fa",
+      "date": "2026-10-12",
+      "subject": "Keep loading feedback compatible with existing browser tabs"
+    },
+    {
+      "commit": "61fcc52",
+      "date": "2026-10-12",
+      "subject": "Improve browser startup compression, caching and loading feedback"
+    },
     {
       "commit": "b436e1d",
       "date": "2026-10-11",
@@ -459,11 +806,6 @@
       "commit": "6bd948c",
       "date": "2026-04-03",
       "subject": "MPV"
-    },
-    {
-      "commit": "e37ebb1",
-      "date": "2026-04-03",
-      "subject": "first commition"
     }
   ],
   "chaos_rules": {
@@ -500,13 +842,13 @@
       "stub_weight": 10.0
     },
     "modify_card_value": {
-      "effect": "Rank values shifted by -2 per card (until cleared).",
+      "effect": "Rank values shifted by -1 per card (until cleared).",
       "enabled": true,
       "flags": [],
       "icon": "assets/modify_card_value.png",
       "name": "Value Shift",
       "params": {
-        "delta": -2
+        "delta": -1
       },
       "profiles": [
         "easy",
@@ -562,10 +904,10 @@
       "stub_weight": 20.0
     },
     "tiebreaker_shift": {
-      "effect": "Tiebreaker Shift: ties go to Player (instead of Push).",
+      "effect": "Tiebreaker Shift: ties go to Dealer (instead of Push).",
       "enabled": true,
       "flags": [
-        "player_wins_ties"
+        "dealer_wins_ties"
       ],
       "icon": "assets/tiebreaker_shift.png",
       "name": "Tiebreaker Shift",
@@ -577,21 +919,295 @@
       "stub_weight": 15.0
     }
   },
+  "cosmetics": {
+    "avatar_joker": {
+      "achievements": [
+        "white_flag"
+      ],
+      "assets": {
+        "avatar": "avatar_joker"
+      },
+      "default": false,
+      "description": "For those who know when to fold.",
+      "hidden": true,
+      "name": "White Flag",
+      "preview_asset": "avatar_joker",
+      "price": null,
+      "rarity": "rare",
+      "series": "core",
+      "slot": "avatar"
+    },
+    "avatar_spade": {
+      "achievements": [],
+      "assets": {
+        "avatar": "avatar_spade"
+      },
+      "default": false,
+      "description": "Sharp and simple.",
+      "hidden": false,
+      "name": "Ace of Spades",
+      "preview_asset": "avatar_spade",
+      "price": 30,
+      "rarity": "common",
+      "series": "core",
+      "slot": "avatar"
+    },
+    "avatar_standard": {
+      "achievements": [],
+      "assets": {
+        "avatar": "avatar"
+      },
+      "default": true,
+      "description": "A seat at the table.",
+      "hidden": false,
+      "name": "Newcomer",
+      "preview_asset": "avatar",
+      "price": null,
+      "rarity": "common",
+      "series": "core",
+      "slot": "avatar"
+    },
+    "card_back_crimson": {
+      "achievements": [],
+      "assets": {
+        "card_back": "card_back_crimson",
+        "card_front_blank": "card_front_blank"
+      },
+      "default": false,
+      "description": "A deep red lattice back.",
+      "hidden": false,
+      "name": "Crimson Lattice",
+      "preview_asset": "card_back_crimson",
+      "price": 40,
+      "rarity": "common",
+      "series": "core",
+      "slot": "deck"
+    },
+    "card_back_royal": {
+      "achievements": [
+        "blackjack_collector"
+      ],
+      "assets": {
+        "card_back": "card_back_royal",
+        "card_front_blank": "card_front_blank"
+      },
+      "default": false,
+      "description": "Gold leaf for blackjack collectors.",
+      "hidden": false,
+      "name": "Royal Flush",
+      "preview_asset": "card_back_royal",
+      "price": null,
+      "rarity": "epic",
+      "series": "core",
+      "slot": "deck"
+    },
+    "card_back_standard": {
+      "achievements": [],
+      "assets": {
+        "card_back": "card_back",
+        "card_front_blank": "card_front_blank"
+      },
+      "default": true,
+      "description": "The casino's own deck.",
+      "hidden": false,
+      "name": "House Standard",
+      "preview_asset": "card_back",
+      "price": null,
+      "rarity": "common",
+      "series": "core",
+      "slot": "deck"
+    },
+    "chips_gold": {
+      "achievements": [
+        "hundred_hands"
+      ],
+      "assets": {
+        "chip_1": "chips_gold_1",
+        "chip_10": "chips_gold_10",
+        "chip_25": "chips_gold_25",
+        "chip_5": "chips_gold_5"
+      },
+      "default": false,
+      "description": "Earned over a hundred winning hands.",
+      "hidden": false,
+      "name": "Gold Chips",
+      "preview_asset": "chips_gold_1",
+      "price": null,
+      "rarity": "epic",
+      "series": "core",
+      "slot": "chips"
+    },
+    "chips_neon": {
+      "achievements": [],
+      "assets": {
+        "chip_1": "chips_neon_1",
+        "chip_10": "chips_neon_10",
+        "chip_25": "chips_neon_25",
+        "chip_5": "chips_neon_5"
+      },
+      "default": false,
+      "description": "Chips that glow under the lamp.",
+      "hidden": false,
+      "name": "Neon Chips",
+      "preview_asset": "chips_neon_1",
+      "price": 50,
+      "rarity": "rare",
+      "series": "core",
+      "slot": "chips"
+    },
+    "chips_standard": {
+      "achievements": [],
+      "assets": {
+        "chip_1": "chip_1",
+        "chip_10": "chip_10",
+        "chip_25": "chip_25",
+        "chip_5": "chip_5"
+      },
+      "default": true,
+      "description": "The casino's chips.",
+      "hidden": false,
+      "name": "House Chips",
+      "preview_asset": "chip_1",
+      "price": null,
+      "rarity": "common",
+      "series": "core",
+      "slot": "chips"
+    },
+    "deck_poker_head": {
+      "achievements": [
+        "chaos_conqueror"
+      ],
+      "assets": {
+        "card_back": "card_back_poker_head",
+        "card_front_blank": "card_front_poker_head"
+      },
+      "default": false,
+      "description": "Poker Head's own cards, earned at his table.",
+      "hidden": false,
+      "name": "Poker Head's Deck",
+      "preview_asset": "card_back_poker_head",
+      "price": null,
+      "rarity": "legendary",
+      "series": "poker_head",
+      "slot": "deck"
+    },
+    "table_chaos": {
+      "achievements": [],
+      "assets": {
+        "table_background": "table_chaos"
+      },
+      "default": false,
+      "description": "Purple velvet for a chaotic evening.",
+      "hidden": false,
+      "name": "Chaos Velvet",
+      "preview_asset": "table_chaos",
+      "price": 80,
+      "rarity": "epic",
+      "series": "core",
+      "slot": "table"
+    },
+    "table_midnight": {
+      "achievements": [],
+      "assets": {
+        "table_background": "table_midnight"
+      },
+      "default": false,
+      "description": "Dark blue felt for late games.",
+      "hidden": false,
+      "name": "Midnight Felt",
+      "preview_asset": "table_midnight",
+      "price": 60,
+      "rarity": "rare",
+      "series": "core",
+      "slot": "table"
+    },
+    "table_poker_head": {
+      "achievements": [
+        "chaos_conqueror"
+      ],
+      "assets": {
+        "table_background": "table_poker_head"
+      },
+      "default": false,
+      "description": "Green felt and old gold, from his own room.",
+      "hidden": false,
+      "name": "Poker Head's Table",
+      "preview_asset": "table_poker_head",
+      "price": null,
+      "rarity": "legendary",
+      "series": "poker_head",
+      "slot": "table"
+    },
+    "table_standard": {
+      "achievements": [],
+      "assets": {
+        "table_background": "table_background"
+      },
+      "default": true,
+      "description": "Classic green felt.",
+      "hidden": false,
+      "name": "Casino Green",
+      "preview_asset": "table_background",
+      "price": null,
+      "rarity": "common",
+      "series": "core",
+      "slot": "table"
+    }
+  },
+  "dealers": {
+    "poker_head": {
+      "name": "Poker Head",
+      "portrait_asset": "default_poker_head_welcome",
+      "profile": [
+        "Sharp suit, faultless manners, four cards always in perfect order. Poker Head is always happy to play one more hand with you, and always collects the chips he is owed without the slightest hurry.",
+        "He claims to love honest blackjack. How much of that is true, you are welcome to sit down and find out."
+      ],
+      "quote": "Old friends are old friends, but the chips still get counted.",
+      "tables": [
+        "normal",
+        "chaos"
+      ]
+    }
+  },
+  "deck": {
+    "cards": 52,
+    "reset": "round"
+  },
   "design_docs": {
+    "ai-modes": {
+      "blob": "9ece66a93360",
+      "commit": "cce7417",
+      "date": "2026-10-12",
+      "on_main": true,
+      "path": "docs/design/AI_MODES.md",
+      "ref": "main",
+      "status": "agreed",
+      "title": "AI modes: one dealer per mode"
+    },
     "codex": {
-      "blob": "59faeb3196e5",
-      "commit": "6be8e02",
-      "date": "2026-10-11",
+      "blob": "890abc246bde",
+      "commit": "6eba56e",
+      "date": "2026-10-12",
       "on_main": true,
       "path": "docs/design/CODEX.md",
       "ref": "main",
       "status": null,
       "title": "Headless codex and controller demonstrations (M4a)"
     },
+    "cosmetics-achievements": {
+      "blob": "5710550aab3b",
+      "commit": "cce7417",
+      "date": "2026-10-12",
+      "on_main": true,
+      "path": "docs/design/COSMETICS_ACHIEVEMENTS.md",
+      "ref": "main",
+      "status": "agreed",
+      "title": "Cosmetics, achievements and the player profile"
+    },
     "meta-progression": {
-      "blob": "61b37b6dc12c",
-      "commit": "6be8e02",
-      "date": "2026-10-11",
+      "blob": "b4f8ce97dc79",
+      "commit": "cce7417",
+      "date": "2026-10-12",
       "on_main": true,
       "path": "docs/design/META_PROGRESSION.md",
       "ref": "main",
@@ -697,7 +1313,17 @@
     "chaotic",
     "poke"
   ],
-  "schema": 1,
+  "schema": 2,
+  "series": {
+    "core": {
+      "expansion": false,
+      "name": "Classic Table"
+    },
+    "poker_head": {
+      "expansion": true,
+      "name": "Poker Head"
+    }
+  },
   "settings": {
     "bet.max_fraction": {
       "description": "Largest bet as a share of the bankroll (rounded down)",
@@ -932,7 +1558,7 @@
       "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "b436e1d",
+    "game_commit": "3deed1d",
     "measured": {
       "bands": [
         {
@@ -1059,25 +1685,25 @@
       "runs": {
         "bands": {
           "args": "check",
-          "balance": "default@4a1c35ec8128",
+          "balance": "default@9373b51beb48",
           "seed": 1,
           "title": "Balance bands"
         },
         "edge": {
           "args": "edge --rules all",
-          "balance": "default@4a1c35ec8128",
+          "balance": "default@9373b51beb48",
           "seed": 1,
           "title": "Player EV per round (basic strategy, 20000 rounds)"
         },
         "items": {
           "args": "items --rules none",
-          "balance": "default@4a1c35ec8128",
+          "balance": "default@9373b51beb48",
           "seed": 1,
           "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
         }
       }
     },
-    "measured_on": "b436e1d",
+    "measured_on": "3deed1d",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -1102,11 +1728,78 @@
     }
   },
   "source": {
-    "commit": "b436e1d",
-    "date": "2026-10-11",
+    "commit": "3deed1d",
+    "date": "2026-10-12",
     "ref": "main",
-    "subject": "Revise run economy and use Poker Head as the default dealer",
+    "subject": "Fix iOS browser startup with trusted touch activation",
     "version": "0.2.0"
+  },
+  "tables": {
+    "chaos": {
+      "ai_id": "default",
+      "blackjack_pays": [
+        3,
+        2
+      ],
+      "chaos": true,
+      "description": "Familiar blackjack, with a dealer fond of small adjustments. Watch the rule change announced each round and adapt your strategy.",
+      "host": "poker_head",
+      "icon_asset": "mode_poker_head",
+      "item_pool": null,
+      "items": [
+        "danger_radar",
+        "fate_oracle",
+        "hole_card_hacker",
+        "peek",
+        "shield",
+        "swap"
+      ],
+      "max_bet_fraction": 0.5,
+      "min_bet": 5,
+      "name": "Poker Head's Table",
+      "rule_pool": null,
+      "rules": [
+        "fragile_bust",
+        "great_crash",
+        "modify_card_value",
+        "odd_even_chaos",
+        "reverse_bust",
+        "suit_power",
+        "tiebreaker_shift"
+      ],
+      "series": "poker_head",
+      "start_money": 100,
+      "target_money": 300,
+      "unlocked_by": null
+    },
+    "normal": {
+      "ai_id": "default",
+      "blackjack_pays": [
+        3,
+        2
+      ],
+      "chaos": false,
+      "description": "Poker Head deals by the book and the rules never change. Know your blackjack and win each hand on judgement.",
+      "host": "poker_head",
+      "icon_asset": "mode_normal",
+      "item_pool": null,
+      "items": [
+        "danger_radar",
+        "fate_oracle",
+        "hole_card_hacker",
+        "peek",
+        "swap"
+      ],
+      "max_bet_fraction": 0.5,
+      "min_bet": 5,
+      "name": "Classic Table",
+      "rule_pool": [],
+      "rules": [],
+      "series": "core",
+      "start_money": 100,
+      "target_money": 300,
+      "unlocked_by": null
+    }
   },
   "transcript": {
     "chaos": true,
@@ -1361,5 +2054,133 @@
         "ok": true
       }
     ]
+  },
+  "upgrades": {
+    "bag_space": {
+      "cost": 25,
+      "cost_step": 15,
+      "description": "Bring 1 more kind(s) of consumable to each run.",
+      "effect": "meta.bring_kinds_add",
+      "kind": "permanent",
+      "max_level": 2,
+      "mode": null,
+      "name": "Bag Space",
+      "params": {
+        "amount": 1
+      },
+      "requires": null
+    },
+    "reroll_pass": {
+      "cost": 30,
+      "cost_step": 0,
+      "description": "Reroll the table shop 1 time(s) per run for free.",
+      "effect": "shop.free_rerolls_add",
+      "kind": "permanent",
+      "max_level": 1,
+      "mode": null,
+      "name": "Reroll Pass",
+      "params": {
+        "amount": 1
+      },
+      "requires": null
+    },
+    "start_danger_radar": {
+      "cost": 3,
+      "cost_step": 0,
+      "description": "Start the run with a Danger Radar in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Danger Radar",
+      "params": {
+        "item": "danger_radar"
+      },
+      "requires": null
+    },
+    "start_fate_oracle": {
+      "cost": 15,
+      "cost_step": 0,
+      "description": "Start the run with a Fate Oracle in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Fate Oracle",
+      "params": {
+        "item": "fate_oracle"
+      },
+      "requires": null
+    },
+    "start_hole_card_hacker": {
+      "cost": 8,
+      "cost_step": 0,
+      "description": "Start the run with a Hole Card Hacker in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Hole Card Hacker",
+      "params": {
+        "item": "hole_card_hacker"
+      },
+      "requires": null
+    },
+    "start_money": {
+      "cost": 20,
+      "cost_step": 10,
+      "description": "Start every run with +10 chips.",
+      "effect": "run.start_money_add",
+      "kind": "permanent",
+      "max_level": 3,
+      "mode": null,
+      "name": "Deeper Pockets",
+      "params": {
+        "amount": 10
+      },
+      "requires": null
+    },
+    "start_peek": {
+      "cost": 4,
+      "cost_step": 0,
+      "description": "Start the run with a Peek in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Peek",
+      "params": {
+        "item": "peek"
+      },
+      "requires": null
+    },
+    "start_shield": {
+      "cost": 8,
+      "cost_step": 0,
+      "description": "Start the run with a Shield in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Shield",
+      "params": {
+        "item": "shield"
+      },
+      "requires": null
+    },
+    "start_swap": {
+      "cost": 6,
+      "cost_step": 0,
+      "description": "Start the run with a Swap in your inventory.",
+      "effect": "run.starting_item",
+      "kind": "consumable",
+      "max_level": 3,
+      "mode": null,
+      "name": "Starter: Swap",
+      "params": {
+        "item": "swap"
+      },
+      "requires": null
+    }
   }
 }

@@ -81,10 +81,42 @@ UI: dict[str, dict[str, str]] = {
     },
 }
 
+UI["en"].update({
+    "g_tables": "Tables and dealers", "g_growth": "Progression and collection",
+    "host": "Dealer", "tables": "Tables", "goal": "Goal", "rule_count": "Rules", "item_count": "Items",
+    "released": "In game main", "rules": "Chaos rules", "items": "Items", "bet_limits": "Bet range",
+    "bankroll": "bankroll", "payout": "Natural payout", "tokens": "tokens", "token_cost": "Token cost",
+    "max_level": "Max level / copies", "kind": "Kind", "permanent": "Permanent", "consumable": "Starter item",
+    "all_tables": "All tables", "deck": "Deck", "table": "Table", "chips": "chips", "avatar": "Avatar",
+    "slot": "Slot", "obtain": "How to obtain", "default_owned": "Owned by default",
+    "condition": "Condition", "scope": "Scope", "total": "Lifetime", "run": "Single run", "reward": "Reward",
+    "spoilers": "Hidden content — reveal spoilers",
+    "editorial_draft": "Design draft · supplied by the author for this wiki · not implemented in game main. "
+                       "Rules and items below are examples; prices, tuning and balance results are not defined.",
+})
+UI["zh"].update({
+    "g_tables": "牌桌与荷官", "g_growth": "成长与收藏",
+    "host": "荷官", "tables": "适用牌桌", "goal": "目标", "rule_count": "规则数", "item_count": "道具数",
+    "released": "已进入游戏 main", "rules": "混沌规则", "items": "道具", "bet_limits": "下注范围",
+    "bankroll": "当前资金", "payout": "天生 21 点赔率", "tokens": "代币", "token_cost": "代币价格",
+    "max_level": "最高等级／持有上限", "kind": "类型", "permanent": "永久升级", "consumable": "开局物品",
+    "all_tables": "所有牌桌", "deck": "牌组", "table": "牌桌", "avatar": "头像",
+    "slot": "装扮部位", "obtain": "获取方式", "default_owned": "默认拥有",
+    "condition": "条件", "scope": "统计范围", "total": "累计", "run": "单轮", "reward": "奖励",
+    "spoilers": "隐藏内容 — 展开查看剧透",
+    "editorial_draft": "设计草案 · 作者提供给本 Wiki · 尚未在游戏 main 实现。"
+                       "下列规则与道具为设计示例，价格、具体参数和实测结果尚未确定。",
+})
+
 # (slug, nav group). Page text lives in content/<lang>/<slug>.md.
 PAGES: list[tuple[str, str]] = [
-    ("index", "g_start"), ("rules", "g_start"), ("shop", "g_start"), ("play", "g_start"), ("agents", "g_start"),
+    ("index", "g_start"), ("play", "g_start"), ("rules", "g_start"),
+    ("tables", "g_tables"), ("dealers", "g_tables"),
+    ("dealer-j54", "g_tables"), ("table-j54", "g_tables"),
     ("chaos", "g_catalog"), ("items", "g_catalog"),
+    ("progression", "g_growth"), ("profile", "g_growth"), ("shop", "g_growth"),
+    ("cosmetics", "g_growth"), ("achievements", "g_growth"),
+    ("agents", "g_inside"),
     ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("balance", "g_inside"), ("simulator", "g_inside"),
     ("architecture", "g_inside"),
     ("design", "g_design"),

@@ -20,9 +20,11 @@ IMG = F.ROOT / "facts" / "img"
 STAMP = SITE / ".stamp"
 
 PLACEHOLDER = re.compile(r"\{\{\s*(\w+)\s*(?::\s*([^}]*?))?\s*\}\}")
-ENTITY = {"chaos_rules": ("rule", "chaos"), "items": ("item", "items")}  # collection -> (page prefix, folder)
+ENTITY = {"chaos_rules": ("rule", "chaos"), "items": ("item", "items"),
+          "tables": ("table", "tables"), "dealers": ("dealer", "dealers")}
 # Catalog page -> (collection, page prefix) whose entries are listed under it in the nav.
-NAV_SUBS = {"chaos": ("chaos_rules", "rule"), "items": ("items", "item"), "design": ("design_docs", "design")}
+NAV_SUBS = {"chaos": ("chaos_rules", "rule"), "items": ("items", "item"), "design": ("design_docs", "design"),
+            "tables": ("tables", "table"), "dealers": ("dealers", "dealer")}
 
 
 def input_hash() -> str:
@@ -102,6 +104,24 @@ class Site:
             if ok and meta.get(key) and meta.get(f"{key}_en") == current:
                 return self.expand_inline(meta[key], f"{coll}.{eid}"), True
         return current, self.lang == "en"
+
+    def catalog_text(self, coll: str, eid: str, key: str = "name") -> str:
+        entry = self.facts[coll][eid]
+        if coll in ("tables", "dealers") and key == "name":
+            return self.name(coll, eid)
+        text = str(entry.get(key) or "")
+        translated = self._strings().get("catalog", {}).get(coll, {}).get(eid, {})
+        if self.lang != "en" and translated.get(f"{key}_en") == text:
+            return self.expand_inline(translated.get(key) or text, f"{coll}.{eid}.{key}")
+        return text
+
+    def entity_link(self, coll: str, eid: str) -> str:
+        return f'<a href="{ENTITY[coll][0]}-{eid}.html">{html.escape(self.name(coll, eid))}</a>'
+
+    def table_links(self, coll: str, eid: str) -> str:
+        pool = "rules" if coll == "chaos_rules" else "items"
+        return ", ".join(self.entity_link("tables", tid) for tid, table in self.facts.get("tables", {}).items()
+                         if eid in table[pool]) or self.t["none"]
 
     # --- placeholders ------------------------------------------------------
 
@@ -190,6 +210,59 @@ class Site:
 
     def t_item_cards(self) -> str:
         return self._cards("items")
+
+    def t_tables(self) -> str:
+        rows = []
+        for tid, table in sorted(self.facts.get("tables", {}).items(), key=lambda pair: (pair[1]["series"] != "core", pair[0])):
+            rows.append([self.entity_link("tables", tid), self.entity_link("dealers", table["host"]),
+                         html.escape(self.catalog_text("tables", tid, "description")),
+                         f'{table["start_money"]} → {table["target_money"]}',
+                         str(len(table["rules"])), str(len(table["items"]))])
+        return self._table(["name", "host", "description", "goal", "rule_count", "item_count"], rows, "catalog")
+
+    def t_dealers(self) -> str:
+        rows = [[self.entity_link("dealers", did), self.t["released"],
+                 ", ".join(self.entity_link("tables", tid) for tid in dealer["tables"])]
+                for did, dealer in self.facts.get("dealers", {}).items()]
+        return self._table(["name", "state", "tables"], rows)
+
+    def t_upgrades(self) -> str:
+        rows = []
+        for uid, entry in self.facts.get("upgrades", {}).items():
+            cost = " / ".join(str(entry["cost"] + level * entry["cost_step"])
+                              for level in range(entry["max_level"])) if entry["kind"] == "permanent" else str(entry["cost"])
+            scope = self.entity_link("tables", entry["mode"]) if entry["mode"] else self.t["all_tables"]
+            rows.append([html.escape(self.catalog_text("upgrades", uid)), self.t[entry["kind"]],
+                         html.escape(self.catalog_text("upgrades", uid, "description")), cost,
+                         str(entry["max_level"]), scope])
+        return self._table(["name", "kind", "effect", "token_cost", "max_level", "tables"], rows, "catalog")
+
+    def t_cosmetics(self) -> str:
+        rows, hidden = [], []
+        for cid, entry in self.facts.get("cosmetics", {}).items():
+            sources = []
+            if entry["default"]:
+                sources.append(self.t["default_owned"])
+            if entry["price"] is not None:
+                sources.append(f'{entry["price"]} {self.t["tokens"]}')
+            sources += [html.escape(self.catalog_text("achievements", aid)) for aid in entry["achievements"]]
+            row = [html.escape(self.catalog_text("cosmetics", cid)), self.t[entry["slot"]],
+                   html.escape(self.catalog_text("cosmetics", cid, "description")), ", ".join(sources) or self.t["not_sold"]]
+            (hidden if entry["hidden"] else rows).append(row)
+        head = ["name", "slot", "description", "obtain"]
+        return self._table(head, rows, "catalog") + (f'<details><summary>{self.t["spoilers"]}</summary>{self._table(head, hidden, "catalog")}</details>' if hidden else "")
+
+    def t_achievements(self) -> str:
+        rows, hidden = [], []
+        for aid, entry in self.facts.get("achievements", {}).items():
+            reward = [f'{entry["tokens"]} {self.t["tokens"]}'] if entry["tokens"] else []
+            reward += [html.escape(self.catalog_text("cosmetics", cid)) for cid in entry["cosmetics"]]
+            row = [html.escape(self.catalog_text("achievements", aid)),
+                   html.escape(self.catalog_text("achievements", aid, "description")),
+                   str(entry["goal"]), self.t[entry["scope"]], ", ".join(reward) or self.t["none"]]
+            (hidden if entry["hidden"] else rows).append(row)
+        head = ["name", "condition", "goal", "scope", "reward"]
+        return self._table(head, rows, "catalog") + (f'<details><summary>{self.t["spoilers"]}</summary>{self._table(head, hidden, "catalog")}</details>' if hidden else "")
 
     def t_settings(self) -> str:
         zh = self._strings().get("settings", {})
@@ -286,12 +359,16 @@ class Site:
         if not body and not meta:
             self.errors.append(f"content/en/{slug}.md is missing")
         article = self.expand(body, f"{self.lang}/{slug}.md")
+        if meta.get("status") == "draft":
+            article = f'<div class="banner planned">{self.t["editorial_draft"]}</div>' + article
         if not ok:
             article = f'<p class="notice">{self.t["untranslated"]}</p>' + article
         title = meta.get("title", slug)
         return self.layout(slug, title, f"<h1>{html.escape(title)}</h1>{article}", self._heads)
 
     def entity(self, coll: str, eid: str) -> str:
+        if coll in ("tables", "dealers"):
+            return self.catalog_entity(coll, eid)
         prefix, _ = ENTITY[coll]
         e = self.facts[coll][eid]
         meta, body, ok = self.entity_text(coll, eid)
@@ -317,6 +394,8 @@ class Site:
             if gain:
                 rows.append(["sim_item_gain", f'{self._ev_pill(gain["ev"])} <span class="muted">{html.escape(gain["se"])}</span>'
                                               f' · <a href="balance.html">{self.t["sim_more"]}</a>'])
+        if self.facts.get("tables"):
+            rows.append(["tables", self.table_links(coll, eid)])
         facts_tbl = "".join(f"<tr><th>{self.t[k]}</th><td>{v}</td></tr>" for k, v in rows)
         note = "" if text_ok else f' <span class="badge" title="{self.t["untranslated"]}">EN</span>'
         prose = self.expand(body, where) if body.strip() else f'<p class="muted">{self.t["no_notes"]}</p>'
@@ -328,6 +407,27 @@ class Site:
                  f'<p class="lead">{inline(text)}{note}</p></div></div>'
                  f'<div class="table-wrap"><table class="facts">{facts_tbl}</table></div>{prose}')
         return self.layout(f"{prefix}-{eid}", name, html_, self._heads if body.strip() else [], active=back)
+
+    def catalog_entity(self, coll: str, eid: str) -> str:
+        entry = self.facts[coll][eid]
+        _, body, ok = self.entity_text(coll, eid)
+        name = self.name(coll, eid)
+        rows = []
+        if coll == "tables":
+            rows = [["host", self.entity_link("dealers", entry["host"])],
+                    ["goal", f'{entry["start_money"]} → {entry["target_money"]}'],
+                    ["bet_limits", f'{entry["min_bet"]} – {entry["max_bet_fraction"]} × {self.t["bankroll"]}'],
+                    ["payout", ":".join(map(str, entry["blackjack_pays"]))],
+                    ["rules", ", ".join(self.entity_link("chaos_rules", rid) for rid in entry["rules"]) or self.t["none"]],
+                    ["items", ", ".join(self.entity_link("items", iid) for iid in entry["items"]) or self.t["none"]]]
+        else:
+            rows = [["tables", ", ".join(self.entity_link("tables", tid) for tid in entry["tables"])]]
+        table = self._table(["key", "value"], [[self.t[key], value] for key, value in rows])
+        prose = self.expand(body, f"{self.lang}/{coll}/{eid}.md")
+        if not ok:
+            prose = f'<p class="notice">{self.t["untranslated"]}</p>' + prose
+        article = f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.t["released"]}</span>{table}{prose}'
+        return self.layout(f"{ENTITY[coll][0]}-{eid}", name, article, self._heads, active=coll)
 
     def design_doc(self, d: str) -> str:
         doc = self.facts["design_docs"][d]
@@ -447,10 +547,13 @@ class Site:
         for page, group in PAGES:
             meta, _, _ = self._read(f"{page}.md")
             cur = ' aria-current="page"' if page == active else ""
-            groups.setdefault(group, []).append(f'<a href="{page}.html"{cur}>{html.escape(meta.get("title", page))}</a>')
+            sub = ' class="sub"' if meta.get("parent") else ""
+            groups.setdefault(group, []).append(f'<a href="{page}.html"{sub}{cur}>{html.escape(meta.get("title", page))}</a>')
             if page in NAV_SUBS:
                 coll, prefix = NAV_SUBS[page]
-                for eid in self.facts.get(coll, {}):
+                entries = self.facts.get(coll, {})
+                order = sorted(entries, key=lambda eid: (entries[eid].get("series") != "core", eid)) if coll == "tables" else entries
+                for eid in order:
                     cur = ' aria-current="page"' if slug == f"{prefix}-{eid}" else ""
                     groups[group].append(f'<a class="sub" href="{prefix}-{eid}.html"{cur}>{html.escape(self.name(coll, eid))}</a>')
         nav = "".join(f'<div class="group"><p>{t[g]}</p>{"".join(links)}</div>' for g, links in groups.items())

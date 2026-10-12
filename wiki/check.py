@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+import json
 import shutil
 import tempfile
 from pathlib import Path
@@ -20,6 +21,7 @@ def problems() -> tuple[list[str], list[str]]:
     facts = F.load()
     if not facts:
         return ["facts/facts.json is missing; run `python -m wiki sync`"], []
+    errors += catalog_references(facts)
 
     # Placeholders and missing pages: a scratch build reports them.
     tmp = Path(tempfile.mkdtemp(prefix="wiki-check-"))
@@ -50,7 +52,7 @@ def problems() -> tuple[list[str], list[str]]:
                 warnings.append(f"{lang}: design page {d} was written from blob {meta.get('source_blob')}, "
                                 f"the doc is now {doc['blob']} ({doc['ref']}); update it and `source_blob`")
     for coll, folder in F.PROSE_FOLDERS.items():
-        if coll == "design_docs":
+        if coll not in ("chaos_rules", "items"):
             continue
         key = "effect" if coll == "chaos_rules" else "help"
         for eid, e in facts.get(coll, {}).items():
@@ -64,11 +66,38 @@ def problems() -> tuple[list[str], list[str]]:
                                     f"(update `{key}` and set `{key}_en` to it)")
 
     # Stamp: site/ must be built from the current facts + content.
+    for lang in F.LANGS[1:]:
+        path = F.CONTENT / lang / "strings.json"
+        translations = json.loads(path.read_text(encoding="utf-8")).get("catalog", {}) if path.exists() else {}
+        for coll in ("tables", "upgrades", "cosmetics", "achievements"):
+            for eid, entry in facts.get(coll, {}).items():
+                for key in (("description",) if coll == "tables" else ("name", "description")):
+                    text = translations.get(coll, {}).get(eid, {})
+                    if not text.get(key) or text.get(f"{key}_en") != entry.get(key):
+                        warnings.append(f"{lang}: {coll}.{eid} {key} translation missing or stale")
     if not STAMP.exists():
         errors.append("site/ was never built; run `python -m wiki build`")
     elif STAMP.read_text(encoding="utf-8").strip() != input_hash():
         errors.append("site/ is out of date with facts/content; run `python -m wiki build`")
     return errors, warnings
+
+
+def catalog_references(facts: dict) -> list[str]:
+    """Reject broken graph edges before rendering tables or rewards."""
+    errors = []
+    edges = {"tables": {"host": "dealers", "series": "series", "rules": "chaos_rules", "items": "items"},
+             "dealers": {"tables": "tables"}, "upgrades": {"mode": "tables", "requires": "upgrades"},
+             "cosmetics": {"series": "series", "achievements": "achievements"},
+             "achievements": {"cosmetics": "cosmetics"}}
+    for coll, fields in edges.items():
+        for eid, entry in facts.get(coll, {}).items():
+            for field, target in fields.items():
+                values = entry.get(field)
+                values = values if isinstance(values, list) else [values] if values is not None else []
+                for value in values:
+                    if value not in facts.get(target, {}):
+                        errors.append(f"{coll}.{eid}.{field}: unknown {target} id `{value}`")
+    return errors
 
 
 def _links(site: Path) -> list[str]:

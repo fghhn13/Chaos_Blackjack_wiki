@@ -1,6 +1,8 @@
 ---
-title: 商店与经济
+title: 局内商店与筹码
 ---
+本页介绍花本轮筹码的**局内商店**；主页花代币的 [Shop](progression.html)另见玩家成长。
+
 商店只在下注阶段开放。
 
 - 每次上架 **{{ fact: settings.shop.slots.value }}** 种不同的道具，每件只能买一次。

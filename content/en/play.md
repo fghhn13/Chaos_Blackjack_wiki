@@ -1,41 +1,43 @@
 ---
 title: How to play
 ---
-## Pygame window
+## Desktop
 
 ```bash
 pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
+On Windows, `start_game.bat` also launches the game. Create a player with **Start game**, then choose [Classic Table](table-normal.html) or [Poker Head's Table](table-chaos.html) in **New run**. Review the table's goal, bets, rules, host and payout, then choose the starter items to bring. Nothing is consumed until **Start run**.
+
+New runs begin with the host's dialogue. Enter / click advances and Escape skips. **Continue run** resumes a checkpoint without replaying the introduction.
+
 | Phase | Mouse | Keyboard |
 | --- | --- | --- |
-| Betting | left-click a chip to add, right-click to remove; Clear / Max; Shop | ↑ / ↓ ±1, Enter deals, B opens the shop (1–3 buy) |
-| Your turn | Hit / Stand / Double / Surrender buttons | H / S / D / R |
+| Betting | left-click chips to add, right-click to remove; Clear / Max; table Shop | Up / Down adjusts, Enter deals, B opens Shop |
+| Your turn | Hit / Stand / Double / Surrender; inventory | H / S / D / R; I opens inventory |
 | Round over | Next Round | Enter |
-| Chaos Mode | click the Chaos portrait to [ask for advice](chaos-ai.html#asking-chaos-for-advice) | — |
-| Anywhere | — | Esc menu (asks first), F11 fullscreen, M mute, + / − volume, F5 reload art and sounds |
+| Poker Head's Table | click the host portrait for advice | Enter closes the reply |
+| Anywhere | Settings | Escape confirms leaving; F11 fullscreen; M mute; + / − volume; F5 reload art and sounds |
 
-The game opens on **Home**. Create a named player with **Start game**; the **Players** page lets you switch, rename or delete saves. In **New run**, choose Classic or Chaos, review permanent upgrades and select consumables. Only **Start run** consumes selected items; you may bring {{ fact: settings.meta.bring_kinds.value }} different kinds before Bag Space upgrades.
+Home's **Shop** uses tokens for upgrades, cosmetics and starter items. The **table Shop** uses this run's bankroll. See [Player progression](progression.html). Click the player badge for [Profile](profile.html); **Switch player** manages slots.
 
-Home offers **Continue run**, **Upgrades**, **Collection** and **Run history**. Runs save automatically; leaving the table with Escape asks you to abandon the run, which pays no tokens. Wins pay {{ fact: settings.meta.win_tokens.value }} tokens, plus {{ fact: settings.meta.chaos_win_bonus.value }} in Chaos; losses receive consolation capped at {{ fact: settings.meta.loss_cap.value }}. See [Meta progression](design-meta-progression.html) for the reward formula and upgrade catalog.
+**Collection** is grouped by Classic Table and dealer series. The Classic section contains the core table and common items; Poker Head's section introduces his character, rule pool and table-only items. Tab changes section; wheel or Page Up / Page Down scrolls. Rule/item details can show deterministic offline demos: Space pauses, R replays, Left / Right steps. Demos do not spend tokens or alter player progress.
 
-**Collection** shows rules, items, modes and AI profiles with live details and offline demos. Space pauses, R replays and Left / Right steps through frames. Demos do not change player progress. Art is optional: every image has a drawn placeholder (see the [art gallery](gallery.html)).
+## Browser and phones
 
-## Browser edition
+The authenticated browser edition runs the same Pygame game in WebAssembly, with account saves. Registration requires a 16-digit invitation token. The first load may take time; loading feedback distinguishes downloading from starting. If prompted, tap **Start game** to start playback and unlock browser sound, including on iOS Safari. Browsers that allow audio automatically may skip that prompt. On touch devices, name creation and renaming use a native input field supporting composition; Save / Done confirms, Cancel keeps the existing name.
 
-The authenticated browser edition runs the original Pygame interface in WebAssembly, including progression, upgrades and account saves. Registration requires a 16-digit invitation token. See the game's [browser compatibility and builds](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md) and [deployment guide](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md) for access and hosting details.
+See [browser compatibility and builds](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md) and [deployment instructions](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md).
 
-## Text CLI
+## Text CLI and agents
 
 ```bash
-python cli/main.py                 # menu: new game, load game, quit
+python cli/main.py
 python cli/main.py --enable-chaos
-python cli/main.py demo            # one automated round
+python -m chaos_blackjack.agent new --seed 7 --chaos
 ```
 
-The text CLI still runs the original hit / stand loop; double, surrender and the shop are in the window and in the agent interface.
+The text CLI retains the original hit / stand loop. The agent interface supports the controller's actions but does not apply player upgrades. Its `--chaos` flag remains available; see [Agent players](agents.html).
 
-## Real LLM (optional)
-
-By default the Chaos AI is an offline stand-in: no network, no cost. A real model can be switched on through the git-ignored `.env` file; see the game's README, section "Real LLM". Real requests are billed.
+The default Chaos backend is offline. Enabling a real model through the game's configuration makes billed requests; details are in the game's README.

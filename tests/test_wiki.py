@@ -157,3 +157,45 @@ def test_sim_measure_uses_requested_game_over_inherited_import(tmp_path, monkeyp
     assert results["bands"][0]["value"] == "requested"
     assert results["edge"][0]["ev"] == "requested"
     assert results["items"][0]["ev"] == "requested"
+
+
+def test_table_membership_and_graph_references():
+    from wiki.check import catalog_references
+
+    facts = copy.deepcopy(FACTS)
+    facts.update(series={"core": {}, "host": {}}, dealers={"host": {"name": "Host", "tables": ["normal", "chaos"]}},
+                 tables={"normal": {"name": "Classic", "host": "host", "series": "core", "rules": [], "items": ["peek"]},
+                         "chaos": {"name": "Host table", "host": "host", "series": "host",
+                                   "rules": ["fragile_bust"], "items": ["peek"]}})
+    site = Site(facts, "en", [])
+    assert 'table-chaos.html' in site.table_links("chaos_rules", "fragile_bust")
+    assert 'table-normal.html' not in site.table_links("chaos_rules", "fragile_bust")
+    assert 'table-normal.html' in site.table_links("items", "peek")
+    assert catalog_references(facts) == []
+    facts["tables"]["chaos"]["items"].append("removed_item")
+    assert catalog_references(facts) == ["tables.chaos.items: unknown items id `removed_item`"]
+
+
+def test_author_draft_banner_without_game_entity(tmp_path, monkeypatch):
+    monkeypatch.setattr(F, "CONTENT", tmp_path)
+    (tmp_path / "en").mkdir()
+    (tmp_path / "en/table-j54.md").write_text(
+        "---\ntitle: J-54\nstatus: draft\nsource: user\n---\nA proposed deck.\n", encoding="utf-8")
+    output = Site(FACTS, "en", []).page("table-j54")
+    assert "Design draft" in output and "not implemented in game main" in output
+    assert '<span class="pill ok">' not in output
+    assert "tables" not in FACTS
+
+
+def test_multiple_cosmetic_rewards_and_hidden_spoilers():
+    facts = {**FACTS,
+             "cosmetics": {"deck": {"name": "Reward deck"}, "table": {"name": "Reward table"}},
+             "achievements": {
+                 "win": {"name": "Table win", "description": "Win.", "goal": 1, "scope": "total",
+                         "tokens": 4, "cosmetics": ["deck", "table"], "hidden": False},
+                 "secret": {"name": "Secret", "description": "Hidden goal.", "goal": 3, "scope": "run",
+                            "tokens": 0, "cosmetics": [], "hidden": True}}}
+    output = Site(facts, "en", []).t_achievements()
+    visible, hidden = output.split("<details>", 1)
+    assert "Reward deck" in visible and "Reward table" in visible
+    assert "Secret" not in visible and "Secret" in hidden

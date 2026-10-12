@@ -20,6 +20,12 @@ python -m wiki all         # sync facts from game main, build site/, check
 - **Balance numbers are measured.** When the balance simulator
   (`black-jack-sim`) is present, `sync` runs it on game `main` and stores the
   results: player EV per chaos rule, item value and the regression bands.
+- **Tables and dealers organise play.** The wiki links each host to its tables
+  and each table to its effective rules and items. Progression, cosmetic prices
+  and achievement rewards are extracted from the shipped balance profile.
+- **Drafts have a separate source.** Author-supplied concepts such as J-54 are
+  marked as unimplemented designs; their text and portraits stay in `content/`
+  rather than the game's fact registries.
 - **Drift is reported, not guessed.** `sync` writes `DRIFT.md`, which lists what
   changed in the game and what prose needs writing.
 

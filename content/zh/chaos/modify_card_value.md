@@ -1,12 +1,12 @@
 ---
 name: 点数修改
-effect: 每张牌点数 -2（直到被清除）。
-effect_en: Rank values shifted by -2 per card (until cleared).
+effect: 每张牌的点数偏移 −1（直到被清除）。
+effect_en: Rank values shifted by -1 per card (until cleared).
 ---
 所有牌（包括 A）的点数都加减同一个数（−1 时 A 算 10 或 0）。点数被压低时离爆牌更远，平时该停的点数现在可能值得再要一张。
 
 ## 应对
 
 - 发完牌先看屏幕上的新总点数，别用老经验心算。
-- 点数下调时，天生 21 点更难凑出来。
+- 原始牌面的天生 21 点在此规则生效前结算；点数修改凑出的两张 21 点不会获得天生 21 点赔率。
 - 只有屏幕上显示的确实是 11 时，"11 点加倍"才成立。

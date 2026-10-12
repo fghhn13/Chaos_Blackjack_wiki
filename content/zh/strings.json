@@ -1,4 +1,242 @@
 {
+  "catalog": {
+    "achievements": {
+      "bare_hands": {
+        "description": "不使用道具赢下一轮。",
+        "description_en": "Win a run without using an item.",
+        "name": "赤手空拳",
+        "name_en": "Bare Hands"
+      },
+      "blackjack_collector": {
+        "description": "累计获得 {{ fact: achievements.blackjack_collector.goal }} 次天生 21 点。",
+        "description_en": "Get 50 blackjacks.",
+        "name": "Blackjack 收藏家",
+        "name_en": "Blackjack Collector"
+      },
+      "chaos_conqueror": {
+        "description": "在扑克头的专属牌桌赢下一轮。",
+        "description_en": "Win a run against Poker Head.",
+        "name": "扑克脸",
+        "name_en": "Poker Face"
+      },
+      "double_trouble": {
+        "description": "累计加倍 {{ fact: achievements.double_trouble.goal }} 次。",
+        "description_en": "Double down 25 times.",
+        "name": "加倍麻烦",
+        "name_en": "Double Trouble"
+      },
+      "first_win": {
+        "description": "赢下一轮。",
+        "description_en": "Win a run.",
+        "name": "初次胜利",
+        "name_en": "First Win"
+      },
+      "five_card_trick": {
+        "description": "持有至少五张牌赢下一手。",
+        "description_en": "Win a hand holding five or more cards.",
+        "name": "五张牌的把戏",
+        "name_en": "Five Card Trick"
+      },
+      "hot_streak": {
+        "description": "连续赢下 {{ fact: achievements.hot_streak.goal }} 手。",
+        "description_en": "Win 5 hands in a row.",
+        "name": "连胜势头",
+        "name_en": "Hot Streak"
+      },
+      "hundred_hands": {
+        "description": "累计赢下 {{ fact: achievements.hundred_hands.goal }} 手。",
+        "description_en": "Win 100 hands.",
+        "name": "百手赢家",
+        "name_en": "Hundred Hands"
+      },
+      "marathon": {
+        "description": "累计打 {{ fact: achievements.marathon.goal }} 个回合。",
+        "description_en": "Play 250 rounds.",
+        "name": "马拉松",
+        "name_en": "Marathon"
+      },
+      "natural_talent": {
+        "description": "一轮内获得 {{ fact: achievements.natural_talent.goal }} 次天生 21 点。",
+        "description_en": "Get 3 blackjacks in one run.",
+        "name": "天生好手",
+        "name_en": "Natural Talent"
+      },
+      "regular": {
+        "description": "完成 {{ fact: achievements.regular.goal }} 轮。",
+        "description_en": "Finish 10 runs.",
+        "name": "常客",
+        "name_en": "Regular"
+      },
+      "rule_scholar": {
+        "description": "遇到 {{ fact: achievements.rule_scholar.goal }} 种不同的混沌规则。",
+        "description_en": "Meet 5 different Chaos rules.",
+        "name": "规则学者",
+        "name_en": "Rule Scholar"
+      },
+      "white_flag": {
+        "description": "累计投降 {{ fact: achievements.white_flag.goal }} 次。",
+        "description_en": "Surrender 30 times.",
+        "name": "白旗",
+        "name_en": "White Flag"
+      }
+    },
+    "cosmetics": {
+      "avatar_joker": {
+        "description": "送给懂得何时收手的人。",
+        "description_en": "For those who know when to fold.",
+        "name": "白旗",
+        "name_en": "White Flag"
+      },
+      "avatar_spade": {
+        "description": "利落而简洁。",
+        "description_en": "Sharp and simple.",
+        "name": "黑桃 A",
+        "name_en": "Ace of Spades"
+      },
+      "avatar_standard": {
+        "description": "牌桌上的一个座位。",
+        "description_en": "A seat at the table.",
+        "name": "新客",
+        "name_en": "Newcomer"
+      },
+      "card_back_crimson": {
+        "description": "深红色的格纹卡背。",
+        "description_en": "A deep red lattice back.",
+        "name": "绯红格纹",
+        "name_en": "Crimson Lattice"
+      },
+      "card_back_royal": {
+        "description": "献给 Blackjack 收藏家的金箔牌组。",
+        "description_en": "Gold leaf for blackjack collectors.",
+        "name": "皇家同花顺",
+        "name_en": "Royal Flush"
+      },
+      "card_back_standard": {
+        "description": "赌场自用的牌组。",
+        "description_en": "The casino's own deck.",
+        "name": "赌场标准牌组",
+        "name_en": "House Standard"
+      },
+      "chips_gold": {
+        "description": "赢下一百手牌的证明。",
+        "description_en": "Earned over a hundred winning hands.",
+        "name": "黄金筹码",
+        "name_en": "Gold Chips"
+      },
+      "chips_neon": {
+        "description": "在灯下发光的筹码。",
+        "description_en": "Chips that glow under the lamp.",
+        "name": "霓虹筹码",
+        "name_en": "Neon Chips"
+      },
+      "chips_standard": {
+        "description": "赌场使用的筹码。",
+        "description_en": "The casino's chips.",
+        "name": "赌场筹码",
+        "name_en": "House Chips"
+      },
+      "deck_poker_head": {
+        "description": "在他的牌桌赢得的专属牌组。",
+        "description_en": "Poker Head's own cards, earned at his table.",
+        "name": "扑克头的牌组",
+        "name_en": "Poker Head's Deck"
+      },
+      "table_chaos": {
+        "description": "为混沌之夜准备的紫色丝绒。",
+        "description_en": "Purple velvet for a chaotic evening.",
+        "name": "混沌丝绒",
+        "name_en": "Chaos Velvet"
+      },
+      "table_midnight": {
+        "description": "深夜牌局用的深蓝桌毡。",
+        "description_en": "Dark blue felt for late games.",
+        "name": "午夜桌毡",
+        "name_en": "Midnight Felt"
+      },
+      "table_poker_head": {
+        "description": "来自他房间的绿毡与古金配色。",
+        "description_en": "Green felt and old gold, from his own room.",
+        "name": "扑克头的牌桌外观",
+        "name_en": "Poker Head's Table"
+      },
+      "table_standard": {
+        "description": "经典绿色桌毡。",
+        "description_en": "Classic green felt.",
+        "name": "赌场绿毡",
+        "name_en": "Casino Green"
+      }
+    },
+    "tables": {
+      "chaos": {
+        "description": "熟悉的 Blackjack，荷官却喜欢小幅调整。留意每回合公布的规则变化，及时调整策略。",
+        "description_en": "Familiar blackjack, with a dealer fond of small adjustments. Watch the rule change announced each round and adapt your strategy.",
+        "name": "扑克头的牌桌",
+        "name_en": "Poker Head's Table"
+      },
+      "normal": {
+        "description": "扑克头按规矩发牌，规则始终不变。了解 Blackjack，凭判断赢下每一手。",
+        "description_en": "Poker Head deals by the book and the rules never change. Know your blackjack and win each hand on judgement.",
+        "name": "经典牌桌",
+        "name_en": "Classic Table"
+      }
+    },
+    "upgrades": {
+      "bag_space": {
+        "description": "每轮多携带一种消耗品。",
+        "description_en": "Bring 1 more kind(s) of consumable to each run.",
+        "name": "背包空间",
+        "name_en": "Bag Space"
+      },
+      "reroll_pass": {
+        "description": "每轮一次免费刷新局内商店。",
+        "description_en": "Reroll the table shop 1 time(s) per run for free.",
+        "name": "刷新通行证",
+        "name_en": "Reroll Pass"
+      },
+      "start_danger_radar": {
+        "description": "开局背包带一件危险雷达。",
+        "description_en": "Start the run with a Danger Radar in your inventory.",
+        "name": "开局物品：危险雷达",
+        "name_en": "Starter: Danger Radar"
+      },
+      "start_fate_oracle": {
+        "description": "开局背包带一件命运神谕。",
+        "description_en": "Start the run with a Fate Oracle in your inventory.",
+        "name": "开局物品：命运神谕",
+        "name_en": "Starter: Fate Oracle"
+      },
+      "start_hole_card_hacker": {
+        "description": "开局背包带一件暗牌黑客。",
+        "description_en": "Start the run with a Hole Card Hacker in your inventory.",
+        "name": "开局物品：暗牌黑客",
+        "name_en": "Starter: Hole Card Hacker"
+      },
+      "start_money": {
+        "description": "每轮开局额外获得 {{ fact: upgrades.start_money.params.amount }} 筹码。",
+        "description_en": "Start every run with +10 chips.",
+        "name": "更深的口袋",
+        "name_en": "Deeper Pockets"
+      },
+      "start_peek": {
+        "description": "开局背包带一件偷看。",
+        "description_en": "Start the run with a Peek in your inventory.",
+        "name": "开局物品：偷看",
+        "name_en": "Starter: Peek"
+      },
+      "start_shield": {
+        "description": "开局背包带一件护盾。",
+        "description_en": "Start the run with a Shield in your inventory.",
+        "name": "开局物品：护盾",
+        "name_en": "Starter: Shield"
+      },
+      "start_swap": {
+        "description": "开局背包带一件换牌。",
+        "description_en": "Start the run with a Swap in your inventory.",
+        "name": "开局物品：换牌",
+        "name_en": "Starter: Swap"
+      }
+    }
+  },
   "error_codes": {
     "illegal_action": "现在不允许（阶段不对、下注超范围、没有这件道具）。",
     "invalid_argument": "参数缺失或格式不对。",

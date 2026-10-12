@@ -1,7 +1,7 @@
 ---
 title: 首页
 ---
-**混沌 21 点**（Chaos Blackjack）是加了料的 21 点：一个被关在沙盒里的混沌 AI 每局都可能改写规则。你带着 {{ fact: settings.run.start_money.value }} 筹码进场，在输光之前赚到 {{ fact: settings.run.target_money.value }} 就算赢。
+**混沌 21 点**是一段穿行于不同荷官牌桌的旅程。每张 Table 把荷官、目标、规则和道具组合成一种玩法。先在经典牌桌学习游戏，再到[扑克头](dealer-poker_head.html)的专属牌桌坐下。
 
 ## 开始游戏
 
@@ -10,18 +10,17 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-在主页点 **Start game** 创建玩家，再在 **New run** 中选 Classic 或 Chaos，点 **Start run** 开始；**Continue run** 恢复未完成的一轮。喜欢命令行？看[玩法](play.html)。想写机器人或 LLM agent 来玩？看[Agent 玩家](agents.html)。
+主页 **Start game** 创建玩家，**New run** 选择经典牌桌或扑克头的牌桌、查看升级并勾选开局物品；**Continue run** 恢复未完成的一轮。[玩法](play.html)说明桌面、浏览器和手机操作。
 
-## 从哪里看起
+## 选择牌桌
 
-| 我想…… | 去看 |
-| --- | --- |
-| 学会牌桌规则 | [规则](rules.html) |
-| 知道每条混沌规则干什么 | [混沌规则](chaos.html) |
-| 决定买什么 | [道具](items.html) 和 [商店与经济](shop.html) |
-| 了解 AI 是怎么被管住的 | [混沌 AI](chaos-ai.html) |
-| 查所有可调数值 | [平衡参数](settings.html) |
+{{ table: tables }}
 
-## 关于本百科
+## 继续探索
 
-页面上的所有数值、ID、价格和命令都从游戏的 `main` 分支自动提取，只有说明文字是手写的。每页底部都写着它对应的具体提交。
+- [荷官](dealers.html)：角色和他们的牌桌。[J-54](dealer-j54.html)是以概率、计算和牌堆重构为主题的**设计草案**。
+- [混沌规则](chaos.html)与[道具](items.html)：具体效果及适用牌桌。
+- [玩家成长](progression.html)、[装扮](cosmetics.html)、[成就](achievements.html)和[个人资料](profile.html)：跨轮保留的内容。
+- [Agent 玩家](agents.html)、[平衡数据](balance.html)和[混沌 AI](chaos-ai.html)：技术参考。
+
+已实现机制和数值来自游戏 main，作者提供的草案另有状态标记，不代表已上线的玩法。每页页脚注明游戏数据快照；草案提示说明提案的独立来源。
