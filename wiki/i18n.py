@@ -92,7 +92,7 @@ UI["en"].update({
     "condition": "Condition", "scope": "Scope", "total": "Lifetime", "run": "Single run", "reward": "Reward",
     "spoilers": "Hidden content — reveal spoilers",
     "editorial_draft": "Design draft · supplied by the author for this wiki · not implemented in game main. "
-                       "Rules and items below are examples; prices, tuning and balance results are not defined.",
+                       "Mechanics and numbers are provisional proposals, with no simulator-validated balance yet.",
 })
 UI["zh"].update({
     "g_tables": "牌桌与荷官", "g_growth": "成长与收藏",
@@ -105,7 +105,7 @@ UI["zh"].update({
     "condition": "条件", "scope": "统计范围", "total": "累计", "run": "单轮", "reward": "奖励",
     "spoilers": "隐藏内容 — 展开查看剧透",
     "editorial_draft": "设计草案 · 作者提供给本 Wiki · 尚未在游戏 main 实现。"
-                       "下列规则与道具为设计示例，价格、具体参数和实测结果尚未确定。",
+                       "文中机制与数值均为暂定设计，尚无经过模拟器验证的平衡结果。",
 })
 
 # (slug, nav group). Page text lives in content/<lang>/<slug>.md.

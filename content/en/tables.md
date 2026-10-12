@@ -11,4 +11,4 @@ Each detail page lists the effective shipped rules and items. A player upgrade o
 
 ## In design
 
-[J-54's Table](table-j54.html) is a design draft about probability and deck reconstruction. It is not playable in game main.
+[J-54's Table](table-j54.html) proposes persistent composition with a full reshuffle each round, random victory protocols, rising compute fees, run contracts and deck-report challenges. It is not playable in game main; all tuning remains provisional.

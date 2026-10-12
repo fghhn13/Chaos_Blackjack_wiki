@@ -9,6 +9,6 @@ Meet the characters who host the tables. Each dealer introduces a play style thr
 
 ## Design draft: J-54
 
-![J-54, the Harlequin Reshuffler](../img/j54.png)
+![J-54, the Joker Reshuffler](../img/j54.png)
 
-[J-54 “Harlequin Reshuffler”](dealer-j54.html) is a mechanical circus clown whose proposed table reconstructs the deck. **Design draft — not implemented.**
+[J-54 “Joker Reshuffler”](dealer-j54.html) is a mechanical circus clown whose proposed table combines persistent deck composition, random protocols and run contracts. **Design draft — not implemented.**
