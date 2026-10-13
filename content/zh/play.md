@@ -8,14 +8,14 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)或[扑克头的牌桌](table-chaos.html)。检查目标、下注范围、规则、荷官和赔率，再勾选开局物品；只有点 **Start run** 才消耗物品。
+Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)、[扑克头的牌桌](table-chaos.html)或[J-54 *实验性](table-j54.html)。检查目标、下注范围、规则、荷官和赔率，再勾选开局物品；只有点 **Start run** 才消耗物品。
 
 新一轮先播放荷官台词，Enter／点击翻页，Escape 跳过。**Continue run** 恢复检查点，不重复播放开场。
 
 | 阶段 | 鼠标 | 键盘 |
 | --- | --- | --- |
 | 下注 | 左键筹码加注、右键减注；Clear / Max；局内 Shop | 上下键微调，Enter 发牌，B 打开商店 |
-| 你的回合 | 要牌／停牌／加倍／投降；背包 | H / S / D / R；I 打开道具列表 |
+| 你的回合 | 要牌／停牌／加倍／投降；背包 | H / S / D / R；I 打开 Bag；Tab 打开局内面板 |
 | 回合结束 | Next Round | Enter |
 | 扑克头的牌桌 | 点荷官头像问建议 | Enter 关闭回复 |
 | 任何时候 | Settings | Escape 确认离开；F11 全屏；M 静音；+ / − 音量；F5 重新载入美术和音效 |
@@ -40,6 +40,8 @@ python cli/main.py --enable-chaos
 python -m chaos_blackjack.agent new --seed 7 --chaos
 ```
 
-文字命令行保留原来的要牌／停牌循环。Agent 支持控制器动作，但不应用玩家的局外升级；`--chaos` 参数仍可使用，详见[Agent 玩家](agents.html)。
+文字命令行保留原来的要牌／停牌循环。Agent 支持控制器动作，但不应用玩家的局外升级；`--chaos` 保留旧玩法兼容，`--mode chaos` 启动当前构筑桌，详见[Agent 玩家](agents.html)。
 
 默认混沌后端离线。按游戏配置接入真实模型时，请求会计费；具体设置见游戏 README。
+
+扑克头新局先选核心；永久商品、消耗品与金融产品各有阶段。侧栏道具槽支持 1～9，Tab 打开局内面板，左右键换标签，Escape 或 Tab 关闭。详见[构筑指南](poker-head-builds.html)。

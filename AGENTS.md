@@ -20,9 +20,16 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
 - `sync` reads the game from its own throw-away worktree
   `<game>/.agent_runs/worktrees/wiki-src` (detached, read-only for you). It never
   uses the shared checkout, so other agents' unmerged work cannot leak in.
-- `--ref` picks another ref (default `main`, or `$WIKI_GAME_REF`). The site only
-  ever describes `main`; other refs are for testing the adapter, so sync back to
-  `main` before committing.
+- `--ref` picks another ref (default `main`, or `$WIKI_GAME_REF`). By default the
+  site describes `main`; other refs are for testing the adapter, so sync back to
+  `main` before committing, unless the user explicitly selects the current development version.
+  The author selected the current `feat/j54-demo` working tree on 2026-10-13:
+  document its implemented Poker Head products and environment as the official
+  current scheme, and mark J-54 experimental. For this publication, read the
+  selected checkout into an owned frozen copy, run `extract` against that copy,
+  and retain its base commit and content tree in source facts. Never modify the
+  shared game checkout. Do not replace this selected version with older main
+  facts merely because its work has not merged yet.
 - The game repo is the sibling folder `../Black_jack`, or `$CHAOS_BLACKJACK_REPO`.
 
 ## Handling DRIFT.md
@@ -94,7 +101,8 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   `strings.json` catalog entries retain `name_en` / `description_en` for drift checks.
 - Author-supplied designs are editorial pages, not game facts. J-54 lives in
   `dealer-j54.md` and `table-j54.md`, with `status: draft` and `source: user`.
-  Keep their bilingual draft banners; do not invent game ids, prices or measured
+  The author now requests current J-54 pages with an experimental label, while
+  preserving early concept documents as historical background. Do not invent game ids, prices or measured
   results. Editorial portraits live in `content/img/`, which sync never prunes.
 - Repository language: code, comments and commits in English; Chinese only in
   `content/zh/` and the `zh` interface strings.

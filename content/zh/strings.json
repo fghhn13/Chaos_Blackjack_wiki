@@ -81,6 +81,18 @@
       }
     },
     "cosmetics": {
+      "avatar_j54": {
+        "description": "借来 J-54 的一张笑脸。",
+        "description_en": "A grin borrowed from J-54.",
+        "name": "像素小丑",
+        "name_en": "Pixel Clown"
+      },
+      "avatar_j54_computer": {
+        "description": "J-54 的计算机符号。",
+        "description_en": "J-54's computer symbol.",
+        "name": "红色终端",
+        "name_en": "Red Terminal"
+      },
       "avatar_joker": {
         "description": "送给懂得何时收手的人。",
         "description_en": "For those who know when to fold.",
@@ -123,6 +135,12 @@
         "name": "黄金筹码",
         "name_en": "Gold Chips"
       },
+      "chips_j54": {
+        "description": "J-54 的粗像素筹码。",
+        "description_en": "J-54's coarse pixel chips.",
+        "name": "像素筹码",
+        "name_en": "Pixel Chips"
+      },
       "chips_neon": {
         "description": "在灯下发光的筹码。",
         "description_en": "Chips that glow under the lamp.",
@@ -135,6 +153,18 @@
         "name": "赌场筹码",
         "name_en": "House Chips"
       },
+      "deck_j54": {
+        "description": "黑色牌组配红色像素笑脸。",
+        "description_en": "J-54's black deck with a red pixel grin.",
+        "name": "像素阴影",
+        "name_en": "Pixel Shadow"
+      },
+      "deck_j54_calculator": {
+        "description": "红色牌组配黑色像素按键与屏幕。",
+        "description_en": "J-54's red deck, keys and screen in black pixels.",
+        "name": "计算器牌组",
+        "name_en": "Calculator Deck"
+      },
       "deck_poker_head": {
         "description": "在他的牌桌赢得的专属牌组。",
         "description_en": "Poker Head's own cards, earned at his table.",
@@ -146,6 +176,12 @@
         "description_en": "Purple velvet for a chaotic evening.",
         "name": "混沌丝绒",
         "name_en": "Chaos Velvet"
+      },
+      "table_j54": {
+        "description": "菱格桌布、棋盘边框与信号线路。",
+        "description_en": "J-54's argyle felt with checker trim and signal traces.",
+        "name": "信号菱格",
+        "name_en": "Signal Argyle"
       },
       "table_midnight": {
         "description": "深夜牌局用的深蓝桌毡。",
@@ -168,10 +204,20 @@
     },
     "tables": {
       "chaos": {
-        "description": "熟悉的 Blackjack，荷官却喜欢小幅调整。留意每回合公布的规则变化，及时调整策略。",
+        "description": "选择核心、装备永久商品，使用消耗品与金融产品；应对逐步增强的混沌环境，达到净资产目标。",
         "description_en": "Familiar blackjack, with a dealer fond of small adjustments. Watch the rule change announced each round and adapt your strategy.",
-        "name": "扑克头的牌桌",
+        "goal_text": "净资产达到 {{ fact: tables.chaos.target_money }}",
+        "goal_text_en": "Reach 500 net assets",
+        "name": "扑克头构筑桌",
         "name_en": "Poker Head's Table"
+      },
+      "j54": {
+        "description": "跨回合重构牌堆，签约、支付算力费，完成单次捕获或资本协议。",
+        "description_en": "J-54 does not bend the rules; it rewrites the deck, and the deck lasts the whole run. Sign contracts to reshape it, pay the compute fee each round and complete the protocol before the deck turns against you.",
+        "goal_text": "随机协议：玩家抽到 Joker，或筹码达到 {{ fact: settings.mode.j54.capital_target.value }}",
+        "goal_text_en": "A random protocol: draw the Joker, or reach 250 chips",
+        "name": "J-54 的牌桌 *实验性",
+        "name_en": "J-54's Table (demo)"
       },
       "normal": {
         "description": "扑克头按规矩发牌，规则始终不变。了解 Blackjack，凭判断赢下每一手。",

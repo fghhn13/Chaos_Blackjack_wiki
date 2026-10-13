@@ -1,7 +1,7 @@
 ---
 title: Balance data
 ---
-Measured by the [balance simulator](simulator.html) on the game's `main`. Each table names the command, seed, balance profile and commits it comes from.
+Historical measurements by the [balance simulator](simulator.html) on the older main snapshot; they do not measure current Poker Head builds or J-54. Each table names the command, seed, balance profile and commits it comes from.
 
 ## Reading the numbers
 

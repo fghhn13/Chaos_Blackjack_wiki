@@ -52,9 +52,9 @@ def problems() -> tuple[list[str], list[str]]:
                 warnings.append(f"{lang}: design page {d} was written from blob {meta.get('source_blob')}, "
                                 f"the doc is now {doc['blob']} ({doc['ref']}); update it and `source_blob`")
     for coll, folder in F.PROSE_FOLDERS.items():
-        if coll not in ("chaos_rules", "items"):
+        if coll not in ("chaos_rules", "environment_rules", "items"):
             continue
-        key = "effect" if coll == "chaos_rules" else "help"
+        key = "help" if coll == "items" else "effect"
         for eid, e in facts.get(coll, {}).items():
             for lang in F.LANGS[1:]:
                 p = F.CONTENT / lang / folder / f"{eid}.md"
@@ -85,7 +85,8 @@ def problems() -> tuple[list[str], list[str]]:
 def catalog_references(facts: dict) -> list[str]:
     """Reject broken graph edges before rendering tables or rewards."""
     errors = []
-    edges = {"tables": {"host": "dealers", "series": "series", "rules": "chaos_rules", "items": "items"},
+    edges = {"tables": {"host": "dealers", "series": "series", "rules": "chaos_rules", "items": "items",
+                        "products": "items", "environment_rules": "environment_rules"},
              "dealers": {"tables": "tables"}, "upgrades": {"mode": "tables", "requires": "upgrades"},
              "cosmetics": {"series": "series", "achievements": "achievements"},
              "achievements": {"cosmetics": "cosmetics"}}

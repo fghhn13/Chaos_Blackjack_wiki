@@ -1,8 +1,6 @@
 ---
-title: Chaos rules
+title: Table rules and legacy plugins
 ---
-In chaos mode the [Chaos AI](chaos-ai.html) may apply **one** of these rules after the deal. The rule lasts for the rest of the round and is listed on screen; the totals shown always include it.
+Poker Head's current build uses [nine environment types](environment.html), decided before shopping and betting and retained according to their duration. The plugins below cover J-54 deck operations and legacy Chaos compatibility; they are not the new Poker Head environment pool.
 
 {{ table: chaos_cards }}
-
-Each effect line shows the rule with its default parameters; where a rule takes parameters, the Chaos AI may choose other values.

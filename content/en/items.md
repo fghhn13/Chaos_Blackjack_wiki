@@ -1,8 +1,6 @@
 ---
-title: Items
+title: Items and build products
 ---
-Buy items in the [shop](shop.html) while betting, then use them during your turn (`act use_item <id>` for agents). Each use consumes one copy. Using an item does not count as your first decision, so you can still double or surrender afterwards.
+Poker Head has its own cores, permanent equipment, consumables and finance. Each card shows its current base price and effect; the detail page states timing and limits. See the [build guide](poker-head-builds.html). Classic items and J-54 contracts remain separate.
 
 {{ table: item_cards }}
-
-Watch out: the Chaos AI may use one of *your* items instead of applying a rule.

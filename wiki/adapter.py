@@ -59,6 +59,7 @@ def extract_facts(root: Path, ref: str) -> dict[str, Any]:
         "settings": balance["settings"],
         "chaos_rules": _chaos_rules(root, balance),
         "items": _items(root, balance),
+        "environment_rules": _environment_rules(),
         "permissions": _permissions(root),
         "prompts": sorted(p.stem for p in (root / "chaos_blackjack/ai/prompts").glob("*.txt")),
         "assets": _assets(root),
@@ -230,7 +231,55 @@ def _items(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
             "params": _jsonable(balance["item_params"].get(iid, {})),
             "icon": _icon(root, iid),
         }
+    try:
+        from chaos_blackjack.poker_head.catalog import PRODUCTS
+        from chaos_blackjack.codex.build_reference import effect, timing, detail
+        from chaos_blackjack.app.config import RunConfig
+        from chaos_blackjack.data import default_balance
+        from chaos_blackjack.modes import get_mode
+    except ImportError:
+        PRODUCTS = {}
+    if PRODUCTS:
+        config = get_mode("chaos").apply(RunConfig.from_balance(default_balance()))
+        for iid, product in sorted(PRODUCTS.items()):
+            out[iid] = {"name": product.name, "help": effect(iid, config),
+                        "kind": product.kind, "style": product.style, "timing": timing(iid),
+                        "phases": product.phases, "details": detail(iid, config),
+                        "price": config.shop_prices.get(iid), "price_mode": "fixed",
+                        "params": _jsonable(config.item_params.get(iid, {})), "icon": _icon(root, iid)}
+    try:
+        from chaos_blackjack.j54.contracts import CONTRACTS, describe
+    except ImportError:
+        CONTRACTS = {}
+    for iid, contract in sorted(CONTRACTS.items()):
+        out[iid] = {"name": contract.name, "help": describe(iid, balance["item_params"]),
+                    "kind": "contract", "timing": "Buy before betting", "price": balance["prices"].get(iid),
+                    "price_mode": "fixed", "params": _jsonable({**contract.default, **balance["item_params"].get(iid, {})}),
+                    "icon": _icon(root, iid)}
     return out
+
+
+def _environment_rules() -> dict[str, Any]:
+    """Real environment types, with one legal example from the director pool."""
+    try:
+        from chaos_blackjack.poker_head.director import Director
+        from chaos_blackjack.poker_head.environment import TYPES
+        from chaos_blackjack.app.config import RunConfig
+        from chaos_blackjack.data import default_balance
+    except ImportError:
+        return {}
+    config = RunConfig.from_balance(default_balance())
+    settings = {k.removeprefix("chaos."): v for k, v in config.mode_settings.items() if k.startswith("chaos.")}
+    director = Director(settings, seed=7, rule_slots=int(settings["rule_slots"]))
+    examples = {}
+    for stage in director.stages:
+        for kind, variants in director.variants(director.stage(int(stage[0]))).items():
+            if variants and kind not in examples:
+                examples[kind] = variants[0]
+    return {kind: {"name": rule.title, "effect": rule.effect_text(), "params": _jsonable(rule.params),
+                   "duration": rule.duration, "duration_text": rule.duration_text(),
+                   "removal": rule.removal_text(), "enabled": True, "icon": None}
+            for kind in TYPES if (rule := examples.get(kind)) is not None}
 
 
 def _catalogs(root: Path) -> dict[str, Any]:
@@ -264,6 +313,21 @@ def _catalogs(root: Path) -> dict[str, Any]:
             "min_bet": config.min_bet, "max_bet_fraction": config.max_bet_fraction,
             "blackjack_pays": list(config.blackjack_pays), "chaos": config.enable_chaos,
         }
+        try:
+            from chaos_blackjack.app.table_mechanics import table_goal
+        except ImportError:
+            tables[mode.id]["goal_text"] = None
+        else:
+            tables[mode.id]["goal_text"] = table_goal(config)
+        tables[mode.id]["experimental"] = mode.id == "j54"
+        if mode.id == "chaos" and _environment_rules():
+            from chaos_blackjack.poker_head.catalog import PRODUCTS, SHOP_IDS
+            tables[mode.id]["rules"] = []
+            tables[mode.id]["environment_rules"] = sorted(_environment_rules())
+            tables[mode.id]["items"] = sorted(SHOP_IDS)
+            tables[mode.id]["products"] = sorted(PRODUCTS)
+        elif mode.id == "j54":
+            tables[mode.id]["items"] = sorted(mode.items or ())
         if mode.host not in dealers:
             profile, quote = host_profile(mode.host)
             dealers[mode.host] = {"name": HOST_NAMES.get(mode.host, mode.host), "profile": list(profile),

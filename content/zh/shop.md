@@ -1,22 +1,10 @@
 ---
-title: 局内商店与筹码
+title: 局内商店与资金
 ---
-本页介绍花本轮筹码的**局内商店**；主页花代币的 [Shop](progression.html)另见玩家成长。
+局内商店使用本轮筹码，主页 [Shop](progression.html)使用代币。商店在下注前开放，购买后现金仍须足够最低下注。
 
-商店只在下注阶段开放。
+扑克头使用商品固定基础价、有限永久位和核心偏向货架；[构筑、金融与替换](poker-head-builds.html)有详细口径。涨价与折扣会改动尚未支付的报价，金融按合同金额，回购按实际支付价。J-54 *实验性出售牌堆契约，每回合补货；经典道具保留按资金比例定价。
 
-- 每次上架 **{{ fact: settings.shop.slots.value }}** 种不同的道具，每件只能买一次。
-- 每 **{{ fact: settings.shop.refresh_rounds.value }}** 局换一批货，没买的就没了。
-- 每批货可花 **{{ fact: settings.shop.reroll_price.value }}** 筹码刷新一次。刷新不重置补货计时，新价格按扣费后的资金计算；Reroll Pass 提供本轮的一次免费刷新。
-- 买完之后，剩下的筹码必须还够下最小注。
-- 同一个种子的货架永远一样，买东西也不会改变发到的牌。
-
-## 价目表
-
-内置道具按生成货架时资金的百分比定价，四舍五入，最低一个筹码；下一批货生成之前价格不变。经典模式不出售{{ link: items.shield }}。
+## 当前基础报价
 
 {{ table: prices }}
-
-## 怎么算值不值
-
-你从 {{ fact: settings.run.start_money.value }} 筹码开始，目标是 {{ fact: settings.run.target_money.value }}，下注额又受当前资金比例限制。每次购买都会减少可下注的资金。比较界面价格和道具能改善的决策；{{ link: items.shield }} 可以直接清除当前生效的混沌规则。

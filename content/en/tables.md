@@ -1,14 +1,8 @@
 ---
-title: Tables and their play styles
+title: Tables and gameplay
 ---
-A **Table** is a complete play style: its host, goal, Chaos rule pool and item pool. A dealer can host more than one table. Start with the Classic Table to learn blackjack, then visit a dealer's table for its particular challenges.
-
-## Released tables
+A Table combines a dealer, goal, rule pool and products into one play style.
 
 {{ table: tables }}
 
-Each detail page lists the effective shipped rules and items. A player upgrade or another balance profile can change the run's numbers.
-
-## In design
-
-[J-54's Table](table-j54.html) proposes persistent composition with a full reshuffle each round, random victory protocols, rising compute fees, run contracts and deck-report challenges. It is not playable in game main; all tuning remains provisional.
+[Poker Head builds](poker-head-builds.html) use cores, limited permanents and net assets. [J-54 *Experimental](table-j54.html) uses protocols, physical deck changes, fees and contracts. Detail cards show current settings; upgrades and other profiles can change them.

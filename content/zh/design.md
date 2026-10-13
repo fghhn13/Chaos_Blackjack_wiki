@@ -1,10 +1,6 @@
 ---
-title: 设计文档
+title: 设计历史
 ---
-已经定下、但还没有（完全）进入 `main` 的计划。每页概括游戏仓库里的一份设计文档，并注明它读取自哪个分支、哪个提交。计划上线后，这一页保留作为背景说明，百科其他页面则开始描述真正上线的功能。
+这里保留分支设计文档与早期构思。当前玩法以[牌桌目录](tables.html)、[扑克头构筑](poker-head-builds.html)和[环境指南](poker-head-environment-plan.html)为准；J-54 标注 *实验性。
 
 {{ table: design_docs }}
-
-## 正在搭建的本地方案
-
-[扑克头：混沌环境与渐强离线 Agent](poker-head-environment-plan.html)概括作者尚未提交的本地设计文档，未合并到 main；该页保留原文快照，并明确区分拟定数值与已发布玩法。

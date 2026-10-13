@@ -39,3 +39,7 @@ python -m chaos_blackjack.agent --brief act hit
 {{ table: transcript }}
 
 完整指南（观察字段、流式模式、Python API）在游戏仓库的 `docs/AGENT_GUIDE.md`（英文）。
+
+## 当前牌桌模式
+
+使用 `python -m chaos_blackjack.agent new --mode chaos --seed 7` 进入扑克头构筑，`--mode j54` 进入 J-54 *实验性。读取 `obs.choice.options`，先用 `choose <option>` 回答问题；道具可能要求 `--target ID`，牌桌动作使用 `perform <action> [arg]`。`obs.table.public` 提供构筑、现金、投资本金、债务、净资产和合同，不公开私有牌序或股票结果。`--chaos` 仍用于旧玩法兼容。

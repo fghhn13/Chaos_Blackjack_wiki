@@ -21,12 +21,12 @@ title: 扑克头（Poker Head）
 
 ## 主持的牌桌
 
-{{ link: tables.normal }}遵守固定规则；{{ link: tables.chaos }}中，扑克头会逐局公布规则变化。牌桌详情列出它能使用的混沌规则与出售的道具。
+{{ link: tables.normal }}遵守固定规则；{{ link: tables.chaos }}提供核心构筑、金融产品和持久环境规则。牌桌详情列出它能使用的混沌规则与出售的道具。
 
 ## 首次赢下他的牌桌
 
 Poker Face 成就奖励扑克头的牌组和牌桌装扮，具体奖励见[成就](achievements.html)和[装扮](cosmetics.html)的自动生成目录。
 
-## 正在搭建的设计
+## 构筑与环境
 
-[持久混沌环境与渐强离线 Agent 方案](poker-head-environment-plan.html)描述他的新构筑桌，尚未合并到 main；上方主持牌桌仍按已发布玩法展示。
+当前牌桌的[正式构筑图鉴](poker-head-builds.html)与[环境机制](poker-head-environment-plan.html)介绍他的完整玩法。

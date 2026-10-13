@@ -1,6 +1,8 @@
 ---
 title: 规则
 ---
+本页是经典 Blackjack 的基础规则；扑克头的[构筑](poker-head-builds.html)与[环境](environment.html)、[J-54 *实验性](table-j54.html)分别覆盖相关机制。
+
 ## 目标
 
 你带着 **{{ fact: settings.run.start_money.value }}** 筹码进场，赚到 **{{ fact: settings.run.target_money.value }}** 就赢下这一轮。筹码输光，或者已经下不出合法的注，就算输。
@@ -13,14 +15,14 @@ title: 规则
 ## 牌的点数
 
 - 2–10 按牌面算，J、Q、K 算 10。
-- A 先按大的算，快爆牌时自动减 10。在任何混沌规则下 A 都保持"软"的特性。
+- A 先按大的算，快爆牌时自动减 10。固定牌点环境可以撤去大小切换，须按公布效果计算。
 - [混沌规则](chaos.html)会在求和之前改变牌的点数。屏幕上显示的总点数已经算上了规则，相信它，不用自己心算。
 
 ## 一局的流程
 
 1. 你和庄家各拿两张牌，庄家第二张扣着（*暗牌*）。
-2. **天生 21 点**先于混沌结算：原始牌面的 A 加一张 10 点牌，赔率 {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}（向下取整）。庄家天生 21 点时，你还没出手这局就结束；双方都是天生 21 点则算平局。
-3. 否则，混沌模式下[混沌 AI](chaos-ai.html) 出手一次。规则可能让起手牌立即爆牌；{{ link: chaos_rules.reverse_bust }} 会把玩家爆牌改为平局。规则改出的 21 点不享受天生 21 点赔付。
+2. **天生 21 点**在玩家行动前结算：原始牌面的 A 加一张 10 点牌，赔率 {{ fact: settings.table.blackjack_pays_num.value }}:{{ fact: settings.table.blackjack_pays_den.value }}（向下取整）。庄家天生 21 点时，你还没出手这局就结束；双方都是天生 21 点则算平局。
+3. 旧版混沌兼容玩法中，否则[混沌 AI](chaos-ai.html) 出手一次。规则可能让起手牌立即爆牌；{{ link: chaos_rules.reverse_bust }} 会把玩家爆牌改为平局。规则改出的 21 点不享受天生 21 点赔付。
 4. 轮到你：**要牌**、**停牌**、**加倍**或**投降**，也可以用[道具](items.html)。
 5. 庄家翻开暗牌，一直抽到 {{ fact: settings.table.dealer_stand_on.value }} 点或以上。
 6. 结算：赢 `+下注`，输 `-下注`，平局 `0`。

@@ -14,10 +14,10 @@ CONTENT = ROOT / "content"
 LANGS = ("en", "zh")
 
 # Collections whose keys are game ids: an added key needs a wiki card, a removed one orphans prose.
-ID_COLLECTIONS = ("settings", "chaos_rules", "items", "assets", "permissions", "design_docs",
+ID_COLLECTIONS = ("settings", "chaos_rules", "environment_rules", "items", "assets", "permissions", "design_docs",
                   "tables", "dealers", "series", "upgrades", "cosmetics", "achievements")
 # Collections with a prose page per id (content/<lang>/<folder>/<id>.md).
-PROSE_FOLDERS = {"chaos_rules": "chaos", "items": "items", "design_docs": "design",
+PROSE_FOLDERS = {"chaos_rules": "chaos", "environment_rules": "environment", "items": "items", "design_docs": "design",
                  "tables": "tables", "dealers": "dealers"}
 # Changes here are expected on every new commit and are not worth listing one by one.
 NOISY = ("source", "changelog", "transcript")

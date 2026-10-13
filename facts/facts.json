@@ -143,21 +143,27 @@
   "agent": {
     "actions": {
       "bet": "start the round: bet <amount>",
-      "buy": "buy a shop item before betting: buy <item_id>",
-      "double": "double the bet, take exactly one card, then stand (first decision only)",
+      "buy": "buy a shop offer before betting: buy <item_id> (see obs.shop; some ask obs.choice next)",
+      "cancel": "drop the pending question; nothing is charged or spent",
+      "choose": "answer the pending question: choose <option id> (see obs.choice)",
+      "double": "double the bet, take exactly one card, then stand",
       "hit": "take one more card",
-      "reroll": "roll the shop's stock again (once per stock; obs.shop.reroll_price chips)",
+      "perform": "run one of obs.table_actions: perform <action> [arg]",
+      "reroll": "roll the shop's stock again (obs.shop.reroll_price chips)",
       "stand": "end your turn; the dealer plays",
-      "surrender": "give up the hand and get half the bet back (first decision only)",
-      "use_item": "use an item: act use_item <item_id>"
+      "surrender": "give up the hand and get part of the bet back",
+      "use_item": "use an item whose usable is true: act use_item <item_id> [--target <id>]"
     },
     "commands": {
       "act": "act in your turn",
       "bet": "place a bet",
       "buy": "buy a shop item (betting phase)",
+      "cancel": "drop the pending question when it allows it",
+      "choose": "answer the pending question (obs.choice)",
       "help": "list game commands",
       "new": "start a new run (overwrites the run file)",
       "observe": "show the current observation",
+      "perform": "run one of the table's own actions (obs.table_actions)",
       "play": "streaming JSON-lines mode on stdin/stdout",
       "reroll": "roll the shop's stock again (betting phase, once per stock)"
     },
@@ -170,13 +176,31 @@
       "unknown_command",
       "usage"
     ],
-    "obs_schema": 2
+    "obs_schema": 3
   },
   "assets": {
     "avatar": {
       "category": "avatar",
       "file": null,
       "name": "Player avatar",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "avatar_j54": {
+      "category": "avatar",
+      "file": "assets/cosmetics/j54/avatar_j54.png",
+      "name": "Pixel Clown",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "avatar_j54_computer": {
+      "category": "avatar",
+      "file": "assets/cosmetics/j54/avatar_j54_computer.png",
+      "name": "Red Terminal",
       "size": [
         256,
         256
@@ -218,6 +242,24 @@
         768
       ]
     },
+    "card_back_j54": {
+      "category": "card",
+      "file": "assets/cosmetics/j54/card_back_j54.png",
+      "name": "Pixel Shadow",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_back_j54_calculator": {
+      "category": "card",
+      "file": "assets/cosmetics/j54/card_back_j54_calculator.png",
+      "name": "Calculator Deck",
+      "size": [
+        512,
+        768
+      ]
+    },
     "card_back_poker_head": {
       "category": "card",
       "file": "assets/cosmetics/procedural/card_back_poker_head.png",
@@ -240,6 +282,15 @@
       "category": "card",
       "file": null,
       "name": "Blank card face",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_front_j54": {
+      "category": "card",
+      "file": "assets/cosmetics/j54/card_front_j54.png",
+      "name": "Pixel Shadow",
       "size": [
         512,
         768
@@ -362,6 +413,42 @@
         256
       ]
     },
+    "chips_j54_1": {
+      "category": "chip",
+      "file": "assets/cosmetics/j54/chips_j54_1.png",
+      "name": "Pixel Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_j54_10": {
+      "category": "chip",
+      "file": "assets/cosmetics/j54/chips_j54_10.png",
+      "name": "Pixel Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_j54_25": {
+      "category": "chip",
+      "file": "assets/cosmetics/j54/chips_j54_25.png",
+      "name": "Pixel Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_j54_5": {
+      "category": "chip",
+      "file": "assets/cosmetics/j54/chips_j54_5.png",
+      "name": "Pixel Chips",
+      "size": [
+        256,
+        256
+      ]
+    },
     "chips_neon_1": {
       "category": "chip",
       "file": "assets/cosmetics/procedural/chips_neon_1.png",
@@ -461,6 +548,150 @@
         256
       ]
     },
+    "j54_ace_injection": {
+      "category": "rule",
+      "file": null,
+      "name": "Ace Injection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_burn": {
+      "category": "rule",
+      "file": null,
+      "name": "Burn Protocol",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_data_backflow": {
+      "category": "rule",
+      "file": null,
+      "name": "Data Backflow",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_fee": {
+      "category": "icon",
+      "file": null,
+      "name": "Compute fee",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_freeze": {
+      "category": "icon",
+      "file": null,
+      "name": "Freeze",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_goal": {
+      "category": "icon",
+      "file": null,
+      "name": "Capital goal",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_high_injection": {
+      "category": "item",
+      "file": null,
+      "name": "High Injection Contract",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_joker_captured": {
+      "category": "icon",
+      "file": null,
+      "name": "Joker captured",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_joker_in_the_deck": {
+      "category": "icon",
+      "file": null,
+      "name": "Joker in the deck",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_joker_sealed": {
+      "category": "icon",
+      "file": null,
+      "name": "Joker sealed",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_layered_sort": {
+      "category": "rule",
+      "file": null,
+      "name": "Layered Sort",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_low_purge": {
+      "category": "item",
+      "file": null,
+      "name": "Low Purge Contract",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_redundancy_purge": {
+      "category": "rule",
+      "file": null,
+      "name": "Redundancy Purge",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_sample_injection": {
+      "category": "rule",
+      "file": null,
+      "name": "Sample Injection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_start_experiment": {
+      "category": "item",
+      "file": null,
+      "name": "Start Experiment",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_streamline": {
+      "category": "item",
+      "file": null,
+      "name": "Streamline Contract",
+      "size": [
+        256,
+        256
+      ]
+    },
     "menu_background": {
       "category": "background",
       "file": null,
@@ -474,6 +705,15 @@
       "category": "mode",
       "file": "assets/mode_chaos.png",
       "name": "Chaos",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "mode_j54": {
+      "category": "mode",
+      "file": null,
+      "name": "J-54",
       "size": [
         256,
         256
@@ -519,6 +759,375 @@
       "category": "item",
       "file": "assets/peek.png",
       "name": "Peek",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_account": {
+      "category": "item",
+      "file": "assets/poker_head/ph_account.png",
+      "name": "Private Account",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_ace": {
+      "category": "item",
+      "file": "assets/poker_head/ph_ace.png",
+      "name": "Comeback Ace",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_aces": {
+      "category": "item",
+      "file": "assets/poker_head/ph_aces.png",
+      "name": "Aces to the Top",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_approx": {
+      "category": "item",
+      "file": "assets/poker_head/ph_approx.png",
+      "name": "Almost Perfect",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_audit": {
+      "category": "item",
+      "file": "assets/poker_head/ph_audit.png",
+      "name": "Open Audit",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_bond": {
+      "category": "item",
+      "file": "assets/poker_head/ph_bond.png",
+      "name": "Performance Bond",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_borrow": {
+      "category": "item",
+      "file": "assets/poker_head/ph_borrow.png",
+      "name": "Borrowed Glory",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_buffer": {
+      "category": "item",
+      "file": "assets/poker_head/ph_buffer.png",
+      "name": "Temporary Allowance",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_buyback": {
+      "category": "item",
+      "file": "assets/poker_head/ph_buyback.png",
+      "name": "Original Price Receipt",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_change": {
+      "category": "item",
+      "file": "assets/poker_head/ph_change.png",
+      "name": "Amendment Letter",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_claim": {
+      "category": "item",
+      "file": "assets/poker_head/ph_claim.png",
+      "name": "Recovery Receipt",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_court": {
+      "category": "item",
+      "file": "assets/poker_head/ph_court.png",
+      "name": "Court Discount",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_deposit": {
+      "category": "item",
+      "file": "assets/poker_head/ph_deposit.png",
+      "name": "Fixed Deposit",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_discount": {
+      "category": "item",
+      "file": "assets/poker_head/ph_discount.png",
+      "name": "Purchasing Privilege",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_five_reward": {
+      "category": "item",
+      "file": "assets/poker_head/ph_five_reward.png",
+      "name": "Five Card Feast",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_gift": {
+      "category": "item",
+      "file": "assets/poker_head/ph_gift.png",
+      "name": "The Dealer's Invitation",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_hole": {
+      "category": "item",
+      "file": "assets/poker_head/ph_hole.png",
+      "name": "Hole Probe",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_jackpot": {
+      "category": "item",
+      "file": "assets/poker_head/ph_jackpot.png",
+      "name": "Perfect Payout",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_late_double": {
+      "category": "item",
+      "file": "assets/poker_head/ph_late_double.png",
+      "name": "Raise Permission",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_late_retreat": {
+      "category": "item",
+      "file": "assets/poker_head/ph_late_retreat.png",
+      "name": "Exit Clause",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_loan": {
+      "category": "item",
+      "file": "assets/poker_head/ph_loan.png",
+      "name": "Short Loan",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_long_reward": {
+      "category": "item",
+      "file": "assets/poker_head/ph_long_reward.png",
+      "name": "Long Hand Dividend",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_loss_discount": {
+      "category": "item",
+      "file": "assets/poker_head/ph_loss_discount.png",
+      "name": "Retreat Discount",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_margin": {
+      "category": "item",
+      "file": "assets/poker_head/ph_margin.png",
+      "name": "Room to Breathe",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_mark": {
+      "category": "item",
+      "file": "assets/poker_head/ph_mark.png",
+      "name": "Sleeve Mark",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_oracle": {
+      "category": "item",
+      "file": "assets/poker_head/ph_oracle.png",
+      "name": "Fate Forecast",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_peek": {
+      "category": "item",
+      "file": "assets/poker_head/ph_peek.png",
+      "name": "Card Lens",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_quad": {
+      "category": "item",
+      "file": "assets/poker_head/ph_quad.png",
+      "name": "Fourfold Ticket",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_radar": {
+      "category": "item",
+      "file": "assets/poker_head/ph_radar.png",
+      "name": "Risk Pointer",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_refresh": {
+      "category": "item",
+      "file": "assets/poker_head/ph_refresh.png",
+      "name": "Priority Exchange",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_remove": {
+      "category": "item",
+      "file": "assets/poker_head/ph_remove.png",
+      "name": "Clause Removal",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_retreat": {
+      "category": "item",
+      "file": "assets/poker_head/ph_retreat.png",
+      "name": "Graceful Retreat",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_risk": {
+      "category": "item",
+      "file": "assets/poker_head/ph_risk.png",
+      "name": "Shared Risk",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_silence": {
+      "category": "item",
+      "file": "assets/poker_head/ph_silence.png",
+      "name": "Silence Seal",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_sleeve": {
+      "category": "item",
+      "file": "assets/poker_head/ph_sleeve.png",
+      "name": "Spare Sleeve",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_stakes": {
+      "category": "item",
+      "file": "assets/poker_head/ph_stakes.png",
+      "name": "High Stakes",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_stock": {
+      "category": "item",
+      "file": "assets/poker_head/ph_stock.png",
+      "name": "Risk Stock",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_swap": {
+      "category": "item",
+      "file": "assets/poker_head/ph_swap.png",
+      "name": "Sleeve Clip",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_undo": {
+      "category": "item",
+      "file": "assets/poker_head/ph_undo.png",
+      "name": "Card Recall",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_waiver": {
+      "category": "item",
+      "file": "assets/poker_head/ph_waiver.png",
+      "name": "Loss Waiver",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_yield": {
+      "category": "item",
+      "file": "assets/poker_head/ph_yield.png",
+      "name": "Yield Privilege",
       "size": [
         256,
         256
@@ -578,6 +1187,15 @@
         1080
       ]
     },
+    "table_j54": {
+      "category": "background",
+      "file": "assets/cosmetics/j54/table_j54.png",
+      "name": "Signal Argyle",
+      "size": [
+        1920,
+        1080
+      ]
+    },
     "table_midnight": {
       "category": "background",
       "file": "assets/cosmetics/procedural/table_midnight.png",
@@ -608,14 +1226,34 @@
   },
   "changelog": [
     {
-      "commit": "84c3a7e",
+      "commit": "a462ec2",
       "date": "2026-10-13",
-      "subject": "Fix localized timezone initialization in the browser VM"
+      "subject": "Clean up the deck chart and compare the deck with a standard one"
     },
     {
-      "commit": "cbd2a1e",
-      "date": "2026-10-12",
-      "subject": "Support mobile swipes in Pygame lists and reference panels"
+      "commit": "68bfe24",
+      "date": "2026-10-13",
+      "subject": "Build the table's side columns and run panel from parts and layouts"
+    },
+    {
+      "commit": "95a9944",
+      "date": "2026-10-13",
+      "subject": "Let start_game.bat launch a chosen code version"
+    },
+    {
+      "commit": "d1513ef",
+      "date": "2026-10-13",
+      "subject": "Make J-54's rules and contracts data and show the deck's make-up"
+    },
+    {
+      "commit": "5fa006e",
+      "date": "2026-10-13",
+      "subject": "Add J-54's deck table as a playable demo expansion"
+    },
+    {
+      "commit": "d2aaa1d",
+      "date": "2026-10-13",
+      "subject": "Add the J-54 table design and its place among the modes"
     },
     {
       "commit": "db58829",
@@ -781,31 +1419,6 @@
       "commit": "445d596",
       "date": "2026-10-10",
       "subject": "Keep shop and modal refreshes safe during Chaos AI work"
-    },
-    {
-      "commit": "3242747",
-      "date": "2026-10-10",
-      "subject": "Merge background Chaos AI into shop integration"
-    },
-    {
-      "commit": "db9339b",
-      "date": "2026-10-10",
-      "subject": "Merge item shop into integration"
-    },
-    {
-      "commit": "e2e4ac2",
-      "date": "2026-10-10",
-      "subject": "Merge pull request #3 from fghhn13/feat/table-ui"
-    },
-    {
-      "commit": "5dac61c",
-      "date": "2026-10-10",
-      "subject": "Merge pull request #2 from fghhn13/feat/gui-framework"
-    },
-    {
-      "commit": "5c003b5",
-      "date": "2026-04-03",
-      "subject": "离线部分"
     }
   ],
   "chaos_rules": {
@@ -840,6 +1453,144 @@
         "hard"
       ],
       "stub_weight": 10.0
+    },
+    "j54_ace_injection": {
+      "effect": "Ace Injection: Add 1 card of rank A to the deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Ace Injection",
+      "params": {
+        "deck_rule": true,
+        "name": "Ace Injection",
+        "op": {
+          "count": 1,
+          "op": "add",
+          "select": "rank:A",
+          "when": "now"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 10.0
+    },
+    "j54_burn": {
+      "effect": "Burn Protocol: After the hand, delete all cards drawn this round from the deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Burn Protocol",
+      "params": {
+        "deck_rule": true,
+        "name": "Burn Protocol",
+        "op": {
+          "count": null,
+          "op": "remove",
+          "select": "drawn",
+          "when": "round_end"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 20.0
+    },
+    "j54_data_backflow": {
+      "effect": "Data Backflow: Shuffle 4 removed cards back into the deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Data Backflow",
+      "params": {
+        "deck_rule": true,
+        "name": "Data Backflow",
+        "op": {
+          "count": 4,
+          "op": "return",
+          "select": "removed",
+          "when": "now"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 10.0
+    },
+    "j54_layered_sort": {
+      "effect": "Layered Sort: Move all high cards (10-A) to the bottom of this round's deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Layered Sort",
+      "params": {
+        "deck_rule": true,
+        "name": "Layered Sort",
+        "op": {
+          "count": null,
+          "op": "move_bottom",
+          "select": "high",
+          "when": "now"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 10.0
+    },
+    "j54_redundancy_purge": {
+      "effect": "Redundancy Purge: Delete 3 cards of one random rank from the deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Redundancy Purge",
+      "params": {
+        "deck_rule": true,
+        "name": "Redundancy Purge",
+        "op": {
+          "count": 3,
+          "op": "remove",
+          "select": "random_rank",
+          "when": "now"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 25.0
+    },
+    "j54_sample_injection": {
+      "effect": "Sample Injection: Add 3 cards of one random rank to the deck.",
+      "enabled": true,
+      "flags": [],
+      "icon": null,
+      "name": "Sample Injection",
+      "params": {
+        "deck_rule": true,
+        "name": "Sample Injection",
+        "op": {
+          "count": 3,
+          "op": "add",
+          "select": "random_rank",
+          "when": "now"
+        },
+        "rank": null
+      },
+      "profiles": [
+        "easy",
+        "hard"
+      ],
+      "stub_weight": 25.0
     },
     "modify_card_value": {
       "effect": "Rank values shifted by -1 per card (until cleared).",
@@ -920,6 +1671,36 @@
     }
   },
   "cosmetics": {
+    "avatar_j54": {
+      "achievements": [],
+      "assets": {
+        "avatar": "avatar_j54"
+      },
+      "default": false,
+      "description": "A grin borrowed from J-54.",
+      "hidden": false,
+      "name": "Pixel Clown",
+      "preview_asset": "avatar_j54",
+      "price": 30,
+      "rarity": "rare",
+      "series": "j54",
+      "slot": "avatar"
+    },
+    "avatar_j54_computer": {
+      "achievements": [],
+      "assets": {
+        "avatar": "avatar_j54_computer"
+      },
+      "default": false,
+      "description": "J-54's computer symbol.",
+      "hidden": false,
+      "name": "Red Terminal",
+      "preview_asset": "avatar_j54_computer",
+      "price": 30,
+      "rarity": "rare",
+      "series": "j54",
+      "slot": "avatar"
+    },
     "avatar_joker": {
       "achievements": [
         "white_flag"
@@ -1037,6 +1818,24 @@
       "series": "core",
       "slot": "chips"
     },
+    "chips_j54": {
+      "achievements": [],
+      "assets": {
+        "chip_1": "chips_j54_1",
+        "chip_10": "chips_j54_10",
+        "chip_25": "chips_j54_25",
+        "chip_5": "chips_j54_5"
+      },
+      "default": false,
+      "description": "J-54's coarse pixel chips.",
+      "hidden": false,
+      "name": "Pixel Chips",
+      "preview_asset": "chips_j54_1",
+      "price": 50,
+      "rarity": "rare",
+      "series": "j54",
+      "slot": "chips"
+    },
     "chips_neon": {
       "achievements": [],
       "assets": {
@@ -1073,6 +1872,38 @@
       "series": "core",
       "slot": "chips"
     },
+    "deck_j54": {
+      "achievements": [],
+      "assets": {
+        "card_back": "card_back_j54",
+        "card_front_blank": "card_front_j54"
+      },
+      "default": false,
+      "description": "J-54's black deck with a red pixel grin.",
+      "hidden": false,
+      "name": "Pixel Shadow",
+      "preview_asset": "card_back_j54",
+      "price": 60,
+      "rarity": "epic",
+      "series": "j54",
+      "slot": "deck"
+    },
+    "deck_j54_calculator": {
+      "achievements": [],
+      "assets": {
+        "card_back": "card_back_j54_calculator",
+        "card_front_blank": "card_front_j54"
+      },
+      "default": false,
+      "description": "J-54's red deck, keys and screen in black pixels.",
+      "hidden": false,
+      "name": "Calculator Deck",
+      "preview_asset": "card_back_j54_calculator",
+      "price": 60,
+      "rarity": "epic",
+      "series": "j54",
+      "slot": "deck"
+    },
     "deck_poker_head": {
       "achievements": [
         "chaos_conqueror"
@@ -1104,6 +1935,21 @@
       "price": 80,
       "rarity": "epic",
       "series": "core",
+      "slot": "table"
+    },
+    "table_j54": {
+      "achievements": [],
+      "assets": {
+        "table_background": "table_j54"
+      },
+      "default": false,
+      "description": "J-54's argyle felt with checker trim and signal traces.",
+      "hidden": false,
+      "name": "Signal Argyle",
+      "preview_asset": "table_j54",
+      "price": 80,
+      "rarity": "epic",
+      "series": "j54",
       "slot": "table"
     },
     "table_midnight": {
@@ -1155,6 +2001,18 @@
     }
   },
   "dealers": {
+    "j54": {
+      "name": "J-54",
+      "portrait_asset": "host_j54_welcome",
+      "profile": [
+        "J-54 is a calculating machine built as a circus clown. It performs every gesture as if for a full tent, then reports the result in the voice of a compiler.",
+        "It never bends the rules of blackjack. It rewrites the cards: copies them, deletes them, shuffles the discards back in. The deck you finish with is never the deck you started with."
+      ],
+      "quote": "Fifty-four cards. Infinite configurations. One correct one.",
+      "tables": [
+        "j54"
+      ]
+    },
     "poker_head": {
       "name": "Poker Head",
       "portrait_asset": "default_poker_head_welcome",
@@ -1235,6 +2093,132 @@
       "title": "Table UI: parts, widgets and layouts"
     }
   },
+  "environment_rules": {
+    "bust": {
+      "duration": 2,
+      "duration_text": "2 rounds left, this one included.",
+      "effect": "Your base bust limit is 20: you bust above 20. Cores and items add to it.",
+      "enabled": true,
+      "icon": null,
+      "name": "Fragile Player",
+      "params": {
+        "actor": "player",
+        "limit": 20
+      },
+      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "bust_outcome": {
+      "duration": 2,
+      "duration_text": "2 rounds left, this one included.",
+      "effect": "When the dealer busts and you have not, the round is a push.",
+      "enabled": true,
+      "icon": null,
+      "name": "Dealer Bust Pardon",
+      "params": {
+        "result": "push",
+        "side": "dealer"
+      },
+      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "fixed": {
+      "duration": 0,
+      "duration_text": "In force until removed or replaced.",
+      "effect": "Both hands' 2s count as 1 each.",
+      "enabled": true,
+      "icon": null,
+      "name": "2 Rewrite",
+      "params": {
+        "actor": "both",
+        "group": {
+          "kind": "ranks",
+          "ranks": [
+            "2"
+          ]
+        },
+        "value": 1
+      },
+      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "hidden": {
+      "duration": 2,
+      "duration_text": "2 rounds left, this one included.",
+      "effect": "Your second opening card is dealt face down; your total stays hidden until you stand.",
+      "enabled": true,
+      "icon": null,
+      "name": "Face-Down Card",
+      "params": {},
+      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "item_ban": {
+      "duration": 2,
+      "duration_text": "2 rounds left, this one included.",
+      "effect": "The next consumable you use only lifts this ban: it is spent with no effect.",
+      "enabled": true,
+      "icon": null,
+      "name": "Item Ban",
+      "params": {},
+      "removal": "Sacrifice a consumable (it has no effect), or wait for it to end. Replaced by the dealer."
+    },
+    "markup": {
+      "duration": 3,
+      "duration_text": "3 rounds left, this one included.",
+      "effect": "Consumables and permanents cost 10% more. Financial products and rerolls keep their price.",
+      "enabled": true,
+      "icon": null,
+      "name": "Price Hike",
+      "params": {
+        "pct": 10
+      },
+      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "profit_cap": {
+      "duration": 3,
+      "duration_text": "3 rounds left, this one included.",
+      "effect": "You keep at most 50 chips of this round's profit; the rest is lost. Returned principal, refunds, loan advances and buy-backs are not profit.",
+      "enabled": true,
+      "icon": null,
+      "name": "Withdrawal Limit",
+      "params": {
+        "cap": 50
+      },
+      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "shift": {
+      "duration": 0,
+      "duration_text": "In force until removed or replaced.",
+      "effect": "In both hands: aces +1 each. A card never counts less than 1; aces shift both their values.",
+      "enabled": true,
+      "icon": null,
+      "name": "Ace Shift",
+      "params": {
+        "actor": "both",
+        "shifts": [
+          [
+            {
+              "kind": "ranks",
+              "ranks": [
+                "A"
+              ]
+            },
+            1
+          ]
+        ]
+      },
+      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+    },
+    "tie": {
+      "duration": 0,
+      "duration_text": "In force until removed or replaced.",
+      "effect": "When neither side busts and the totals are equal, the dealer wins.",
+      "enabled": true,
+      "icon": null,
+      "name": "Ties to the House",
+      "params": {
+        "result": "dealer"
+      },
+      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+    }
+  },
   "items": {
     "danger_radar": {
       "help": "Tell whether your next hit would bust you (under the rules in force).",
@@ -1262,6 +2246,78 @@
       "price": 3,
       "price_mode": "bankroll_pct"
     },
+    "j54_freeze": {
+      "help": "At once: stop J-54 adding cards for 3 rounds.",
+      "icon": null,
+      "kind": "contract",
+      "name": "Freeze Contract",
+      "params": {
+        "effect": "freeze",
+        "rounds": 3,
+        "trigger": "now"
+      },
+      "price": 15,
+      "price_mode": "fixed",
+      "timing": "Buy before betting"
+    },
+    "j54_high_injection": {
+      "help": "At once: add 3 high cards (10-A) to the deck.",
+      "icon": null,
+      "kind": "contract",
+      "name": "High Injection Contract",
+      "params": {
+        "count": 3,
+        "op": "add",
+        "select": "high",
+        "trigger": "now"
+      },
+      "price": 20,
+      "price_mode": "fixed",
+      "timing": "Buy before betting"
+    },
+    "j54_low_purge": {
+      "help": "At once: delete 6 low cards (2-6) from the deck.",
+      "icon": null,
+      "kind": "contract",
+      "name": "Low Purge Contract",
+      "params": {
+        "count": 6,
+        "op": "remove",
+        "select": "low",
+        "trigger": "now"
+      },
+      "price": 10,
+      "price_mode": "fixed",
+      "timing": "Buy before betting"
+    },
+    "j54_start_experiment": {
+      "help": "At once: release the sealed Joker into the deck (J-54 then adds more cards each round).",
+      "icon": null,
+      "kind": "contract",
+      "name": "Start Experiment",
+      "params": {
+        "effect": "release_jokers",
+        "trigger": "now"
+      },
+      "price": 50,
+      "price_mode": "fixed",
+      "timing": "Buy before betting"
+    },
+    "j54_streamline": {
+      "help": "When you next win a hand: delete 5 random cards from the deck.",
+      "icon": null,
+      "kind": "contract",
+      "name": "Streamline Contract",
+      "params": {
+        "count": 5,
+        "op": "remove",
+        "select": "any",
+        "trigger": "win"
+      },
+      "price": 20,
+      "price_mode": "fixed",
+      "timing": "Buy before betting"
+    },
     "peek": {
       "help": "Reveal the rank of the next card in the deck.",
       "icon": "assets/peek.png",
@@ -1269,6 +2325,580 @@
       "params": {},
       "price": 4,
       "price_mode": "bankroll_pct"
+    },
+    "ph_account": {
+      "details": "Your seat now comes with a private account.\n\nEffect\nAdd 1 shop slot(s) and unlock financial products.\n\nTiming\nWhile active\n\nLimits\nFinancial products are offered only while this core is active. Existing contracts remain in force after changing cores. One active core. Matching-style shop offers receive a 2x selection weight.\n\nAcquisition\nInvitation choice\n\nRelated effects\nFixed Deposit, Yield Privilege, Short Loan",
+      "help": "Add 1 shop slot(s) and unlock financial products.",
+      "icon": "assets/poker_head/ph_account.png",
+      "kind": "core",
+      "name": "Private Account",
+      "params": {},
+      "phases": "",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "While active"
+    },
+    "ph_ace": {
+      "details": "Your next opening has an ace up its sleeve.\n\nEffect\nAfter surrendering, your next hand starts with an ace.\n\nTiming\nAutomatic while equipped\n\nLimits\nChanges the first opening card to an ace of the same suit in the next round. An ace plus a ten-value opening card can be a natural. Replacing this permanent clears the pending ace. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n80 chips\n\nRelated effects\nExit Clause, Loss Waiver",
+      "help": "After surrendering, your next hand starts with an ace.",
+      "icon": "assets/poker_head/ph_ace.png",
+      "kind": "permanent",
+      "name": "Comeback Ace",
+      "params": {},
+      "phases": "",
+      "price": 80,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Automatic while equipped"
+    },
+    "ph_aces": {
+      "details": "Bring every remaining ace to the front.\n\nEffect\nMove all remaining aces to the top, retaining their order.\n\nTiming\nYour turn\n\nLimits\nPreserves the order of aces and the order of other cards. Creates no new cards. Cannot be used when no ace remains or all aces are already on top. A successful use consumes one copy.\n\nAcquisition\n18 chips\n\nRelated effects\nAlmost Perfect, Sleeve Mark",
+      "help": "Move all remaining aces to the top, retaining their order.",
+      "icon": "assets/poker_head/ph_aces.png",
+      "kind": "item",
+      "name": "Aces to the Top",
+      "params": {},
+      "phases": "P",
+      "price": 18,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "Your turn"
+    },
+    "ph_approx": {
+      "details": "Close enough can be perfect.\n\nEffect\nAfter opening natural settlement, your totals of 20 and 22 count as 21.\n\nTiming\nWhile active\n\nLimits\nApplies after opening natural settlement, before your bust check. It neither creates a natural nor automatically wins or stands. A Chaos ceiling below 21 can still make the recognized 21 bust. One active core. Matching-style shop offers receive a 2x selection weight.\n\nAcquisition\nInvitation choice\n\nExample\nA recognized 21 can still lose if the active Chaos bust ceiling is 19.\n\nRelated effects\nPerfect Payout, Spare Sleeve, Aces to the Top",
+      "help": "After opening natural settlement, your totals of 20 and 22 count as 21.",
+      "icon": "assets/poker_head/ph_approx.png",
+      "kind": "core",
+      "name": "Almost Perfect",
+      "params": {},
+      "phases": "",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "While active"
+    },
+    "ph_audit": {
+      "details": "A heavy hidden card deserves a closer look.\n\nEffect\nWhen your turn starts, reveal a dealer hole card with effective value at least 10.\n\nTiming\nAutomatic while equipped\n\nLimits\nChecks the dealer's effective hole-card value, including a high ace, when your turn begins. A smaller hole card remains hidden. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n55 chips\n\nRelated effects\nRaise Permission, High Stakes",
+      "help": "When your turn starts, reveal a dealer hole card with effective value at least 10.",
+      "icon": "assets/poker_head/ph_audit.png",
+      "kind": "permanent",
+      "name": "Open Audit",
+      "params": {
+        "threshold": 10
+      },
+      "phases": "",
+      "price": 55,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "Automatic while equipped"
+    },
+    "ph_bond": {
+      "details": "Back your own performance with a contract.\n\nEffect\nInvest 20 chips; win at least 2 of 3 rounds to receive 45, otherwise 10.\n\nTiming\nBuy before betting\n\nLimits\nRequires Private Account to buy. The purchase round counts toward maturity, including naturals, pushes and surrenders. Net assets = cash + invested principal at cost - full outstanding loan repayment. Win at 500 net assets. On victory, principal and debt settle without unearned interest. Only actual player wins and natural wins count toward the contract.\n\nAcquisition\nInvest 20 chips\n\nRelated effects\nYield Privilege, Perfect Payout",
+      "help": "Invest 20 chips; win at least 2 of 3 rounds to receive 45, otherwise 10.",
+      "icon": "assets/poker_head/ph_bond.png",
+      "kind": "finance",
+      "name": "Performance Bond",
+      "params": {
+        "failure": 10,
+        "payout": 45,
+        "rounds": 3,
+        "wins": 2
+      },
+      "phases": "",
+      "price": 20,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Buy before betting"
+    },
+    "ph_borrow": {
+      "details": "Let the dealer's perfect opening become your good fortune.\n\nEffect\nThe dealer's starting blackjack becomes your starting win.\n\nTiming\nAutomatic while equipped\n\nLimits\nUses the dealer's original two-card natural, including when both hands are natural. It changes the outcome without exchanging hands or manufacturing a 21-point hand. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n85 chips\n\nRelated effects\nPerfect Payout",
+      "help": "The dealer's starting blackjack becomes your starting win.",
+      "icon": "assets/poker_head/ph_borrow.png",
+      "kind": "permanent",
+      "name": "Borrowed Glory",
+      "params": {},
+      "phases": "",
+      "price": 85,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "Automatic while equipped"
+    },
+    "ph_buffer": {
+      "details": "A temporary allowance gives your hand more room.\n\nEffect\nRaise your bust limit by 2 for this round.\n\nTiming\nBefore bet / Your turn\n\nLimits\nOnly your ceiling changes. Once per round; can be prepared before betting and expires after settlement. A successful use consumes one copy.\n\nAcquisition\n8 chips\n\nRelated effects\nFive Card Feast, Room to Breathe",
+      "help": "Raise your bust limit by 2 for this round.",
+      "icon": "assets/poker_head/ph_buffer.png",
+      "kind": "item",
+      "name": "Temporary Allowance",
+      "params": {
+        "bonus": 2
+      },
+      "phases": "BP",
+      "price": 8,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Before bet / Your turn"
+    },
+    "ph_buyback": {
+      "details": "A purchase can become cash again.\n\nEffect\nReturn another consumable for its actual purchase price; check victory at once.\n\nTiming\nBefore betting\n\nLimits\nChoose another purchased consumable instance. Consumes both items and refunds the target's actual paid price. Free items, cores, permanents and contracts are ineligible. Can immediately reach the victory target. A successful use consumes one copy.\n\nAcquisition\n6 chips\n\nRelated effects\nPurchasing Privilege",
+      "help": "Return another consumable for its actual purchase price; check victory at once.",
+      "icon": "assets/poker_head/ph_buyback.png",
+      "kind": "item",
+      "name": "Original Price Receipt",
+      "params": {},
+      "phases": "B",
+      "price": 6,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "Before betting"
+    },
+    "ph_change": {
+      "details": "A new agreement can reshape the rest of your run.\n\nEffect\nChoose one of two new cores; keep your purchased goods.\n\nTiming\nBefore betting\n\nLimits\nChoices are fixed when purchased and exclude your current core. Purchased goods and contracts remain; the new core changes shop style weighting. A successful use consumes one copy.\n\nAcquisition\n20 chips\n\nRelated effects\nThe Dealer's Invitation",
+      "help": "Choose one of two new cores; keep your purchased goods.",
+      "icon": "assets/poker_head/ph_change.png",
+      "kind": "item",
+      "name": "Amendment Letter",
+      "params": {},
+      "phases": "B",
+      "price": 20,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Before betting"
+    },
+    "ph_claim": {
+      "details": "Keep the receipt. Your comeback may cover it.\n\nEffect\nAfter a paid surrender, win the next round to recover 50% of the surrendered wager, rounded upward, regardless of its discounted loss.\n\nTiming\nAutomatic while equipped\n\nLimits\nOnly a paid surrender creates a receipt. It expires after the next round, cannot stack, and is lost if replaced. Loss Waiver creates no receipt. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n65 chips\n\nExample\nA 20-chip surrender records the wager. Win next round to recover 10 chips even if a discount reduced your loss.\n\nRelated effects\nRetreat Discount, Loss Waiver",
+      "help": "After a paid surrender, win the next round to recover 50% of the surrendered wager, rounded upward, regardless of its discounted loss.",
+      "icon": "assets/poker_head/ph_claim.png",
+      "kind": "permanent",
+      "name": "Recovery Receipt",
+      "params": {},
+      "phases": "",
+      "price": 65,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Automatic while equipped"
+    },
+    "ph_court": {
+      "details": "Even royalty can offer a concession.\n\nEffect\nYour J, Q and K count as 5 each, after Chaos modifiers.\n\nTiming\nAutomatic while equipped\n\nLimits\nOnly your J/Q/K values change, after Chaos value modifiers. The dealer's face cards keep their effective values. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n65 chips\n\nRelated effects\nRoom to Breathe, Five Card Feast",
+      "help": "Your J, Q and K count as 5 each, after Chaos modifiers.",
+      "icon": "assets/poker_head/ph_court.png",
+      "kind": "permanent",
+      "name": "Court Discount",
+      "params": {
+        "value": 5
+      },
+      "phases": "",
+      "price": 65,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Automatic while equipped"
+    },
+    "ph_deposit": {
+      "details": "Give your chips time to earn a return.\n\nEffect\nInvest 30 chips; receive 40 after 2 rounds.\n\nTiming\nBuy before betting\n\nLimits\nRequires Private Account to buy. The purchase round counts toward maturity, including naturals, pushes and surrenders. Net assets = cash + invested principal at cost - full outstanding loan repayment. Win at 500 net assets. On victory, principal and debt settle without unearned interest.\n\nAcquisition\nInvest 30 chips\n\nRelated effects\nYield Privilege, Private Account",
+      "help": "Invest 30 chips; receive 40 after 2 rounds.",
+      "icon": "assets/poker_head/ph_deposit.png",
+      "kind": "finance",
+      "name": "Fixed Deposit",
+      "params": {
+        "payout": 40,
+        "rounds": 2
+      },
+      "phases": "",
+      "price": 30,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Buy before betting"
+    },
+    "ph_discount": {
+      "details": "A preferred customer pays a little less.\n\nEffect\nShop goods cost 10% less; prices round upward.\n\nTiming\nAutomatic while equipped\n\nLimits\nPrices round upward. Investments and loans are excluded. Original Price Receipt refunds what you actually paid. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n20 chips\n\nRelated effects\nOriginal Price Receipt, Priority Exchange",
+      "help": "Shop goods cost 10% less; prices round upward.",
+      "icon": "assets/poker_head/ph_discount.png",
+      "kind": "permanent",
+      "name": "Purchasing Privilege",
+      "params": {
+        "discount_pct": 10
+      },
+      "phases": "",
+      "price": 20,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Automatic while equipped"
+    },
+    "ph_five_reward": {
+      "details": "Make room for one more guest at the feast.\n\nEffect\nWin with at least 5 cards for an extra 100% of the final wager.\n\nTiming\nAutomatic while equipped\n\nLimits\nRequires a win; reaching the card count alone does not settle the hand. Adds to Long Hand Dividend. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n90 chips\n\nRelated effects\nLong Hand Dividend, Room to Breathe",
+      "help": "Win with at least 5 cards for an extra 100% of the final wager.",
+      "icon": "assets/poker_head/ph_five_reward.png",
+      "kind": "permanent",
+      "name": "Five Card Feast",
+      "params": {
+        "bonus_pct": 100,
+        "cards": 5
+      },
+      "phases": "",
+      "price": 90,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Automatic while equipped"
+    },
+    "ph_gift": {
+      "details": "Choose the terms of your invitation.\n\nEffect\nChoose one of two random cores, or take 30 chips and no core for this run.\n\nTiming\nBefore betting\n\nLimits\nFree at the beginning of the run. Taking cash means no core for the entire run and disables Amendment Letter. A successful use consumes one copy.\n\nAcquisition\nFree opening gift\n\nRelated effects\nAmendment Letter",
+      "help": "Choose one of two random cores, or take 30 chips and no core for this run.",
+      "icon": "assets/poker_head/ph_gift.png",
+      "kind": "item",
+      "name": "The Dealer's Invitation",
+      "params": {},
+      "phases": "B",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Before betting"
+    },
+    "ph_hole": {
+      "details": "Bring the dealer's secret into the light.\n\nEffect\nReveal the dealer's hole card.\n\nTiming\nYour turn\n\nLimits\nReveals the hole card without changing it or the dealer's hand. A successful use consumes one copy.\n\nAcquisition\n8 chips\n\nRelated effects\nGraceful Retreat, Raise Permission",
+      "help": "Reveal the dealer's hole card.",
+      "icon": "assets/poker_head/ph_hole.png",
+      "kind": "item",
+      "name": "Hole Probe",
+      "params": {},
+      "phases": "P",
+      "price": 8,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Your turn"
+    },
+    "ph_jackpot": {
+      "details": "Perfect timing earns a generous payout.\n\nEffect\nA winning recognized 21 earns base profit of 3 times the final wager.\n\nTiming\nAutomatic while equipped\n\nLimits\nThis is base profit, not an extra payout on top of normal win profit. Other eligible bonuses add to it. Opening naturals and Borrowed Glory also qualify. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n100 chips\n\nRelated effects\nAlmost Perfect, Borrowed Glory",
+      "help": "A winning recognized 21 earns base profit of 3 times the final wager.",
+      "icon": "assets/poker_head/ph_jackpot.png",
+      "kind": "permanent",
+      "name": "Perfect Payout",
+      "params": {
+        "multiplier": 3
+      },
+      "phases": "",
+      "price": 100,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "Automatic while equipped"
+    },
+    "ph_late_double": {
+      "details": "There is still time to raise the stakes.\n\nEffect\nYou may double after hitting.\n\nTiming\nAutomatic while equipped\n\nLimits\nThe final wager must be affordable. Double still draws exactly one card and ends your turn. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n45 chips\n\nRelated effects\nFourfold Ticket, Open Audit",
+      "help": "You may double after hitting.",
+      "icon": "assets/poker_head/ph_late_double.png",
+      "kind": "permanent",
+      "name": "Raise Permission",
+      "params": {},
+      "phases": "",
+      "price": 45,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "Automatic while equipped"
+    },
+    "ph_late_retreat": {
+      "details": "The exit stays open a little longer.\n\nEffect\nYou may surrender after hitting, before busting.\n\nTiming\nAutomatic while equipped\n\nLimits\nYou must still be in your turn and not have busted. An item use does not restore a finished hand. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n35 chips\n\nRelated effects\nGraceful Retreat, Comeback Ace",
+      "help": "You may surrender after hitting, before busting.",
+      "icon": "assets/poker_head/ph_late_retreat.png",
+      "kind": "permanent",
+      "name": "Exit Clause",
+      "params": {},
+      "phases": "",
+      "price": 35,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Automatic while equipped"
+    },
+    "ph_loan": {
+      "details": "Borrow time now; settle the account later.\n\nEffect\nReceive 40 chips now; repay 50 after 3 rounds. One loan at a time.\n\nTiming\nBuy before betting\n\nLimits\nRequires Private Account to buy. The purchase round counts toward maturity, including naturals, pushes and surrenders. Net assets = cash + invested principal at cost - full outstanding loan repayment. Win at 500 net assets. On victory, principal and debt settle without unearned interest. Only one outstanding loan; no rollover. Borrowing increases cash and also creates debt.\n\nAcquisition\nBorrow 40 / Repay 50\n\nExample\nThe advance is spendable cash, but the full repayment is deducted from net assets immediately.\n\nRelated effects\nPrivate Account, Fourfold Ticket",
+      "help": "Receive 40 chips now; repay 50 after 3 rounds. One loan at a time.",
+      "icon": "assets/poker_head/ph_loan.png",
+      "kind": "finance",
+      "name": "Short Loan",
+      "params": {
+        "advance": 40,
+        "repay": 50,
+        "rounds": 3
+      },
+      "phases": "",
+      "price": 0,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Buy before betting"
+    },
+    "ph_long_reward": {
+      "details": "Every extra card can earn its keep.\n\nEffect\nWin with at least 4 cards for an extra 20% of the final wager.\n\nTiming\nAutomatic while equipped\n\nLimits\nRequires a win; a push or surrender earns no card-count bonus. Adds to other winning bonuses. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n30 chips\n\nRelated effects\nFive Card Feast, Court Discount",
+      "help": "Win with at least 4 cards for an extra 20% of the final wager.",
+      "icon": "assets/poker_head/ph_long_reward.png",
+      "kind": "permanent",
+      "name": "Long Hand Dividend",
+      "params": {
+        "bonus_pct": 20,
+        "cards": 4
+      },
+      "phases": "",
+      "price": 30,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Automatic while equipped"
+    },
+    "ph_loss_discount": {
+      "details": "Negotiate the price of walking away.\n\nEffect\nReduce surrender loss by 10 percentage points, to a minimum of 10%.\n\nTiming\nAutomatic while equipped\n\nLimits\nUses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n30 chips\n\nRelated effects\nGraceful Retreat, Recovery Receipt",
+      "help": "Reduce surrender loss by 10 percentage points, to a minimum of 10%.",
+      "icon": "assets/poker_head/ph_loss_discount.png",
+      "kind": "permanent",
+      "name": "Retreat Discount",
+      "params": {
+        "discount_pct": 10,
+        "minimum_pct": 10
+      },
+      "phases": "",
+      "price": 30,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Automatic while equipped"
+    },
+    "ph_margin": {
+      "details": "Leave yourself a little room at the edge.\n\nEffect\nRaise your bust limit by 1 while this core is active.\n\nTiming\nWhile active\n\nLimits\nChanges only your bust ceiling. The dealer and Chaos rules keep their own effects. One active core. Matching-style shop offers receive a 2x selection weight.\n\nAcquisition\nInvitation choice\n\nRelated effects\nCourt Discount, Five Card Feast",
+      "help": "Raise your bust limit by 1 while this core is active.",
+      "icon": "assets/poker_head/ph_margin.png",
+      "kind": "core",
+      "name": "Room to Breathe",
+      "params": {},
+      "phases": "",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "While active"
+    },
+    "ph_mark": {
+      "details": "A discreet mark points to what comes next.\n\nEffect\nSee the next rank when your turn begins.\n\nTiming\nAutomatic while equipped\n\nLimits\nReveals a rank once when your turn begins. It does not update after you draw or reorder the deck. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n40 chips\n\nRelated effects\nSpare Sleeve, Aces to the Top",
+      "help": "See the next rank when your turn begins.",
+      "icon": "assets/poker_head/ph_mark.png",
+      "kind": "permanent",
+      "name": "Sleeve Mark",
+      "params": {},
+      "phases": "",
+      "price": 40,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Automatic while equipped"
+    },
+    "ph_oracle": {
+      "details": "See a little further before committing your chips.\n\nEffect\nBefore betting, see the first two cards left after the initial deal.\n\nTiming\nBefore betting\n\nLimits\nShows the first two cards remaining after the initial four-card deal, including suits. Does not show either opening hand. Forecasts survive saves and shopping; later deck changes can make them outdated. A successful use consumes one copy.\n\nAcquisition\n10 chips\n\nRelated effects\nFourfold Ticket, Aces to the Top",
+      "help": "Before betting, see the first two cards left after the initial deal.",
+      "icon": "assets/poker_head/ph_oracle.png",
+      "kind": "item",
+      "name": "Fate Forecast",
+      "params": {},
+      "phases": "B",
+      "price": 10,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Before betting"
+    },
+    "ph_peek": {
+      "details": "Focus on the next card.\n\nEffect\nReveal the next rank.\n\nTiming\nYour turn\n\nLimits\nReveals the next rank, without drawing or revealing its suit. A successful use consumes one copy.\n\nAcquisition\n4 chips\n\nRelated effects\nSpare Sleeve, Five Card Feast",
+      "help": "Reveal the next rank.",
+      "icon": "assets/poker_head/ph_peek.png",
+      "kind": "item",
+      "name": "Card Lens",
+      "params": {},
+      "phases": "P",
+      "price": 4,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Your turn"
+    },
+    "ph_quad": {
+      "details": "One ticket. Four times the commitment.\n\nEffect\nYour next legal double this round stakes 4 times the original wager.\n\nTiming\nBefore bet / Your turn\n\nLimits\nOnce per round. Changes the next legal double's wager multiplier; it does not allow a second double. You need enough cash for the final wager. A successful use consumes one copy.\n\nAcquisition\n15 chips\n\nRelated effects\nHigh Stakes, Shared Risk",
+      "help": "Your next legal double this round stakes 4 times the original wager.",
+      "icon": "assets/poker_head/ph_quad.png",
+      "kind": "item",
+      "name": "Fourfold Ticket",
+      "params": {
+        "multiplier": 4
+      },
+      "phases": "BP",
+      "price": 15,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "Before bet / Your turn"
+    },
+    "ph_radar": {
+      "details": "Check the danger before taking another step.\n\nEffect\nCheck whether your next hit would bust under the current effects.\n\nTiming\nYour turn\n\nLimits\nUses your effective values, bust ceiling, core and temporary effects at the time of use. A successful use consumes one copy.\n\nAcquisition\n3 chips\n\nRelated effects\nRoom to Breathe, Temporary Allowance",
+      "help": "Check whether your next hit would bust under the current effects.",
+      "icon": "assets/poker_head/ph_radar.png",
+      "kind": "item",
+      "name": "Risk Pointer",
+      "params": {},
+      "phases": "P",
+      "price": 3,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Your turn"
+    },
+    "ph_refresh": {
+      "details": "One more look at the exchange, on the house.\n\nEffect\nOne extra free shop refresh per restock.\n\nTiming\nBefore betting\n\nLimits\nOne additional free refresh per stock. Replacing and re-equipping it does not restore a used refresh. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n20 chips\n\nRelated effects\nPrivate Account, Purchasing Privilege",
+      "help": "One extra free shop refresh per restock.",
+      "icon": "assets/poker_head/ph_refresh.png",
+      "kind": "permanent",
+      "name": "Priority Exchange",
+      "params": {},
+      "phases": "B",
+      "price": 20,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Before betting"
+    },
+    "ph_remove": {
+      "details": "Cross out a clause you can do without.\n\nEffect\nRemove one persistent Chaos rule of your choice.\n\nTiming\nBefore bet / Your turn\n\nLimits\nChoose one active persistent rule. Removal lasts for the run; the dealer may introduce that rule again later. A successful use consumes one copy.\n\nAcquisition\n15 chips\n\nRelated effects\nSilence Seal",
+      "help": "Remove one persistent Chaos rule of your choice.",
+      "icon": "assets/poker_head/ph_remove.png",
+      "kind": "item",
+      "name": "Clause Removal",
+      "params": {},
+      "phases": "BP",
+      "price": 15,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Before bet / Your turn"
+    },
+    "ph_retreat": {
+      "details": "A graceful exit keeps your next hand alive.\n\nEffect\nSurrender loses only 20% of your wager, rounded upward.\n\nTiming\nWhile active\n\nLimits\nOne active core. Matching-style shop offers receive a 2x selection weight.\n\nAcquisition\nInvitation choice\n\nRelated effects\nRetreat Discount, Recovery Receipt, Comeback Ace",
+      "help": "Surrender loses only 20% of your wager, rounded upward.",
+      "icon": "assets/poker_head/ph_retreat.png",
+      "kind": "core",
+      "name": "Graceful Retreat",
+      "params": {},
+      "phases": "",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "While active"
+    },
+    "ph_risk": {
+      "details": "Someone else carries part of the risk.\n\nEffect\nOn a doubled loss, pay only 75% of the final wager, rounded upward.\n\nTiming\nAutomatic while equipped\n\nLimits\nApplies to a doubled loss, including Fourfold Ticket. Does not discount surrender or ordinary losses; the charge rounds upward. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n65 chips\n\nRelated effects\nHigh Stakes, Fourfold Ticket",
+      "help": "On a doubled loss, pay only 75% of the final wager, rounded upward.",
+      "icon": "assets/poker_head/ph_risk.png",
+      "kind": "permanent",
+      "name": "Shared Risk",
+      "params": {
+        "discount_pct": 25
+      },
+      "phases": "",
+      "price": 65,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "Automatic while equipped"
+    },
+    "ph_silence": {
+      "details": "For one hand, let the cards speak alone.\n\nEffect\nSuppress all Chaos rules for this round, including new ones.\n\nTiming\nBefore bet / Your turn\n\nLimits\nIncludes any new rule introduced this round. Suppressed rules return next round. Cannot be used twice in one round. A successful use consumes one copy.\n\nAcquisition\n10 chips\n\nRelated effects\nClause Removal",
+      "help": "Suppress all Chaos rules for this round, including new ones.",
+      "icon": "assets/poker_head/ph_silence.png",
+      "kind": "item",
+      "name": "Silence Seal",
+      "params": {},
+      "phases": "BP",
+      "price": 10,
+      "price_mode": "fixed",
+      "style": "common",
+      "timing": "Before bet / Your turn"
+    },
+    "ph_sleeve": {
+      "details": "A spare card can change the shape of a hand.\n\nEffect\nOne free replacement of your first card each round.\n\nTiming\nYour turn\n\nLimits\nOnce per round. Replaces the first card, not a card of your choice; the discarded card does not return to the deck. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n55 chips\n\nRelated effects\nAlmost Perfect, Sleeve Mark",
+      "help": "One free replacement of your first card each round.",
+      "icon": "assets/poker_head/ph_sleeve.png",
+      "kind": "permanent",
+      "name": "Spare Sleeve",
+      "params": {},
+      "phases": "P",
+      "price": 55,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "Your turn"
+    },
+    "ph_stakes": {
+      "details": "A bigger commitment deserves a bigger reward.\n\nEffect\nA doubled win earns an extra 25% of the final wager.\n\nTiming\nWhile active\n\nLimits\nRequires a winning doubled hand. The bonus uses the final wager, including a Fourfold Ticket. One active core. Matching-style shop offers receive a 2x selection weight.\n\nAcquisition\nInvitation choice\n\nRelated effects\nShared Risk, Fourfold Ticket, Open Audit",
+      "help": "A doubled win earns an extra 25% of the final wager.",
+      "icon": "assets/poker_head/ph_stakes.png",
+      "kind": "core",
+      "name": "High Stakes",
+      "params": {},
+      "phases": "",
+      "price": null,
+      "price_mode": "fixed",
+      "style": "double",
+      "timing": "While active"
+    },
+    "ph_stock": {
+      "details": "A risky position promises an uncertain return.\n\nEffect\nInvest 30 chips; after 2 rounds, a 50% chance of 90, otherwise 0.\n\nTiming\nBuy before betting\n\nLimits\nRequires Private Account to buy. The purchase round counts toward maturity, including naturals, pushes and surrenders. Net assets = cash + invested principal at cost - full outstanding loan repayment. Win at 500 net assets. On victory, principal and debt settle without unearned interest.\n\nAcquisition\nInvest 30 chips\n\nRelated effects\nYield Privilege, Private Account",
+      "help": "Invest 30 chips; after 2 rounds, a 50% chance of 90, otherwise 0.",
+      "icon": "assets/poker_head/ph_stock.png",
+      "kind": "finance",
+      "name": "Risk Stock",
+      "params": {
+        "payout": 90,
+        "probability": 0.5,
+        "rounds": 2
+      },
+      "phases": "",
+      "price": 30,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Buy before betting"
+    },
+    "ph_swap": {
+      "details": "Trade an awkward opening for another chance.\n\nEffect\nReplace your first card with the next deck card.\n\nTiming\nYour turn\n\nLimits\nReplaces your first card with the next deck card. The old card is discarded. A successful use consumes one copy.\n\nAcquisition\n6 chips\n\nRelated effects\nAlmost Perfect, Sleeve Mark",
+      "help": "Replace your first card with the next deck card.",
+      "icon": "assets/poker_head/ph_swap.png",
+      "kind": "item",
+      "name": "Sleeve Clip",
+      "params": {},
+      "phases": "P",
+      "price": 6,
+      "price_mode": "fixed",
+      "style": "long",
+      "timing": "Your turn"
+    },
+    "ph_undo": {
+      "details": "Recall the last card before it defines your hand.\n\nEffect\nRemove your last card; keep at least two.\n\nTiming\nYour turn\n\nLimits\nAt least two cards must remain. The recalled card is discarded rather than returned to the deck. Cannot rescue a hand that has already settled. A successful use consumes one copy.\n\nAcquisition\n8 chips\n\nRelated effects\nAlmost Perfect, Perfect Payout",
+      "help": "Remove your last card; keep at least two.",
+      "icon": "assets/poker_head/ph_undo.png",
+      "kind": "item",
+      "name": "Card Recall",
+      "params": {},
+      "phases": "P",
+      "price": 8,
+      "price_mode": "fixed",
+      "style": "exact",
+      "timing": "Your turn"
+    },
+    "ph_waiver": {
+      "details": "Leave the table with this wager intact.\n\nEffect\nSurrender without a loss; no recovery receipt is created.\n\nTiming\nYour turn\n\nLimits\nRequires legal surrender. Creates no Recovery Receipt, but can trigger Comeback Ace. A successful use consumes one copy.\n\nAcquisition\n10 chips\n\nRelated effects\nComeback Ace, Recovery Receipt",
+      "help": "Surrender without a loss; no recovery receipt is created.",
+      "icon": "assets/poker_head/ph_waiver.png",
+      "kind": "item",
+      "name": "Loss Waiver",
+      "params": {},
+      "phases": "P",
+      "price": 10,
+      "price_mode": "fixed",
+      "style": "retreat",
+      "timing": "Your turn"
+    },
+    "ph_yield": {
+      "details": "Give a successful investment a little extra lift.\n\nEffect\nPositive investment profit increases by 25% at maturity.\n\nTiming\nAutomatic while equipped\n\nLimits\nMust be equipped at maturity. Applies only to positive profit, rounded down, without multiplying principal or reducing a loss. Uses one of 2 permanent slots. One copy per product; replace before betting without a refund.\n\nAcquisition\n35 chips\n\nRelated effects\nFixed Deposit, Performance Bond, Risk Stock",
+      "help": "Positive investment profit increases by 25% at maturity.",
+      "icon": "assets/poker_head/ph_yield.png",
+      "kind": "permanent",
+      "name": "Yield Privilege",
+      "params": {
+        "bonus_pct": 25
+      },
+      "phases": "",
+      "price": 35,
+      "price_mode": "fixed",
+      "style": "finance",
+      "timing": "Automatic while equipped"
     },
     "shield": {
       "help": "Dispel every active chaos rule for the rest of this round.",
@@ -1300,6 +2930,12 @@
       "allowed_rules": [
         "fragile_bust",
         "great_crash",
+        "j54_ace_injection",
+        "j54_burn",
+        "j54_data_backflow",
+        "j54_layered_sort",
+        "j54_redundancy_purge",
+        "j54_sample_injection",
         "modify_card_value",
         "odd_even_chaos",
         "reverse_bust",
@@ -1316,6 +2952,12 @@
       "allowed_rules": [
         "fragile_bust",
         "great_crash",
+        "j54_ace_injection",
+        "j54_burn",
+        "j54_data_backflow",
+        "j54_layered_sort",
+        "j54_redundancy_purge",
+        "j54_sample_injection",
         "modify_card_value",
         "odd_even_chaos",
         "reverse_bust",
@@ -1338,6 +2980,10 @@
     "core": {
       "expansion": false,
       "name": "Classic Table"
+    },
+    "j54": {
+      "expansion": true,
+      "name": "J-54"
     },
     "poker_head": {
       "expansion": true,
@@ -1422,12 +3068,278 @@
       "type": "float",
       "value": 0.2
     },
+    "meta.unlock_all_cosmetics": {
+      "description": "Every player may wear every look (wardrobe and shop; nothing is stored)",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
     "meta.win_tokens": {
       "description": "Tokens for winning a run",
       "max": null,
       "min": 0.0,
       "type": "int",
       "value": 10
+    },
+    "mode.chaos.approx_values": {
+      "description": "Totals recognized as 21 after natural settlement",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "20,22"
+    },
+    "mode.chaos.base_surrender_pct": {
+      "description": "Undiscounted surrender fee percentage",
+      "max": 100.0,
+      "min": 0.0,
+      "type": "int",
+      "value": 50
+    },
+    "mode.chaos.bet_step_add": {
+      "description": "Increase after the last minimum bet step",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 10
+    },
+    "mode.chaos.bet_step_rounds": {
+      "description": "Rounds per minimum bet step",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 3
+    },
+    "mode.chaos.build_slots": {
+      "description": "Permanent build slots",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.chaos.build_version": {
+      "description": "New Poker Head build version",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.chaos.config.objective": {
+      "description": "Poker Head victory objective",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "net_assets"
+    },
+    "mode.chaos.config.target_money": {
+      "description": "Net assets needed to win at Poker Head",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 500
+    },
+    "mode.chaos.decline_cash": {
+      "description": "Extra starting chips for declining a core",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 30
+    },
+    "mode.chaos.director.cooldown_cleared": {
+      "description": "Director actions a type waits after the player clears it",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.chaos.director.cooldown_expired": {
+      "description": "Director actions a type waits after it ends",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.chaos.director.cooldown_replaced": {
+      "description": "Director actions a replaced effect waits",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.chaos.director.pools": {
+      "description": "Director variant pools per stage",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "[{\"fixed\":{\"single\":2,\"group\":[8,9]},\"shift\":{\"rank\":[1,-1]},\"markup\":[[10,3]]},{\"fixed\":{\"single\":3,\"group\":[7,8]},\"shift\":{\"rank\":[1,-1],\"group\":[1,-1],\"compound\":[1]},\"bust\":[[\"player\",20,2],[\"dealer\",22,2]],\"tie\":[\"dealer\"],\"item_ban\":[2],\"markup\":[[20,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[6,7,8]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[50,3]],\"item_ban\":[2],\"markup\":[[30,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[5,6,7]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,2,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[40,3],[30,3]],\"item_ban\":[3],\"markup\":[[40,3]],\"hidden\":[3]}]"
+    },
+    "mode.chaos.director.pressure": {
+      "description": "Director pressure per rule variant",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "{\"fixed\":1,\"shift_local_1\":1,\"shift_local_2\":2,\"shift_compound\":2,\"shift_all\":2,\"bust\":{\"player:20\":2,\"player:19\":3,\"dealer:22\":2,\"dealer:23\":3},\"tie\":2,\"bust_outcome\":3,\"profit_cap\":{\"50\":2,\"40\":3,\"30\":4},\"item_ban\":{\"2\":2,\"3\":3},\"markup\":{\"10\":1,\"20\":1,\"30\":2,\"40\":2},\"hidden\":2}"
+    },
+    "mode.chaos.director.stages": {
+      "description": "Director stages: [first round, action chance, rule slots, pressure budget]",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "[[1,0.6,1,2],[4,0.75,2,4],[7,0.85,3,7],[10,0.95,3,8]]"
+    },
+    "mode.chaos.director.weights": {
+      "description": "Director type weights per stage",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "{\"shift\":[45,35,25,20],\"fixed\":[35,20,15,10],\"bust\":[0,10,15,15],\"tie\":[0,10,10,10],\"bust_outcome\":[0,0,10,15],\"profit_cap\":[0,0,10,15],\"item_ban\":[0,5,5,5],\"markup\":[20,10,5,5],\"hidden\":[0,10,5,5]}"
+    },
+    "mode.chaos.double_bonus_pct": {
+      "description": "High Stakes extra win percentage",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 25
+    },
+    "mode.chaos.extra_shop_slots": {
+      "description": "Private Account extra shop slots",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.chaos.margin_bonus": {
+      "description": "Room to Breathe bust limit bonus",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.chaos.min_bets": {
+      "description": "Minimum bet steps",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "5,10,15,20,30,40"
+    },
+    "mode.chaos.permanent_early": {
+      "description": "Permanent offer probability in rounds 1 to 3",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "float",
+      "value": 0.2
+    },
+    "mode.chaos.permanent_late": {
+      "description": "Permanent offer probability after round 6",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "float",
+      "value": 0.4
+    },
+    "mode.chaos.permanent_middle": {
+      "description": "Permanent offer probability in rounds 4 to 6",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "float",
+      "value": 0.3
+    },
+    "mode.chaos.rule_slots": {
+      "description": "Persistent Chaos rule slots",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 3
+    },
+    "mode.chaos.style_weight": {
+      "description": "Current core offer weight multiplier",
+      "max": null,
+      "min": 0.0,
+      "type": "float",
+      "value": 2.0
+    },
+    "mode.chaos.surrender_pct": {
+      "description": "Graceful Retreat loss percentage",
+      "max": 100.0,
+      "min": 0.0,
+      "type": "int",
+      "value": 20
+    },
+    "mode.chaos.unlock_all": {
+      "description": "Testing: every product on the shelf, money products without Private Account",
+      "max": 1.0,
+      "min": 0.0,
+      "type": "int",
+      "value": 0
+    },
+    "mode.j54.capital_target": {
+      "description": "Capital protocol: bankroll that wins the run",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 250
+    },
+    "mode.j54.config.shop_refresh_rounds": {
+      "description": "J-54 restocks its contracts every round",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.j54.dealer_joker_penalty": {
+      "description": "Low cards J-54 adds when it takes a Joker back from the dealer",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.j54.entropy": {
+      "description": "Low cards J-54 adds to the deck after each round",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.j54.entropy_experiment": {
+      "description": "Low cards J-54 adds after each round once the experiment started",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.j54.experiment_jokers": {
+      "description": "Capture protocol: Jokers released by Start Experiment (all must be drawn)",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.j54.fee_step_rounds": {
+      "description": "Rounds per compute fee step",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 4
+    },
+    "mode.j54.fee_steps": {
+      "description": "Compute fee per round, one value per fee step; doubles after the last",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "0,1,2,4,8"
+    },
+    "mode.j54.min_deck": {
+      "description": "Deletions never shrink the deck below this many cards",
+      "max": null,
+      "min": 8.0,
+      "type": "int",
+      "value": 12
+    },
+    "mode.j54.protocols": {
+      "description": "Protocols (win conditions) a J-54 run draws from",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "capture,capital"
     },
     "run.objective": {
       "description": "Run objective id",
@@ -1579,6 +3491,7 @@
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
     "game_commit": "84c3a7e",
+    "historical": true,
     "measured": {
       "bands": [
         {
@@ -1748,11 +3661,14 @@
     }
   },
   "source": {
-    "commit": "84c3a7e",
+    "base_commit": "a462ec2",
+    "commit": "6f946b3",
+    "content_tree": "3d60874c66eb8bfc64945ffa5af83047bdf72893",
     "date": "2026-10-13",
-    "ref": "main",
-    "subject": "Fix localized timezone initialization in the browser VM",
-    "version": "0.2.0"
+    "ref": "feat/j54-demo",
+    "subject": "Current game working tree captured for wiki publication",
+    "version": "0.2.0",
+    "working_tree": true
   },
   "tables": {
     "chaos": {
@@ -1763,31 +3679,200 @@
       ],
       "chaos": true,
       "description": "Familiar blackjack, with a dealer fond of small adjustments. Watch the rule change announced each round and adapt your strategy.",
+      "environment_rules": [
+        "bust",
+        "bust_outcome",
+        "fixed",
+        "hidden",
+        "item_ban",
+        "markup",
+        "profit_cap",
+        "shift",
+        "tie"
+      ],
+      "experimental": false,
+      "goal_text": "Reach 500 net assets",
       "host": "poker_head",
       "icon_asset": "mode_poker_head",
-      "item_pool": null,
-      "items": [
+      "item_pool": [
+        "ph_long_reward",
+        "ph_court",
+        "ph_five_reward",
+        "ph_mark",
+        "ph_late_retreat",
+        "ph_loss_discount",
+        "ph_claim",
+        "ph_ace",
+        "ph_jackpot",
+        "ph_sleeve",
+        "ph_borrow",
+        "ph_late_double",
+        "ph_risk",
+        "ph_audit",
+        "ph_discount",
+        "ph_yield",
+        "ph_refresh",
+        "ph_change",
+        "ph_peek",
+        "ph_swap",
+        "ph_hole",
+        "ph_radar",
+        "ph_oracle",
+        "ph_remove",
+        "ph_silence",
+        "ph_buffer",
+        "ph_waiver",
+        "ph_aces",
+        "ph_undo",
+        "ph_quad",
+        "ph_buyback",
+        "ph_deposit",
+        "ph_bond",
+        "ph_stock",
+        "ph_loan",
+        "peek",
+        "swap",
+        "hole_card_hacker",
         "danger_radar",
         "fate_oracle",
-        "hole_card_hacker",
-        "peek",
-        "shield",
-        "swap"
+        "shield"
+      ],
+      "items": [
+        "ph_ace",
+        "ph_aces",
+        "ph_audit",
+        "ph_bond",
+        "ph_borrow",
+        "ph_buffer",
+        "ph_buyback",
+        "ph_change",
+        "ph_claim",
+        "ph_court",
+        "ph_deposit",
+        "ph_discount",
+        "ph_five_reward",
+        "ph_hole",
+        "ph_jackpot",
+        "ph_late_double",
+        "ph_late_retreat",
+        "ph_loan",
+        "ph_long_reward",
+        "ph_loss_discount",
+        "ph_mark",
+        "ph_oracle",
+        "ph_peek",
+        "ph_quad",
+        "ph_radar",
+        "ph_refresh",
+        "ph_remove",
+        "ph_risk",
+        "ph_silence",
+        "ph_sleeve",
+        "ph_stock",
+        "ph_swap",
+        "ph_undo",
+        "ph_waiver",
+        "ph_yield"
       ],
       "max_bet_fraction": 0.5,
       "min_bet": 5,
       "name": "Poker Head's Table",
-      "rule_pool": null,
-      "rules": [
-        "fragile_bust",
-        "great_crash",
-        "modify_card_value",
-        "odd_even_chaos",
-        "reverse_bust",
-        "suit_power",
-        "tiebreaker_shift"
+      "products": [
+        "ph_account",
+        "ph_ace",
+        "ph_aces",
+        "ph_approx",
+        "ph_audit",
+        "ph_bond",
+        "ph_borrow",
+        "ph_buffer",
+        "ph_buyback",
+        "ph_change",
+        "ph_claim",
+        "ph_court",
+        "ph_deposit",
+        "ph_discount",
+        "ph_five_reward",
+        "ph_gift",
+        "ph_hole",
+        "ph_jackpot",
+        "ph_late_double",
+        "ph_late_retreat",
+        "ph_loan",
+        "ph_long_reward",
+        "ph_loss_discount",
+        "ph_margin",
+        "ph_mark",
+        "ph_oracle",
+        "ph_peek",
+        "ph_quad",
+        "ph_radar",
+        "ph_refresh",
+        "ph_remove",
+        "ph_retreat",
+        "ph_risk",
+        "ph_silence",
+        "ph_sleeve",
+        "ph_stakes",
+        "ph_stock",
+        "ph_swap",
+        "ph_undo",
+        "ph_waiver",
+        "ph_yield"
       ],
+      "rule_pool": null,
+      "rules": [],
       "series": "poker_head",
+      "start_money": 100,
+      "target_money": 500,
+      "unlocked_by": null
+    },
+    "j54": {
+      "ai_id": "default",
+      "blackjack_pays": [
+        3,
+        2
+      ],
+      "chaos": true,
+      "description": "J-54 does not bend the rules; it rewrites the deck, and the deck lasts the whole run. Sign contracts to reshape it, pay the compute fee each round and complete the protocol before the deck turns against you.",
+      "experimental": true,
+      "goal_text": "A random protocol: draw the Joker, or reach 250 chips",
+      "host": "j54",
+      "icon_asset": "mode_j54",
+      "item_pool": [
+        "j54_streamline",
+        "j54_low_purge",
+        "j54_high_injection",
+        "j54_freeze",
+        "j54_start_experiment"
+      ],
+      "items": [
+        "j54_freeze",
+        "j54_high_injection",
+        "j54_low_purge",
+        "j54_start_experiment",
+        "j54_streamline"
+      ],
+      "max_bet_fraction": 0.5,
+      "min_bet": 5,
+      "name": "J-54's Table (demo)",
+      "rule_pool": [
+        "j54_burn",
+        "j54_sample_injection",
+        "j54_redundancy_purge",
+        "j54_ace_injection",
+        "j54_layered_sort",
+        "j54_data_backflow"
+      ],
+      "rules": [
+        "j54_ace_injection",
+        "j54_burn",
+        "j54_data_backflow",
+        "j54_layered_sort",
+        "j54_redundancy_purge",
+        "j54_sample_injection"
+      ],
+      "series": "j54",
       "start_money": 100,
       "target_money": 300,
       "unlocked_by": null
@@ -1800,6 +3885,8 @@
       ],
       "chaos": false,
       "description": "Poker Head deals by the book and the rules never change. Know your blackjack and win each hand on judgement.",
+      "experimental": false,
+      "goal_text": null,
       "host": "poker_head",
       "icon_asset": "mode_normal",
       "item_pool": null,
@@ -1831,7 +3918,8 @@
           "cmd": "bet"
         },
         "events": [
-          "Round 1 started, bet 10"
+          "Round 1 started, bet 10",
+          "⚡ Chaos effect applied: Tiebreaker Shift"
         ],
         "obs": {
           "bankroll": 100,
@@ -1843,7 +3931,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ = 11. Dealer: K♣ ?? = ?."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ = 11. Dealer: K♣ ?? = ?. Active chaos rules: Tiebreaker Shift: ties go to Dealer (instead of Push)."
         },
         "ok": true
       },
@@ -1863,7 +3951,7 @@
             "stand"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ Q♥ = 21. Dealer: K♣ ?? = ?."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ Q♥ = 21. Dealer: K♣ ?? = ?. Active chaos rules: Tiebreaker Shift: ties go to Dealer (instead of Push)."
         },
         "ok": true
       },
@@ -1882,7 +3970,7 @@
             5,
             55
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 55. Or first: buy <item_id> / reroll (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 55. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
@@ -1922,7 +4010,7 @@
         },
         "events": [
           "Round 2 started, bet 10",
-          "⚡ Chaos effect applied: Odd Even Chaos"
+          "⚡ Chaos effect applied: J54 Redundancy Purge"
         ],
         "obs": {
           "bankroll": 110,
@@ -1934,7 +4022,27 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ = 18. Dealer: A♦ ?? = ?. Active chaos rules: Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared)."
+          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ = 16. Dealer: A♦ ?? = ?. Active chaos rules: Redundancy Purge: Delete 3 cards of one random rank from the deck."
+        },
+        "ok": true
+      },
+      {
+        "command": {
+          "action": "hit",
+          "cmd": "act"
+        },
+        "events": [
+          "You draw: A"
+        ],
+        "obs": {
+          "bankroll": 110,
+          "hint": "Your move: act hit | stand",
+          "legal_actions": [
+            "hit",
+            "stand"
+          ],
+          "phase": "player_turn",
+          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ A♠ = 17. Dealer: A♦ ?? = ?. Active chaos rules: Redundancy Purge: Delete 3 cards of one random rank from the deck."
         },
         "ok": true
       },
@@ -1944,7 +4052,9 @@
           "cmd": "act"
         },
         "events": [
-          "Dealer stands at 17.",
+          "Dealer draws: 8",
+          "Dealer draws: J",
+          "Dealer busts.",
           "The shop has new stock."
         ],
         "obs": {
@@ -1953,25 +4063,28 @@
             5,
             60
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 60. Or first: buy <item_id> / reroll (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 60. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
             "dealer_cards": [
               "A♦",
-              "4♥"
+              "4♥",
+              "8♣",
+              "J♥"
             ],
-            "dealer_total": 17,
+            "dealer_total": 23,
             "delta": 10,
             "doubled": false,
             "money_after": 120,
             "outcome": "player",
             "player_bust": false,
-            "player_total": 18,
+            "player_total": 17,
             "round": 2,
             "your_cards": [
               "6♥",
-              "Q♦"
+              "Q♦",
+              "A♠"
             ]
           },
           "legal_actions": [
@@ -2041,7 +4154,7 @@
             5,
             65
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 65. Or first: buy <item_id> / reroll (see obs.shop).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 65. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,

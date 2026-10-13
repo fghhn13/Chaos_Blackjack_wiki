@@ -21,12 +21,12 @@ An old friend is still an old friend, of course. But he will collect every chip 
 
 ## Hosted tables
 
-{{ link: tables.normal }} keeps the rules fixed. {{ link: tables.chaos }} lets Poker Head announce rule changes each round. His table's rules and items are listed on its page.
+{{ link: tables.normal }} keeps the rules fixed. {{ link: tables.chaos }} offers core builds, financial products and persistent environment rules. His table's rules and items are listed on its page.
 
 ## First table victory
 
 The Poker Face achievement rewards his deck and table. See [Achievements](achievements.html) and [Cosmetics](cosmetics.html) for the generated rewards.
 
-## Design in development
+## Build and environment
 
-The [persistent Chaos environment and offline Agent proposal](poker-head-environment-plan.html) describes his new build Table. It has not merged into main and does not change the hosted Tables above.
+See the [official build catalog](poker-head-builds.html) and [environment mechanics](poker-head-environment-plan.html) for his current Table.

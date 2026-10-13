@@ -39,3 +39,7 @@ This run is replayed on every wiki update with seed {{ fact: transcript.seed }},
 {{ table: transcript }}
 
 The full guide (observation fields, streaming mode, Python API) is `docs/AGENT_GUIDE.md` in the game repository.
+
+## Current Table modes
+
+Use `python -m chaos_blackjack.agent new --mode chaos --seed 7` for Poker Head builds, or `--mode j54` for J-54 *Experimental. Read `obs.choice.options` and answer with `choose <option>` before other moves. Product use may require `--target ID`; table actions use `perform <action> [arg]`. `obs.table.public` exposes build, cash, invested principal, debt, net assets and contracts without private card order or stock outcomes. Legacy `--chaos` remains a different compatibility path.

@@ -226,3 +226,32 @@ def test_multiple_cosmetic_rewards_and_hidden_spoilers():
     visible, hidden = output.split("<details>", 1)
     assert "Reward deck" in visible and "Reward table" in visible
     assert "Secret" not in visible and "Secret" in hidden
+
+
+def test_environment_membership_has_its_own_catalog():
+    from wiki.check import catalog_references
+
+    facts = copy.deepcopy(FACTS)
+    facts.update(environment_rules={"hidden": {"name": "Hidden", "effect": "Hide a card."}},
+                 tables={"chaos": {"rules": [], "items": [], "environment_rules": ["hidden"]}})
+    site = Site(facts, "en", [])
+    assert 'table-chaos.html' in site.table_links("environment_rules", "hidden")
+    assert 'environment-hidden.html' in site.expand_inline("{{ link: environment_rules.hidden }}", "test")
+    assert catalog_references(facts) == []
+    facts["tables"]["chaos"]["environment_rules"].append("missing")
+    assert catalog_references(facts) == ["tables.chaos.environment_rules: unknown environment_rules id `missing`"]
+
+
+def test_protocol_goal_and_finance_do_not_render_as_cash_price():
+    facts = {**FACTS, "tables": {"j54": {"start_money": 100, "target_money": 300,
+                                            "goal_text": "Draw the Joker or reach 250 chips"}}}
+    site = Site(facts, "en", [])
+    assert site.table_goal("j54") == "Draw the Joker or reach 250 chips"
+    assert site.item_price({"kind": "core", "price": None}) == "Opening choice"
+    assert site.item_price({"kind": "finance", "price": 40, "params": {"advance": 40, "repay": 50}}) == "Borrow 40 / repay 50"
+
+
+def test_historical_measurements_are_not_current_item_gain():
+    facts = copy.deepcopy(FACTS)
+    facts["sim"] = {"measured_on": "old-version", "measured": {"items": [{"item": "peek", "ev": "+900%", "se": "0"}]}}
+    assert "+900%" not in Site(facts, "en", []).entity("items", "peek")

@@ -28,7 +28,7 @@ UI: dict[str, dict[str, str]] = {
         "source": "Source", "design_planned": "planned", "design_on_main": "in main",
         "design_banner": "<strong>{state}</strong> · design doc <code>{path}</code> on <code>{ref}</code> @ "
                          "<code>{commit}</code> ({date}) · status: {status}. Plans can change before they ship; "
-                         "the rest of this wiki describes what is in <code>main</code>.",
+                         "current player guides describe the version named in their footer.",
         "design_stale": "The design doc has changed since this page was written; it may be out of date.",
         "design_no_summary": "No wiki summary yet. Read the source design doc in the game repository.",
         "sim_rule_ev": "Player EV (simulator)", "sim_item_gain": "EV gain per use (simulator)",
@@ -66,7 +66,7 @@ UI: dict[str, dict[str, str]] = {
         "source": "来源", "design_planned": "计划中", "design_on_main": "已进 main",
         "design_banner": "<strong>{state}</strong> · 设计文档 <code>{path}</code>，位于 <code>{ref}</code> @ "
                          "<code>{commit}</code>（{date}）· 状态：{status}。计划在上线前仍可能变化；"
-                         "本百科其他页面描述的是 <code>main</code> 上已有的内容。",
+                         "当前玩法页面以页脚注明的版本为准。",
         "design_stale": "设计文档在本页写成之后有过改动，本页可能已过时。",
         "design_no_summary": "还没有百科摘要，请阅读游戏仓库里的原始设计文档。",
         "sim_rule_ev": "玩家期望值（模拟器）", "sim_item_gain": "每次使用的期望值增益（模拟器）",
@@ -82,9 +82,13 @@ UI: dict[str, dict[str, str]] = {
 }
 
 UI["en"].update({
+    "rounds": "Rounds", "action_chance": "Action chance", "rule_slots": "Rule slots", "pressure_budget": "Pressure budget",
+    "released": "Current version", "experimental": "Experimental", "core": "Core", "item": "Consumables",
+    "finance": "Financial products", "contract": "Contract", "timing": "Timing",
+    "classic_items": "Classic items", "core_choice": "Opening choice", "loan_price": "Borrow {advance} / repay {repay}",
     "g_tables": "Tables and dealers", "g_growth": "Progression and collection",
     "host": "Dealer", "tables": "Tables", "goal": "Goal", "rule_count": "Rules", "item_count": "Items",
-    "released": "In game main", "rules": "Chaos rules", "items": "Items", "bet_limits": "Bet range",
+    "released": "Current version", "rules": "Chaos rules", "items": "Items", "bet_limits": "Bet range",
     "bankroll": "bankroll", "payout": "Natural payout", "tokens": "tokens", "token_cost": "Token cost",
     "max_level": "Max level / copies", "kind": "Kind", "permanent": "Permanent", "consumable": "Starter item",
     "all_tables": "All tables", "deck": "Deck", "table": "Table", "chips": "chips", "avatar": "Avatar",
@@ -95,9 +99,13 @@ UI["en"].update({
                        "Mechanics and numbers are provisional proposals, with no simulator-validated balance yet.",
 })
 UI["zh"].update({
+    "rounds": "回合", "action_chance": "行动概率", "rule_slots": "同时规则上限", "pressure_budget": "总压力预算",
+    "released": "当前版本", "experimental": "实验性", "core": "核心", "item": "消耗与管理道具",
+    "finance": "金融产品", "contract": "契约", "timing": "使用阶段",
+    "classic_items": "经典道具", "core_choice": "开局选择", "loan_price": "借入 {advance}／偿还 {repay}",
     "g_tables": "牌桌与荷官", "g_growth": "成长与收藏",
     "host": "荷官", "tables": "适用牌桌", "goal": "目标", "rule_count": "规则数", "item_count": "道具数",
-    "released": "已进入游戏 main", "rules": "混沌规则", "items": "道具", "bet_limits": "下注范围",
+    "released": "当前版本", "rules": "混沌规则", "items": "道具", "bet_limits": "下注范围",
     "bankroll": "当前资金", "payout": "天生 21 点赔率", "tokens": "代币", "token_cost": "代币价格",
     "max_level": "最高等级／持有上限", "kind": "类型", "permanent": "永久升级", "consumable": "开局物品",
     "all_tables": "所有牌桌", "deck": "牌组", "table": "牌桌", "avatar": "头像",
@@ -113,12 +121,12 @@ PAGES: list[tuple[str, str]] = [
     ("index", "g_start"), ("play", "g_start"), ("rules", "g_start"),
     ("tables", "g_tables"), ("dealers", "g_tables"),
     ("dealer-j54", "g_tables"), ("table-j54", "g_tables"),
-    ("chaos", "g_catalog"), ("items", "g_catalog"),
+    ("environment", "g_catalog"), ("chaos", "g_catalog"), ("items", "g_catalog"), ("poker-head-builds", "g_catalog"),
     ("progression", "g_growth"), ("profile", "g_growth"), ("shop", "g_growth"),
     ("cosmetics", "g_growth"), ("achievements", "g_growth"),
     ("agents", "g_inside"),
     ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("balance", "g_inside"), ("simulator", "g_inside"),
     ("architecture", "g_inside"),
-    ("design", "g_design"), ("poker-head-environment-plan", "g_design"),
+    ("design", "g_design"), ("poker-head-environment-plan", "g_inside"),
     ("gallery", "g_ref"), ("changelog", "g_ref"), ("glossary", "g_ref"),
 ]
