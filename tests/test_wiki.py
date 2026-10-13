@@ -273,8 +273,32 @@ def test_page_layout_rejects_shadowing_and_orphan_pages(tmp_path, monkeypatch):
     monkeypatch.setattr(F, "CONTENT", tmp_path)
     for lang in F.LANGS:
         (tmp_path / lang).mkdir()
+    (tmp_path / "en/guides").mkdir()
     (tmp_path / "en/stray.md").write_text("x", encoding="utf-8")
-    monkeypatch.setattr(check, "PAGES", [("item-peek", "g_ref")])
+    (tmp_path / "en/guides/lost.md").write_text("x", encoding="utf-8")
+    (tmp_path / "en/guides/kept.md").write_text("x", encoding="utf-8")
+    (tmp_path / "en/items").mkdir()
+    (tmp_path / "en/items/peek.md").write_text("x", encoding="utf-8")
+    monkeypatch.setattr(check, "PAGES", [("growth/item-peek", "g_ref"), ("guides/kept", "g_guides"),
+                                         ("dev/kept", "g_inside")])
+    monkeypatch.setattr(check, "REDIRECTS", {"kept": "x.html"})
     errors = check.page_layout(FACTS)
-    assert any("`item-peek` collides" in e for e in errors)
-    assert any("stray.md: not in the nav" in e for e in errors)
+    assert any("`growth/item-peek` publishes item-peek.html, already the generated page" in e for e in errors)
+    assert any("`guides/kept` publishes kept.html, already the page `dev/kept`" in e for e in errors)
+    assert any("redirect `kept` would overwrite" in e for e in errors)
+    assert any("en/stray.md: not in the nav" in e for e in errors)
+    assert any("guides/lost.md: not in the nav" in e for e in errors)
+    assert not any(("kept.md" in e or "peek.md" in e) and "not in the nav" in e for e in errors)
+
+
+def test_pages_in_folders_publish_flat_and_redirects_resolve(tmp_path, monkeypatch):
+    from wiki import build as B
+
+    monkeypatch.setattr(F, "CONTENT", tmp_path)
+    (tmp_path / "en/guides").mkdir(parents=True)
+    (tmp_path / "en/guides/tips.md").write_text("---\ntitle: Tips\n---\nHello.\n", encoding="utf-8")
+    monkeypatch.setattr(B, "PAGES", [("guides/tips", "g_guides")])
+    output = Site(FACTS, "en", []).page("guides/tips")
+    assert '<a href="tips.html" aria-current="page">Tips</a>' in output
+    assert 'href="../zh/tips.html"' in output
+    assert 'url=environment.html' in B._redirect("environment.html", "Moved to")

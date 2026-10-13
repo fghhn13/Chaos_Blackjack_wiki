@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from wiki import facts as F
-from wiki.i18n import PAGES, UI
+from wiki.i18n import PAGES, REDIRECTS, UI, page_slug
 from wiki.md import front_matter, inline, render
 
 SITE = F.ROOT / "site"
@@ -59,7 +59,9 @@ def build(out: Path = SITE) -> list[str]:
         site = Site(facts, lang, errors)
         (out / lang).mkdir()
         for page, _ in PAGES:
-            (out / lang / f"{page}.html").write_text(site.page(page), encoding="utf-8")
+            (out / lang / f"{page_slug(page)}.html").write_text(site.page(page), encoding="utf-8")
+        for old, target in REDIRECTS.items():
+            (out / lang / f"{old}.html").write_text(_redirect(target, UI[lang]["moved"]), encoding="utf-8")
         for coll, (prefix, _) in ENTITY.items():
             for eid in facts.get(coll, {}):
                 (out / lang / f"{prefix}-{eid}.html").write_text(site.entity(coll, eid), encoding="utf-8")
@@ -399,11 +401,12 @@ class Site:
 
     # --- pages -------------------------------------------------------------
 
-    def page(self, slug: str) -> str:
-        meta, body, ok = self._read(f"{slug}.md")
+    def page(self, path: str) -> str:
+        slug = page_slug(path)
+        meta, body, ok = self._read(f"{path}.md")
         if not body and not meta:
-            self.errors.append(f"content/en/{slug}.md is missing")
-        article = self.expand(body, f"{self.lang}/{slug}.md")
+            self.errors.append(f"content/en/{path}.md is missing")
+        article = self.expand(body, f"{self.lang}/{path}.md")
         if meta.get("status") == "draft":
             article = f'<div class="banner planned">{self.t["editorial_draft"]}</div>' + article
         if not ok:
@@ -596,10 +599,9 @@ class Site:
         t, src = self.t, self.facts["source"]
         active = active or slug
         groups: dict[str, list[str]] = {}
-        for page, group in PAGES:
-            if any(page == f"{prefix}-{eid}" for coll, (prefix, _) in ENTITY.items() for eid in self.facts.get(coll, {})):
-                continue
-            meta, _, _ = self._read(f"{page}.md")
+        for path, group in PAGES:
+            page = page_slug(path)
+            meta, _, _ = self._read(f"{path}.md")
             cur = ' aria-current="page"' if page == active else ""
             sub = ' class="sub"' if meta.get("parent") else ""
             groups.setdefault(group, []).append(f'<a href="{page}.html"{sub}{cur}>{html.escape(meta.get("title", page))}</a>')
@@ -641,6 +643,13 @@ class Site:
 </body>
 </html>
 """
+
+
+def _redirect(target: str, moved: str) -> str:
+    t = html.escape(target)
+    return (f'<!doctype html>\n<html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url={t}">'
+            f'<link rel="canonical" href="{t}"><title>{moved}</title></head>'
+            f'<body><p>{moved} <a href="{t}">{t}</a></p></body></html>\n')
 
 
 def _landing(facts: dict[str, Any]) -> str:

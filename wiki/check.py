@@ -11,7 +11,7 @@ from urllib.parse import unquote, urlparse
 
 from wiki import facts as F
 from wiki.build import SITE, STAMP, build, input_hash
-from wiki.i18n import PAGES
+from wiki.i18n import PAGES, REDIRECTS, page_slug
 from wiki.md import front_matter
 
 
@@ -85,18 +85,31 @@ def problems() -> tuple[list[str], list[str]]:
 
 
 def page_layout(facts: dict) -> list[str]:
-    """Keep the page tree tidy: every top-level page is in the nav, none shadows an entity page."""
+    """Keep the page tree tidy: every page is in the nav, no two pages publish to the same name."""
     from wiki.build import ENTITY
 
     errors = []
-    slugs = {page for page, _ in PAGES}
-    entity_pages = {f"{prefix}-{eid}": f"content/<lang>/{folder}/{eid}.md"
-                    for coll, (prefix, folder) in ENTITY.items() for eid in facts.get(coll, {})}
-    for page in sorted(slugs & entity_pages.keys()):
-        errors.append(f"PAGES entry `{page}` collides with a generated page; write {entity_pages[page]} instead")
+    paths = {path for path, _ in PAGES}
+    taken: dict[str, str] = {}
+    for coll, (prefix, folder) in ENTITY.items():
+        for eid in facts.get(coll, {}):
+            taken[f"{prefix}-{eid}"] = f"generated page for content/<lang>/{folder}/{eid}.md"
+    for path in sorted(paths):
+        slug = page_slug(path)
+        if slug in taken:
+            errors.append(f"PAGES entry `{path}` publishes {slug}.html, already the {taken[slug]}")
+        taken.setdefault(slug, f"page `{path}`")
+    for old in sorted(REDIRECTS):
+        if old in taken:
+            errors.append(f"redirect `{old}` would overwrite the {taken[old]}")
+    skip = set(F.PROSE_FOLDERS.values()) | {"sources", "img"}
     for lang in F.LANGS:
-        for p in sorted((F.CONTENT / lang).glob("*.md")):
-            if p.stem not in slugs:
+        root = F.CONTENT / lang
+        for p in sorted(root.rglob("*.md")):
+            rel = p.relative_to(root)
+            if rel.parts[0] in skip:
+                continue
+            if rel.with_suffix("").as_posix() not in paths:
                 errors.append(f"{p.relative_to(F.ROOT).as_posix()}: not in the nav; add it to PAGES "
                               f"(wiki/i18n.py) or move it under its catalog folder")
     return errors

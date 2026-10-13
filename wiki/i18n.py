@@ -86,7 +86,8 @@ UI["en"].update({
     "released": "Current version", "experimental": "Experimental", "core": "Core", "item": "Consumables",
     "finance": "Financial products", "contract": "Contract", "timing": "Timing",
     "classic_items": "Classic items", "core_choice": "Opening choice", "loan_price": "Borrow {advance} / repay {repay}",
-    "g_tables": "Tables and dealers", "g_growth": "Progression and collection",
+    "g_tables": "Tables and dealers", "g_growth": "Progression and collection", "g_guides": "Guides",
+    "moved": "This page has moved to",
     "host": "Dealer", "tables": "Tables", "goal": "Goal", "rule_count": "Rules", "item_count": "Items",
     "released": "Current version", "rules": "Chaos rules", "items": "Items", "bet_limits": "Bet range",
     "bankroll": "bankroll", "payout": "Natural payout", "tokens": "tokens", "token_cost": "Token cost",
@@ -103,7 +104,8 @@ UI["zh"].update({
     "released": "当前版本", "experimental": "实验性", "core": "核心", "item": "消耗与管理道具",
     "finance": "金融产品", "contract": "契约", "timing": "使用阶段",
     "classic_items": "经典道具", "core_choice": "开局选择", "loan_price": "借入 {advance}／偿还 {repay}",
-    "g_tables": "牌桌与荷官", "g_growth": "成长与收藏",
+    "g_tables": "牌桌与荷官", "g_growth": "成长与收藏", "g_guides": "攻略",
+    "moved": "本页已移至",
     "host": "荷官", "tables": "适用牌桌", "goal": "目标", "rule_count": "规则数", "item_count": "道具数",
     "released": "当前版本", "rules": "混沌规则", "items": "道具", "bet_limits": "下注范围",
     "bankroll": "当前资金", "payout": "天生 21 点赔率", "tokens": "代币", "token_cost": "代币价格",
@@ -116,18 +118,31 @@ UI["zh"].update({
                        "文中机制与数值均为暂定设计，尚无经过模拟器验证的平衡结果。",
 })
 
-# (slug, nav group). Page text lives in content/<lang>/<slug>.md. Entity pages (one per
-# table, dealer, rule, item...) are generated from facts and listed under their catalog
-# page (NAV_SUBS in build.py); never add them here.
+# (path, nav group), in nav order. Page text lives in content/<lang>/<path>.md; the folder
+# only groups the sources (guides/, growth/, dev/, reference/), every page is published
+# flat as site/<lang>/<last path segment>.html so links and bookmarks never move.
+# Catalog hubs stay top-level next to their entity folders. Entity pages (one per table,
+# dealer, rule, item...) are generated from facts and listed under their hub (NAV_SUBS in
+# build.py); never add them here.
 PAGES: list[tuple[str, str]] = [
     ("index", "g_start"), ("play", "g_start"), ("rules", "g_start"),
     ("tables", "g_tables"), ("dealers", "g_tables"),
-    ("environment", "g_catalog"), ("chaos", "g_catalog"), ("items", "g_catalog"), ("poker-head-builds", "g_catalog"),
-    ("progression", "g_growth"), ("profile", "g_growth"), ("shop", "g_growth"),
-    ("cosmetics", "g_growth"), ("achievements", "g_growth"),
-    ("agents", "g_inside"),
-    ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("balance", "g_inside"), ("simulator", "g_inside"),
-    ("architecture", "g_inside"),
-    ("design", "g_design"), ("poker-head-environment-plan", "g_inside"),
-    ("gallery", "g_ref"), ("changelog", "g_ref"), ("glossary", "g_ref"),
+    ("environment", "g_catalog"), ("chaos", "g_catalog"), ("items", "g_catalog"),
+    ("guides/poker-head-builds", "g_guides"),
+    ("growth/progression", "g_growth"), ("growth/profile", "g_growth"), ("growth/shop", "g_growth"),
+    ("growth/cosmetics", "g_growth"), ("growth/achievements", "g_growth"),
+    ("dev/agents", "g_inside"), ("dev/chaos-ai", "g_inside"), ("dev/settings", "g_inside"),
+    ("dev/balance", "g_inside"), ("dev/simulator", "g_inside"), ("dev/architecture", "g_inside"),
+    ("design", "g_design"),
+    ("reference/gallery", "g_ref"), ("reference/changelog", "g_ref"), ("reference/glossary", "g_ref"),
 ]
+
+# Retired page slug -> where it lives now. Each gets a small redirect page so old links keep working.
+REDIRECTS: dict[str, str] = {
+    "poker-head-environment-plan": "environment.html",
+}
+
+
+def page_slug(path: str) -> str:
+    """Published name of a page: its last path segment."""
+    return path.rsplit("/", 1)[-1]

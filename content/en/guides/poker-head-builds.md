@@ -21,7 +21,7 @@ The minimum bet grows with rounds according to {{ fact: settings.mode.chaos.min_
 
 Poker Head goods use fixed base chip prices. Markup and purchasing discounts combine before rounding upward once. Finance amounts are exempt; buyback returns the actual amount paid for the selected consumable instance.
 
-One stock slot favours general consumables, while free slots increasingly offer permanents. Matching-style products have {{ fact: settings.mode.chaos.style_weight.value }} times the base selection weight. Equipped products are excluded. Initial core choice precedes the environment action; the dealer then announces the environment before shopping, preparation items and betting. See [environment mechanics](poker-head-environment-plan.html).
+One stock slot favours general consumables, while free slots increasingly offer permanents. Matching-style products have {{ fact: settings.mode.chaos.style_weight.value }} times the base selection weight. Equipped products are excluded. Initial core choice precedes the environment action; the dealer then announces the environment before shopping, preparation items and betting. See [environment mechanics](environment.html).
 
 The panel has Build, Bag, Finance, Rules, Log and Run sections. Use the item's stated phase; use does not reopen a finished hand. Old saves without build state retain their earlier gameplay.
 

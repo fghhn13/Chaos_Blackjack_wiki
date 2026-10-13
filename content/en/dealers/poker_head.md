@@ -29,4 +29,4 @@ The Poker Face achievement rewards his deck and table. See [Achievements](achiev
 
 ## Build and environment
 
-See the [official build catalog](poker-head-builds.html) and [environment mechanics](poker-head-environment-plan.html) for his current Table.
+See the [official build catalog](poker-head-builds.html) and [environment mechanics](environment.html) for his current Table.

@@ -29,4 +29,4 @@ Poker Face 成就奖励扑克头的牌组和牌桌装扮，具体奖励见[成�
 
 ## 构筑与环境
 
-当前牌桌的[正式构筑图鉴](poker-head-builds.html)与[环境机制](poker-head-environment-plan.html)介绍他的完整玩法。
+当前牌桌的[正式构筑图鉴](poker-head-builds.html)与[环境机制](environment.html)介绍他的完整玩法。

@@ -92,7 +92,12 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
 
   (rules use `effect` / `effect_en`; `*_en` must equal the current English text
   in `facts.json`).
-- Page list and nav groups: `wiki/i18n.py` (`PAGES`); interface strings in both
+- Page list and nav groups: `wiki/i18n.py` (`PAGES`). Sources are grouped in
+  folders (`guides/`, `growth/`, `dev/`, `reference/`; catalog hubs such as
+  `chaos.md` stay top-level next to their entity folders), but every page is
+  published flat as `site/<lang>/<name>.html`, so moving a source never breaks
+  links. When a page is merged or retired, add `old-name -> new target` to
+  `REDIRECTS` in the same file and point prose links at the new target. Interface strings in both
   languages: `UI` in the same file; per-language data strings (setting and error
   code descriptions): `content/<lang>/strings.json`.
 - Dealer and Table pages use `content/<lang>/{dealers,tables}/<game-id>.md`.
