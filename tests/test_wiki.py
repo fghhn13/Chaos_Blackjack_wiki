@@ -302,3 +302,23 @@ def test_pages_in_folders_publish_flat_and_redirects_resolve(tmp_path, monkeypat
     assert '<a href="tips.html" aria-current="page">Tips</a>' in output
     assert 'href="../zh/tips.html"' in output
     assert 'url=environment.html' in B._redirect("environment.html", "Moved to")
+
+
+def test_catalog_cards_group_by_table_with_unused_last():
+    facts = copy.deepcopy(FACTS)
+    facts["chaos_rules"]["old_rule"] = {**facts["chaos_rules"]["fragile_bust"], "name": "Old Rule"}
+    facts["items"].update(core={"name": "Core", "help": "c", "price": None, "kind": "core", "icon": None},
+                          bond={"name": "Bond", "help": "b", "price": 5, "kind": "finance", "icon": None})
+    facts["tables"] = {"lab": {"name": "Lab", "series": "lab", "experimental": True, "rules": ["fragile_bust"], "items": []},
+                       "home": {"name": "Home", "series": "core", "rules": [], "items": ["peek"]},
+                       "ph": {"name": "PH", "series": "ph", "rules": [], "items": ["bond"], "products": ["core", "bond"]}}
+    site = Site(facts, "en", [])
+    rules = site.t_chaos_cards()
+    assert rules.index('id="pool-lab"') < rules.index('id="pool-unused"') < rules.index("rule-old_rule.html")
+    assert "*Experimental" in rules and 'id="pool-home"' not in rules
+    items = site.t_item_cards()
+    assert items.index('id="pool-home"') < items.index('id="pool-ph"')
+    assert items.index('id="pool-ph-core"') < items.index('id="pool-ph-finance"') and "pool-unused" not in items
+    assert site.table_links("items", "core") == '<a href="table-ph.html">PH</a>'
+    site.expand("## Intro\n\n{{ table: item_cards }}\n", "test")
+    assert [h[1] for h in site._heads][:3] == ["intro", "pool-home", "pool-ph"]

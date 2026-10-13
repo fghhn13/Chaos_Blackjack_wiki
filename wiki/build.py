@@ -24,6 +24,9 @@ ENTITY = {"chaos_rules": ("rule", "chaos"), "items": ("item", "items"),
           "environment_rules": ("environment", "environment"),
           "tables": ("table", "tables"), "dealers": ("dealer", "dealers")}
 # Catalog page -> (collection, page prefix) whose entries are listed under it in the nav.
+# Table fields listing what a table offers, per collection.
+POOL_FIELDS = {"chaos_rules": ("rules",), "environment_rules": ("environment_rules",), "items": ("items", "products")}
+KIND_ORDER = ["core", "permanent", "item", "finance", "contract", None]
 NAV_SUBS = {"chaos": ("chaos_rules", "rule"), "items": ("items", "item"), "design": ("design_docs", "design"),
             "environment": ("environment_rules", "environment"),
             "tables": ("tables", "table"), "dealers": ("dealers", "dealer")}
@@ -122,10 +125,20 @@ class Site:
     def entity_link(self, coll: str, eid: str) -> str:
         return f'<a href="{ENTITY[coll][0]}-{eid}.html">{html.escape(self.name(coll, eid))}</a>'
 
+    def pool(self, tid: str, coll: str) -> list[str]:
+        """Ids of `coll` a table offers: its chaos rules, environment rules, or sold items and products."""
+        table = self.facts.get("tables", {}).get(tid, {})
+        fields = POOL_FIELDS.get(coll, ())
+        return sorted({eid for field in fields for eid in table.get(field) or []})
+
+    def table_order(self) -> list[str]:
+        """Released tables first (core series leading), experimental ones last."""
+        tables = self.facts.get("tables", {})
+        return sorted(tables, key=lambda tid: (self.experimental("tables", tid), tables[tid].get("series") != "core", tid))
+
     def table_links(self, coll: str, eid: str) -> str:
-        pool = "rules" if coll == "chaos_rules" else "environment_rules" if coll == "environment_rules" else "products" if eid.startswith("ph_") else "items"
-        return ", ".join(self.entity_link("tables", tid) for tid, table in self.facts.get("tables", {}).items()
-                         if eid in table.get(pool, table.get("items", []))) or self.t["none"]
+        return ", ".join(self.entity_link("tables", tid) for tid in self.table_order()
+                         if eid in self.pool(tid, coll)) or self.t["none"]
 
     # --- placeholders ------------------------------------------------------
 
@@ -163,9 +176,10 @@ class Site:
         body = self.expand_inline(body, where)
         for m in PLACEHOLDER.finditer(body):
             self.errors.append(f"{where}: unknown placeholder `{m.group(0)}`")
-        rendered, heads = render(body)
+        rendered, _ = render(body)
         rendered = re.sub(r"\x00(\d+)\x00", lambda m: raws[int(m.group(1))], rendered)
-        self._heads = heads
+        self._heads = [(int(lvl), hid, html.unescape(re.sub(r"<[^>]+>", "", text)))
+                       for lvl, hid, text in re.findall(r'<h(\d) id="([^"]+)">(.*?)</h\1>', rendered)]
         return rendered
 
     def fmt(self, v: Any) -> str:
@@ -211,25 +225,51 @@ class Site:
                 f'<span class="muted{"" if ok else " en"}">{inline(text)}</span></span></a>')
         return f'<div class="cards">{"".join(cards)}</div>'
 
+    def _by_table(self, coll: str) -> str:
+        """Cards grouped by the table that offers them; ids no table offers come last as unused.
+
+        An id offered by several tables is listed under each. With a single group there are
+        no headings. Items of one table with several kinds get a sub-heading per kind."""
+        entries = self.facts.get(coll, {})
+        groups = [(tid, [eid for eid in entries if eid in self.pool(tid, coll)]) for tid in self.table_order()]
+        groups = [(tid, ids) for tid, ids in groups if ids]
+        offered = {eid for _, ids in groups for eid in ids}
+        unused = [eid for eid in entries if eid not in offered]
+        if not groups or (len(groups) == 1 and not unused):
+            return self._cards(coll)
+        out = []
+        for tid, ids in groups:
+            label = f'*{self.t["experimental"]}'
+            pill = (f' <span class="pill">{label}</span>'
+                    if self.experimental("tables", tid) and label not in self.name("tables", tid) else "")
+            out.append(f'<h2 id="pool-{tid}">{self.entity_link("tables", tid)}{pill}</h2>' + self._kinds(coll, tid, ids))
+        if unused:
+            out.append(f'<h2 id="pool-unused">{self.t["unused_pool"]}</h2>'
+                       f'<p class="muted">{self.t["unused_note"]}</p>' + self._cards(coll, unused))
+        return "".join(out)
+
+    def _kinds(self, coll: str, tid: str, ids: list[str]) -> str:
+        entries = self.facts[coll]
+        kinds = list(dict.fromkeys(entries[eid].get("kind") for eid in ids))
+        if coll != "items" or len(kinds) < 2:
+            return self._cards(coll, ids)
+        kinds.sort(key=lambda k: KIND_ORDER.index(k) if k in KIND_ORDER else len(KIND_ORDER))
+        return "".join(f'<h3 id="pool-{tid}-{kind or "classic"}">{self.t[kind] if kind else self.t["classic_items"]}</h3>'
+                       + self._cards(coll, [eid for eid in ids if entries[eid].get("kind") == kind]) for kind in kinds)
+
     def t_chaos_cards(self) -> str:
-        return self._cards("chaos_rules")
+        return self._by_table("chaos_rules")
 
     def t_item_cards(self) -> str:
-        if not self.facts.get("tables", {}).get("chaos", {}).get("products"):
-            return self._cards("items")
-        classic = [iid for iid in self.facts["items"] if not iid.startswith(("ph_", "j54_"))]
-        contracts = [iid for iid in self.facts["items"] if iid.startswith("j54_")]
-        return self.t_poker_products() + f'<h2>{self.t["classic_items"]}</h2>' + self._cards("items", classic) + f'<h2>J-54 *{self.t["experimental"]}</h2>' + self._cards("items", contracts)
+        return self._by_table("items")
 
     def t_poker_products(self) -> str:
-        result = []
-        for kind in ("core", "permanent", "item", "finance"):
-            selected = [iid for iid, item in self.facts.get("items", {}).items() if iid.startswith("ph_") and item.get("kind") == kind]
-            result.append(f'<h2>{self.t[kind]}</h2>' + self._cards("items", selected))
-        return "".join(result)
+        """Build-product catalog of every table that has one, by kind."""
+        return "".join(self._kinds("items", tid, sorted(table["products"], key=list(self.facts["items"]).index))
+                       for tid, table in self.facts.get("tables", {}).items() if table.get("products"))
 
     def t_environment_cards(self) -> str:
-        return self._cards("environment_rules")
+        return self._by_table("environment_rules")
 
     def t_director_stages(self) -> str:
         import json
