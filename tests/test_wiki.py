@@ -206,9 +206,9 @@ def test_table_membership_and_graph_references():
 def test_author_draft_banner_without_game_entity(tmp_path, monkeypatch):
     monkeypatch.setattr(F, "CONTENT", tmp_path)
     (tmp_path / "en").mkdir()
-    (tmp_path / "en/table-j54.md").write_text(
+    (tmp_path / "en/proposal.md").write_text(
         "---\ntitle: J-54\nstatus: draft\nsource: user\n---\nA proposed deck.\n", encoding="utf-8")
-    output = Site(FACTS, "en", []).page("table-j54")
+    output = Site(FACTS, "en", []).page("proposal")
     assert "Design draft" in output and "not implemented in game main" in output
     assert '<span class="pill ok">' not in output
     assert "tables" not in FACTS
@@ -255,3 +255,26 @@ def test_historical_measurements_are_not_current_item_gain():
     facts = copy.deepcopy(FACTS)
     facts["sim"] = {"measured_on": "old-version", "measured": {"items": [{"item": "peek", "ev": "+900%", "se": "0"}]}}
     assert "+900%" not in Site(facts, "en", []).entity("items", "peek")
+
+
+def test_experimental_state_comes_from_facts():
+    facts = {**FACTS,
+             "tables": {"lab": {"experimental": True}, "classic": {"experimental": False}, "side": {}},
+             "dealers": {"robot": {"tables": ["lab"]}, "host": {"tables": ["classic", "lab"]}}}
+    site = Site(facts, "en", [])
+    assert site.experimental("tables", "lab") and not site.experimental("tables", "side")
+    assert site.experimental("dealers", "robot") and not site.experimental("dealers", "host")
+    assert site.state("dealers", "robot") == "*Experimental"
+
+
+def test_page_layout_rejects_shadowing_and_orphan_pages(tmp_path, monkeypatch):
+    from wiki import check
+
+    monkeypatch.setattr(F, "CONTENT", tmp_path)
+    for lang in F.LANGS:
+        (tmp_path / lang).mkdir()
+    (tmp_path / "en/stray.md").write_text("x", encoding="utf-8")
+    monkeypatch.setattr(check, "PAGES", [("item-peek", "g_ref")])
+    errors = check.page_layout(FACTS)
+    assert any("`item-peek` collides" in e for e in errors)
+    assert any("stray.md: not in the nav" in e for e in errors)

@@ -116,11 +116,12 @@ UI["zh"].update({
                        "文中机制与数值均为暂定设计，尚无经过模拟器验证的平衡结果。",
 })
 
-# (slug, nav group). Page text lives in content/<lang>/<slug>.md.
+# (slug, nav group). Page text lives in content/<lang>/<slug>.md. Entity pages (one per
+# table, dealer, rule, item...) are generated from facts and listed under their catalog
+# page (NAV_SUBS in build.py); never add them here.
 PAGES: list[tuple[str, str]] = [
     ("index", "g_start"), ("play", "g_start"), ("rules", "g_start"),
     ("tables", "g_tables"), ("dealers", "g_tables"),
-    ("dealer-j54", "g_tables"), ("table-j54", "g_tables"),
     ("environment", "g_catalog"), ("chaos", "g_catalog"), ("items", "g_catalog"), ("poker-head-builds", "g_catalog"),
     ("progression", "g_growth"), ("profile", "g_growth"), ("shop", "g_growth"),
     ("cosmetics", "g_growth"), ("achievements", "g_growth"),

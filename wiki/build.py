@@ -251,8 +251,18 @@ class Site:
                          str(len(table.get("environment_rules", table["rules"]))), str(len(table.get("products", table["items"])))])
         return self._table(["name", "host", "description", "goal", "rule_count", "item_count"], rows, "catalog")
 
+    def experimental(self, coll: str, eid: str) -> bool:
+        """A table is experimental when the game says so; a dealer when all its tables are."""
+        if coll == "tables":
+            return bool(self.facts.get("tables", {}).get(eid, {}).get("experimental"))
+        tables = self.facts.get("dealers", {}).get(eid, {}).get("tables") or []
+        return bool(tables) and all(self.experimental("tables", tid) for tid in tables)
+
+    def state(self, coll: str, eid: str) -> str:
+        return f'*{self.t["experimental"]}' if self.experimental(coll, eid) else self.t["released"]
+
     def t_dealers(self) -> str:
-        rows = [[self.entity_link("dealers", did), f'*{self.t["experimental"]}' if did == "j54" else self.t["released"],
+        rows = [[self.entity_link("dealers", did), self.state("dealers", did),
                  ", ".join(self.entity_link("tables", tid) for tid in dealer["tables"])]
                 for did, dealer in self.facts.get("dealers", {}).items()]
         return self._table(["name", "state", "tables"], rows)
@@ -466,8 +476,7 @@ class Site:
         prose = self.expand(body, f"{self.lang}/{coll}/{eid}.md")
         if not ok:
             prose = f'<p class="notice">{self.t["untranslated"]}</p>' + prose
-        state = f'*{self.t["experimental"]}' if eid == "j54" else self.t["released"]
-        article = f'<h1>{html.escape(name)}</h1><span class="pill ok">{state}</span>{table}{prose}'
+        article = f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.state(coll, eid)}</span>{table}{prose}'
         return self.layout(f"{ENTITY[coll][0]}-{eid}", name, article, self._heads, active=coll)
 
     def design_doc(self, d: str) -> str:

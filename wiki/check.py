@@ -38,6 +38,8 @@ def problems() -> tuple[list[str], list[str]]:
                 if p.stem not in facts.get(coll, {}):
                     errors.append(f"{p.relative_to(F.ROOT).as_posix()}: `{p.stem}` is not in the game any more")
 
+    errors += page_layout(facts)
+
     # Coverage: prose and translations (warnings unless --strict).
     for page, _ in PAGES:
         for lang in F.LANGS:
@@ -80,6 +82,24 @@ def problems() -> tuple[list[str], list[str]]:
     elif STAMP.read_text(encoding="utf-8").strip() != input_hash():
         errors.append("site/ is out of date with facts/content; run `python -m wiki build`")
     return errors, warnings
+
+
+def page_layout(facts: dict) -> list[str]:
+    """Keep the page tree tidy: every top-level page is in the nav, none shadows an entity page."""
+    from wiki.build import ENTITY
+
+    errors = []
+    slugs = {page for page, _ in PAGES}
+    entity_pages = {f"{prefix}-{eid}": f"content/<lang>/{folder}/{eid}.md"
+                    for coll, (prefix, folder) in ENTITY.items() for eid in facts.get(coll, {})}
+    for page in sorted(slugs & entity_pages.keys()):
+        errors.append(f"PAGES entry `{page}` collides with a generated page; write {entity_pages[page]} instead")
+    for lang in F.LANGS:
+        for p in sorted((F.CONTENT / lang).glob("*.md")):
+            if p.stem not in slugs:
+                errors.append(f"{p.relative_to(F.ROOT).as_posix()}: not in the nav; add it to PAGES "
+                              f"(wiki/i18n.py) or move it under its catalog folder")
+    return errors
 
 
 def catalog_references(facts: dict) -> list[str]:

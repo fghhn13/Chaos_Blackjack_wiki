@@ -99,8 +99,15 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   Their relationships, goals and effective rule/item pools come from facts.
   Progression, cosmetic and achievement catalogs are generated too; Chinese
   `strings.json` catalog entries retain `name_en` / `description_en` for drift checks.
-- Author-supplied designs are editorial pages, not game facts. J-54 lives in
-  `dealer-j54.md` and `table-j54.md`, with `status: draft` and `source: user`.
+- Navigation is generated: a new table or dealer in facts appears under "Tables
+  and dealers" by itself; just write its `{tables,dealers}/<id>.md`. The
+  "Experimental" label comes from the game's `tables.<id>.experimental` (a dealer
+  is experimental when all its tables are); never hard-code ids in `wiki/*.py`.
+  `check` rejects top-level pages missing from `PAGES` and `PAGES` entries that
+  shadow a generated page (`table-<id>`, `dealer-<id>`, `item-<id>`...).
+- Author-supplied designs that are not in the game yet are editorial top-level
+  pages with `status: draft` and `source: user` (added to `PAGES`). J-54 is in
+  the game now, so its pages are `tables/j54.md` and `dealers/j54.md`.
   The author now requests current J-54 pages with an experimental label, while
   preserving early concept documents as historical background. Do not invent game ids, prices or measured
   results. Editorial portraits live in `content/img/`, which sync never prunes.
