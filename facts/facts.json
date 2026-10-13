@@ -25,7 +25,10 @@
     "chaos_conqueror": {
       "cosmetics": [
         "deck_poker_head",
-        "table_poker_head"
+        "table_poker_head",
+        "deck_poker_head_gold",
+        "chips_poker_head",
+        "avatar_poker_head_j"
       ],
       "description": "Win a run against Poker Head.",
       "goal": 1,
@@ -215,6 +218,15 @@
         256
       ]
     },
+    "avatar_poker_head_j": {
+      "category": "avatar",
+      "file": "assets/cosmetics/poker_head/avatar_poker_head_j.png",
+      "name": "Gold J",
+      "size": [
+        256,
+        256
+      ]
+    },
     "avatar_spade": {
       "category": "avatar",
       "file": "assets/cosmetics/procedural/avatar_spade.png",
@@ -264,6 +276,15 @@
       "category": "card",
       "file": "assets/cosmetics/procedural/card_back_poker_head.png",
       "name": "Poker Head's Deck",
+      "size": [
+        512,
+        768
+      ]
+    },
+    "card_back_poker_head_gold": {
+      "category": "card",
+      "file": "assets/cosmetics/poker_head/card_back_poker_head_gold.png",
+      "name": "Gilded Lattice",
       "size": [
         512,
         768
@@ -485,6 +506,42 @@
         256
       ]
     },
+    "chips_poker_head_1": {
+      "category": "chip",
+      "file": "assets/cosmetics/poker_head/chips_poker_head_1.png",
+      "name": "House Collection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_poker_head_10": {
+      "category": "chip",
+      "file": "assets/cosmetics/poker_head/chips_poker_head_10.png",
+      "name": "House Collection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_poker_head_25": {
+      "category": "chip",
+      "file": "assets/cosmetics/poker_head/chips_poker_head_25.png",
+      "name": "House Collection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "chips_poker_head_5": {
+      "category": "chip",
+      "file": "assets/cosmetics/poker_head/chips_poker_head_5.png",
+      "name": "House Collection",
+      "size": [
+        256,
+        256
+      ]
+    },
     "danger_radar": {
       "category": "item",
       "file": "assets/danger_radar.png",
@@ -550,7 +607,7 @@
     },
     "j54_ace_injection": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_ace_injection.png",
       "name": "Ace Injection",
       "size": [
         256,
@@ -559,7 +616,7 @@
     },
     "j54_burn": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_burn.png",
       "name": "Burn Protocol",
       "size": [
         256,
@@ -568,7 +625,7 @@
     },
     "j54_data_backflow": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_data_backflow.png",
       "name": "Data Backflow",
       "size": [
         256,
@@ -577,7 +634,7 @@
     },
     "j54_fee": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_fee.png",
       "name": "Compute fee",
       "size": [
         256,
@@ -586,7 +643,7 @@
     },
     "j54_freeze": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_freeze.png",
       "name": "Freeze",
       "size": [
         256,
@@ -595,7 +652,7 @@
     },
     "j54_goal": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_goal.png",
       "name": "Capital goal",
       "size": [
         256,
@@ -604,7 +661,7 @@
     },
     "j54_high_injection": {
       "category": "item",
-      "file": null,
+      "file": "assets/j54/j54_high_injection.png",
       "name": "High Injection Contract",
       "size": [
         256,
@@ -613,7 +670,7 @@
     },
     "j54_joker_captured": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_joker_captured.png",
       "name": "Joker captured",
       "size": [
         256,
@@ -622,7 +679,7 @@
     },
     "j54_joker_in_the_deck": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_joker_in_the_deck.png",
       "name": "Joker in the deck",
       "size": [
         256,
@@ -631,7 +688,7 @@
     },
     "j54_joker_sealed": {
       "category": "icon",
-      "file": null,
+      "file": "assets/j54/j54_joker_sealed.png",
       "name": "Joker sealed",
       "size": [
         256,
@@ -640,7 +697,7 @@
     },
     "j54_layered_sort": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_layered_sort.png",
       "name": "Layered Sort",
       "size": [
         256,
@@ -649,7 +706,7 @@
     },
     "j54_low_purge": {
       "category": "item",
-      "file": null,
+      "file": "assets/j54/j54_low_purge.png",
       "name": "Low Purge Contract",
       "size": [
         256,
@@ -658,7 +715,7 @@
     },
     "j54_redundancy_purge": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_redundancy_purge.png",
       "name": "Redundancy Purge",
       "size": [
         256,
@@ -667,7 +724,7 @@
     },
     "j54_sample_injection": {
       "category": "rule",
-      "file": null,
+      "file": "assets/j54/j54_sample_injection.png",
       "name": "Sample Injection",
       "size": [
         256,
@@ -676,7 +733,7 @@
     },
     "j54_start_experiment": {
       "category": "item",
-      "file": null,
+      "file": "assets/j54/j54_start_experiment.png",
       "name": "Start Experiment",
       "size": [
         256,
@@ -685,7 +742,7 @@
     },
     "j54_streamline": {
       "category": "item",
-      "file": null,
+      "file": "assets/j54/j54_streamline.png",
       "name": "Streamline Contract",
       "size": [
         256,
@@ -885,6 +942,87 @@
       "category": "item",
       "file": "assets/poker_head/ph_discount.png",
       "name": "Purchasing Privilege",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_bust": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_bust.png",
+      "name": "Bust Limit",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_bust_outcome": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_bust_outcome.png",
+      "name": "Bust Pardon",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_fixed": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_fixed.png",
+      "name": "Card Rewrite",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_hidden": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_hidden.png",
+      "name": "Face-Down Card",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_item_ban": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_item_ban.png",
+      "name": "Item Ban",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_markup": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_markup.png",
+      "name": "Price Hike",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_profit_cap": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_profit_cap.png",
+      "name": "Withdrawal Limit",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_shift": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_shift.png",
+      "name": "Card Shift",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "ph_env_tie": {
+      "category": "rule",
+      "file": "assets/poker_head/environment/ph_env_tie.png",
+      "name": "Tie Rule",
       "size": [
         256,
         256
@@ -1226,6 +1364,46 @@
   },
   "changelog": [
     {
+      "commit": "1214909",
+      "date": "2026-10-14",
+      "subject": "Complete Poker Head's House Collection: gold deck, chips and avatar"
+    },
+    {
+      "commit": "c0c3e9b",
+      "date": "2026-10-14",
+      "subject": "Add code-drawn icons for Poker Head's environment rules and J-54"
+    },
+    {
+      "commit": "0477150",
+      "date": "2026-10-14",
+      "subject": "Format price changes as floats so Python 3.10 can render them"
+    },
+    {
+      "commit": "e6bd59f",
+      "date": "2026-10-14",
+      "subject": "Merge main: touch scrolling for the redesigned Collection"
+    },
+    {
+      "commit": "3f616e2",
+      "date": "2026-10-14",
+      "subject": "Let the installed-wheel smoke test equip a look the profile already unlocks"
+    },
+    {
+      "commit": "099eada",
+      "date": "2026-10-14",
+      "subject": "Document Poker Head's builds and environment rules in Chinese"
+    },
+    {
+      "commit": "bd1af99",
+      "date": "2026-10-14",
+      "subject": "Build Poker Head's table: cores, permanents, a money goal and an offline director"
+    },
+    {
+      "commit": "c9d6b96",
+      "date": "2026-10-14",
+      "subject": "Add Poker Head's build icons and J-54's wardrobe art"
+    },
+    {
       "commit": "a462ec2",
       "date": "2026-10-13",
       "subject": "Clean up the deck chart and compare the deck with a standard one"
@@ -1384,41 +1562,6 @@
       "commit": "525a997",
       "date": "2026-10-10",
       "subject": "Merge table animations while retaining asynchronous Chaos interactions"
-    },
-    {
-      "commit": "df0ad06",
-      "date": "2026-10-10",
-      "subject": "Merge table UI, content packs and casino audio; sell pack items through balance profiles"
-    },
-    {
-      "commit": "3e240e1",
-      "date": "2026-10-10",
-      "subject": "Merge SQLite profile management and align Chaos item tuning"
-    },
-    {
-      "commit": "52d025b",
-      "date": "2026-10-10",
-      "subject": "Merge SQLite profiles and storage with profile-aware Chaos advice"
-    },
-    {
-      "commit": "af26e05",
-      "date": "2026-10-10",
-      "subject": "Document one real API round with Chaos memory enabled"
-    },
-    {
-      "commit": "02ca3bd",
-      "date": "2026-10-10",
-      "subject": "Accept plain Chaos advice and add live memory round harness"
-    },
-    {
-      "commit": "1f93d00",
-      "date": "2026-10-10",
-      "subject": "Add Chaos portrait advice banner and dormant run memory"
-    },
-    {
-      "commit": "445d596",
-      "date": "2026-10-10",
-      "subject": "Keep shop and modal refreshes safe during Chaos AI work"
     }
   ],
   "chaos_rules": {
@@ -1458,7 +1601,7 @@
       "effect": "Ace Injection: Add 1 card of rank A to the deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_ace_injection.png",
       "name": "Ace Injection",
       "params": {
         "deck_rule": true,
@@ -1481,7 +1624,7 @@
       "effect": "Burn Protocol: After the hand, delete all cards drawn this round from the deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_burn.png",
       "name": "Burn Protocol",
       "params": {
         "deck_rule": true,
@@ -1504,7 +1647,7 @@
       "effect": "Data Backflow: Shuffle 4 removed cards back into the deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_data_backflow.png",
       "name": "Data Backflow",
       "params": {
         "deck_rule": true,
@@ -1527,7 +1670,7 @@
       "effect": "Layered Sort: Move all high cards (10-A) to the bottom of this round's deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_layered_sort.png",
       "name": "Layered Sort",
       "params": {
         "deck_rule": true,
@@ -1550,7 +1693,7 @@
       "effect": "Redundancy Purge: Delete 3 cards of one random rank from the deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_redundancy_purge.png",
       "name": "Redundancy Purge",
       "params": {
         "deck_rule": true,
@@ -1573,7 +1716,7 @@
       "effect": "Sample Injection: Add 3 cards of one random rank to the deck.",
       "enabled": true,
       "flags": [],
-      "icon": null,
+      "icon": "assets/j54/j54_sample_injection.png",
       "name": "Sample Injection",
       "params": {
         "deck_rule": true,
@@ -1718,6 +1861,23 @@
       "series": "core",
       "slot": "avatar"
     },
+    "avatar_poker_head_j": {
+      "achievements": [
+        "chaos_conqueror"
+      ],
+      "assets": {
+        "avatar": "avatar_poker_head_j"
+      },
+      "default": false,
+      "description": "A gold serif J on Poker Head's green.",
+      "hidden": false,
+      "name": "Gold J",
+      "preview_asset": "avatar_poker_head_j",
+      "price": null,
+      "rarity": "rare",
+      "series": "poker_head",
+      "slot": "avatar"
+    },
     "avatar_spade": {
       "achievements": [],
       "assets": {
@@ -1854,6 +2014,26 @@
       "series": "core",
       "slot": "chips"
     },
+    "chips_poker_head": {
+      "achievements": [
+        "chaos_conqueror"
+      ],
+      "assets": {
+        "chip_1": "chips_poker_head_1",
+        "chip_10": "chips_poker_head_10",
+        "chip_25": "chips_poker_head_25",
+        "chip_5": "chips_poker_head_5"
+      },
+      "default": false,
+      "description": "Poker Head's classic striped chips.",
+      "hidden": false,
+      "name": "House Collection",
+      "preview_asset": "chips_poker_head_1",
+      "price": null,
+      "rarity": "rare",
+      "series": "poker_head",
+      "slot": "chips"
+    },
     "chips_standard": {
       "achievements": [],
       "assets": {
@@ -1917,6 +2097,24 @@
       "hidden": false,
       "name": "Poker Head's Deck",
       "preview_asset": "card_back_poker_head",
+      "price": null,
+      "rarity": "legendary",
+      "series": "poker_head",
+      "slot": "deck"
+    },
+    "deck_poker_head_gold": {
+      "achievements": [
+        "chaos_conqueror"
+      ],
+      "assets": {
+        "card_back": "card_back_poker_head_gold",
+        "card_front_blank": "card_front_poker_head"
+      },
+      "default": false,
+      "description": "Poker Head's deck in rose and a broad gold frame.",
+      "hidden": false,
+      "name": "Gilded Lattice",
+      "preview_asset": "card_back_poker_head_gold",
       "price": null,
       "rarity": "legendary",
       "series": "poker_head",
@@ -2036,59 +2234,129 @@
       "blob": "ee62c586a618",
       "commit": "d2aaa1d",
       "date": "2026-10-13",
-      "on_main": false,
+      "on_main": true,
       "path": "docs/design/AI_MODES.md",
-      "ref": "feat/j54-demo",
+      "ref": "feat/poker-head-builds",
       "status": "agreed",
       "title": "AI modes: one dealer per mode"
     },
     "codex": {
-      "blob": "890abc246bde",
-      "commit": "6eba56e",
-      "date": "2026-10-12",
+      "blob": "159b4f5c3fb5",
+      "commit": "bd1af99",
+      "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/CODEX.md",
-      "ref": "main",
+      "ref": "feat/poker-head-builds",
       "status": null,
       "title": "Headless codex and controller demonstrations (M4a)"
     },
     "cosmetics-achievements": {
-      "blob": "5710550aab3b",
-      "commit": "cce7417",
-      "date": "2026-10-12",
+      "blob": "235ca1cbf918",
+      "commit": "bd1af99",
+      "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/COSMETICS_ACHIEVEMENTS.md",
-      "ref": "main",
+      "ref": "feat/poker-head-builds",
       "status": "agreed",
       "title": "Cosmetics, achievements and the player profile"
+    },
+    "item-architecture": {
+      "blob": "f3b0e948f744",
+      "commit": "bd1af99",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/ITEM_ARCHITECTURE.md",
+      "ref": "feat/poker-head-builds",
+      "status": "the contract for every table that sells or applies its own goods",
+      "title": "Products, choices and moves: the item architecture"
     },
     "j54-table": {
       "blob": "681e30decd29",
       "commit": "68bfe24",
       "date": "2026-10-13",
-      "on_main": false,
+      "on_main": true,
       "path": "docs/design/J54_TABLE.md",
-      "ref": "feat/j54-demo",
+      "ref": "feat/poker-head-builds",
       "status": "concept agreed",
       "title": "J-54 \"Joker Reshuffler\": table design"
     },
     "meta-progression": {
-      "blob": "b4f8ce97dc79",
-      "commit": "cce7417",
-      "date": "2026-10-12",
+      "blob": "391c59541ea4",
+      "commit": "bd1af99",
+      "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/META_PROGRESSION.md",
-      "ref": "main",
+      "ref": "feat/poker-head-builds",
       "status": "agreed plan",
       "title": "Meta progression, player saves, run history and the codex"
     },
+    "poker-head-art": {
+      "blob": "8aa2e2b7cdb7",
+      "commit": "c9d6b96",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_ART.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head art specification"
+    },
+    "poker-head-builds.zh-cn": {
+      "blob": "93cd443761fe",
+      "commit": "099eada",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_BUILDS.zh-CN.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head：局内构筑设计概览"
+    },
+    "poker-head-chaos-rules-and-agent.zh-cn": {
+      "blob": "f251e58ec018",
+      "commit": "099eada",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_CHAOS_RULES_AND_AGENT.zh-CN.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head：混沌环境规则与渐强离线 Agent"
+    },
+    "poker-head-effects.zh-cn": {
+      "blob": "317f2717292c",
+      "commit": "099eada",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_EFFECTS.zh-CN.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head：道具与增益效果明细"
+    },
+    "poker-head-icon-candidates": {
+      "blob": "1cb7ccf40511",
+      "commit": "c9d6b96",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_ICON_CANDIDATES.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head icon candidate review"
+    },
+    "poker-head-implementation-plan.zh-cn": {
+      "blob": "b68348a5b8fa",
+      "commit": "099eada",
+      "date": "2026-10-14",
+      "on_main": true,
+      "path": "docs/design/POKER_HEAD_IMPLEMENTATION_PLAN.zh-CN.md",
+      "ref": "feat/poker-head-builds",
+      "status": null,
+      "title": "Poker Head：搭建计划与第一版定价"
+    },
     "table-ui": {
-      "blob": "15ce82dd9107",
-      "commit": "68bfe24",
-      "date": "2026-10-13",
-      "on_main": false,
+      "blob": "dc8611260ba6",
+      "commit": "bd1af99",
+      "date": "2026-10-14",
+      "on_main": true,
       "path": "docs/design/TABLE_UI.md",
-      "ref": "feat/j54-demo",
+      "ref": "feat/poker-head-builds",
       "status": "implemented",
       "title": "Table UI: parts, widgets and layouts"
     }
@@ -2099,34 +2367,34 @@
       "duration_text": "2 rounds left, this one included.",
       "effect": "Your base bust limit is 20: you bust above 20. Cores and items add to it.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_bust.png",
       "name": "Fragile Player",
       "params": {
         "actor": "player",
         "limit": 20
       },
-      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "It ends on its own; Clause Removal removes it sooner. Silence Seal suppresses it for a round."
     },
     "bust_outcome": {
       "duration": 2,
       "duration_text": "2 rounds left, this one included.",
       "effect": "When the dealer busts and you have not, the round is a push.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_bust_outcome.png",
       "name": "Dealer Bust Pardon",
       "params": {
         "result": "push",
         "side": "dealer"
       },
-      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "It ends on its own; Clause Removal removes it sooner. Silence Seal suppresses it for a round."
     },
     "fixed": {
       "duration": 0,
       "duration_text": "In force until removed or replaced.",
       "effect": "Both hands' 2s count as 1 each.",
       "enabled": true,
-      "icon": null,
-      "name": "2 Rewrite",
+      "icon": "assets/poker_head/environment/ph_env_fixed.png",
+      "name": "Two Rewrite",
       "params": {
         "actor": "both",
         "group": {
@@ -2137,59 +2405,59 @@
         },
         "value": 1
       },
-      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "Clause Removal removes it, or the dealer may replace it. Silence Seal suppresses it for a round."
     },
     "hidden": {
       "duration": 2,
       "duration_text": "2 rounds left, this one included.",
       "effect": "Your second opening card is dealt face down; your total stays hidden until you stand.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_hidden.png",
       "name": "Face-Down Card",
       "params": {},
-      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "It ends on its own; Clause Removal removes it sooner. Silence Seal suppresses it for a round."
     },
     "item_ban": {
       "duration": 2,
       "duration_text": "2 rounds left, this one included.",
       "effect": "The next consumable you use only lifts this ban: it is spent with no effect.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_item_ban.png",
       "name": "Item Ban",
       "params": {},
-      "removal": "Sacrifice a consumable (it has no effect), or wait for it to end. Replaced by the dealer."
+      "removal": "Sacrifice a consumable (it has no effect), or wait for it to end."
     },
     "markup": {
       "duration": 3,
       "duration_text": "3 rounds left, this one included.",
       "effect": "Consumables and permanents cost 10% more. Financial products and rerolls keep their price.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_markup.png",
       "name": "Price Hike",
       "params": {
         "pct": 10
       },
-      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "It ends on its own; Clause Removal removes it sooner. Silence Seal suppresses it for a round."
     },
     "profit_cap": {
       "duration": 3,
       "duration_text": "3 rounds left, this one included.",
       "effect": "You keep at most 50 chips of this round's profit; the rest is lost. Returned principal, refunds, loan advances and buy-backs are not profit.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_profit_cap.png",
       "name": "Withdrawal Limit",
       "params": {
         "cap": 50
       },
-      "removal": "Clause Removal removes it; it also leaves when it ends, the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "It ends on its own; Clause Removal removes it sooner. Silence Seal suppresses it for a round."
     },
     "shift": {
       "duration": 0,
       "duration_text": "In force until removed or replaced.",
       "effect": "In both hands: aces +1 each. A card never counts less than 1; aces shift both their values.",
       "enabled": true,
-      "icon": null,
-      "name": "Ace Shift",
+      "icon": "assets/poker_head/environment/ph_env_shift.png",
+      "name": "Ace Up",
       "params": {
         "actor": "both",
         "shifts": [
@@ -2204,19 +2472,19 @@
           ]
         ]
       },
-      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "Clause Removal removes it, or the dealer may replace it. Silence Seal suppresses it for a round."
     },
     "tie": {
       "duration": 0,
       "duration_text": "In force until removed or replaced.",
       "effect": "When neither side busts and the totals are equal, the dealer wins.",
       "enabled": true,
-      "icon": null,
+      "icon": "assets/poker_head/environment/ph_env_tie.png",
       "name": "Ties to the House",
       "params": {
         "result": "dealer"
       },
-      "removal": "Clause Removal removes it; it also leaves when the dealer replaces it. Silence Seal suppresses it for a round."
+      "removal": "Clause Removal removes it, or the dealer may replace it. Silence Seal suppresses it for a round."
     }
   },
   "items": {
@@ -2248,7 +2516,7 @@
     },
     "j54_freeze": {
       "help": "At once: stop J-54 adding cards for 3 rounds.",
-      "icon": null,
+      "icon": "assets/j54/j54_freeze.png",
       "kind": "contract",
       "name": "Freeze Contract",
       "params": {
@@ -2262,7 +2530,7 @@
     },
     "j54_high_injection": {
       "help": "At once: add 3 high cards (10-A) to the deck.",
-      "icon": null,
+      "icon": "assets/j54/j54_high_injection.png",
       "kind": "contract",
       "name": "High Injection Contract",
       "params": {
@@ -2277,7 +2545,7 @@
     },
     "j54_low_purge": {
       "help": "At once: delete 6 low cards (2-6) from the deck.",
-      "icon": null,
+      "icon": "assets/j54/j54_low_purge.png",
       "kind": "contract",
       "name": "Low Purge Contract",
       "params": {
@@ -2292,7 +2560,7 @@
     },
     "j54_start_experiment": {
       "help": "At once: release the sealed Joker into the deck (J-54 then adds more cards each round).",
-      "icon": null,
+      "icon": "assets/j54/j54_start_experiment.png",
       "kind": "contract",
       "name": "Start Experiment",
       "params": {
@@ -2305,7 +2573,7 @@
     },
     "j54_streamline": {
       "help": "When you next win a hand: delete 5 random cards from the deck.",
-      "icon": null,
+      "icon": "assets/j54/j54_streamline.png",
       "kind": "contract",
       "name": "Streamline Contract",
       "params": {
@@ -3490,8 +3758,7 @@
       "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "84c3a7e",
-    "historical": true,
+    "game_commit": "1214909",
     "measured": {
       "bands": [
         {
@@ -3504,7 +3771,7 @@
           "band": "[-0.120, -0.075]",
           "metric": "EV, offline stub chaos (values -1)",
           "ok": "**NO**",
-          "value": "-0.0239"
+          "value": "-0.0158"
         },
         {
           "band": "[-0.015, +0.025]",
@@ -3528,7 +3795,7 @@
           "band": "[+0.075, +0.130]",
           "metric": "Win rate, offline stub chaos, bet 25%",
           "ok": "**NO**",
-          "value": "+0.2340"
+          "value": "+0.2390"
         }
       ],
       "edge": [
@@ -3618,25 +3885,25 @@
       "runs": {
         "bands": {
           "args": "check",
-          "balance": "default@9373b51beb48",
+          "balance": "default@07cad50f4344",
           "seed": 1,
           "title": "Balance bands"
         },
         "edge": {
           "args": "edge --rules all",
-          "balance": "default@9373b51beb48",
+          "balance": "default@07cad50f4344",
           "seed": 1,
           "title": "Player EV per round (basic strategy, 20000 rounds)"
         },
         "items": {
           "args": "items --rules none",
-          "balance": "default@9373b51beb48",
+          "balance": "default@07cad50f4344",
           "seed": 1,
           "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
         }
       }
     },
-    "measured_on": "84c3a7e",
+    "measured_on": "1214909",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -3661,14 +3928,11 @@
     }
   },
   "source": {
-    "base_commit": "a462ec2",
-    "commit": "6f946b3",
-    "content_tree": "3d60874c66eb8bfc64945ffa5af83047bdf72893",
-    "date": "2026-10-13",
-    "ref": "feat/j54-demo",
-    "subject": "Current game working tree captured for wiki publication",
-    "version": "0.2.0",
-    "working_tree": true
+    "commit": "1214909",
+    "date": "2026-10-14",
+    "ref": "feat/poker-head-builds",
+    "subject": "Complete Poker Head's House Collection: gold deck, chips and avatar",
+    "version": "0.2.0"
   },
   "tables": {
     "chaos": {

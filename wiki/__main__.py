@@ -106,7 +106,7 @@ def _copy_images(game: Path, facts: dict) -> None:
     img = F.FACTS.parent / "img"
     img.mkdir(exist_ok=True)
     wanted = {aid: a["file"] for aid, a in facts.get("assets", {}).items() if a.get("file")}
-    for coll in ("chaos_rules", "items"):
+    for coll in ("chaos_rules", "environment_rules", "items"):
         wanted.update({i: e["icon"] for i, e in facts.get(coll, {}).items() if e.get("icon")})
     for old in img.glob("*.png"):
         if old.stem not in wanted:

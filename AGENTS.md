@@ -23,13 +23,13 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
 - `--ref` picks another ref (default `main`, or `$WIKI_GAME_REF`). By default the
   site describes `main`; other refs are for testing the adapter, so sync back to
   `main` before committing, unless the user explicitly selects the current development version.
-  The author selected the current `feat/j54-demo` working tree on 2026-10-13:
-  document its implemented Poker Head products and environment as the official
-  current scheme, and mark J-54 experimental. For this publication, read the
-  selected checkout into an owned frozen copy, run `extract` against that copy,
-  and retain its base commit and content tree in source facts. Never modify the
-  shared game checkout. Do not replace this selected version with older main
-  facts merely because its work has not merged yet.
+  On 2026-10-14 the author selected the committed branch `feat/poker-head-builds`
+  (`python -m wiki sync --ref feat/poker-head-builds`): the Poker Head and J-54
+  work that game `main` merged, plus new art that is not in `main` yet. Document its
+  Poker Head products and environment as the official current scheme and mark
+  J-54 experimental. Do not replace it with older `main` facts merely because
+  the art has not merged; switch back to `main` once `main` contains it. Never
+  modify the shared game checkout.
 - The game repo is the sibling folder `../Black_jack`, or `$CHAOS_BLACKJACK_REPO`.
 
 ## Handling DRIFT.md

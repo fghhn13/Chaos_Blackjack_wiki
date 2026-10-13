@@ -59,7 +59,7 @@ def extract_facts(root: Path, ref: str) -> dict[str, Any]:
         "settings": balance["settings"],
         "chaos_rules": _chaos_rules(root, balance),
         "items": _items(root, balance),
-        "environment_rules": _environment_rules(),
+        "environment_rules": _environment_rules(root),
         "permissions": _permissions(root),
         "prompts": sorted(p.stem for p in (root / "chaos_blackjack/ai/prompts").glob("*.txt")),
         "assets": _assets(root),
@@ -259,7 +259,7 @@ def _items(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
     return out
 
 
-def _environment_rules() -> dict[str, Any]:
+def _environment_rules(root: Path | None = None) -> dict[str, Any]:
     """Real environment types, with one legal example from the director pool."""
     try:
         from chaos_blackjack.poker_head.director import Director
@@ -278,7 +278,8 @@ def _environment_rules() -> dict[str, Any]:
                 examples[kind] = variants[0]
     return {kind: {"name": rule.title, "effect": rule.effect_text(), "params": _jsonable(rule.params),
                    "duration": rule.duration, "duration_text": rule.duration_text(),
-                   "removal": rule.removal_text(), "enabled": True, "icon": None}
+                   "removal": rule.removal_text(), "enabled": True,
+                   "icon": _icon(root, rule.icon) if root and getattr(rule, "icon", None) else None}
             for kind in TYPES if (rule := examples.get(kind)) is not None}
 
 

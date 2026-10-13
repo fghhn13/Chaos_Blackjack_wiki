@@ -99,6 +99,12 @@
         "name": "白旗",
         "name_en": "White Flag"
       },
+      "avatar_poker_head_j": {
+        "description": "扑克头绿底上的一枚金色衬线 J。",
+        "description_en": "A gold serif J on Poker Head's green.",
+        "name": "金色 J",
+        "name_en": "Gold J"
+      },
       "avatar_spade": {
         "description": "利落而简洁。",
         "description_en": "Sharp and simple.",
@@ -147,6 +153,12 @@
         "name": "霓虹筹码",
         "name_en": "Neon Chips"
       },
+      "chips_poker_head": {
+        "description": "扑克头经典的条纹筹码。",
+        "description_en": "Poker Head's classic striped chips.",
+        "name": "庄家珍藏",
+        "name_en": "House Collection"
+      },
       "chips_standard": {
         "description": "赌场使用的筹码。",
         "description_en": "The casino's chips.",
@@ -170,6 +182,12 @@
         "description_en": "Poker Head's own cards, earned at his table.",
         "name": "扑克头的牌组",
         "name_en": "Poker Head's Deck"
+      },
+      "deck_poker_head_gold": {
+        "description": "玫瑰色加宽金框的扑克头牌组。",
+        "description_en": "Poker Head's deck in rose and a broad gold frame.",
+        "name": "鎏金格纹",
+        "name_en": "Gilded Lattice"
       },
       "table_chaos": {
         "description": "为混沌之夜准备的紫色丝绒。",
