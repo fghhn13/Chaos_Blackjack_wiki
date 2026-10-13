@@ -24,28 +24,40 @@ mostly by agents. v1 is built; the day-to-day procedure is in [AGENTS.md](AGENTS
 ## 2. What the wiki shows
 
 Legend: **F** = generated from facts, **P** = hand-written prose, **F+P** = both.
+The nav groups below are `PAGES` in `wiki/i18n.py`, in order; the source path
+is `content/<lang>/<path>.md`. Every page publishes flat as
+`site/<lang>/<last segment>.html`, so moving a source never changes its URL.
 
-| # | Page | Content | Kind | Source in the game |
-|---|------|---------|------|--------------------|
-| 1 | Home | One-paragraph pitch, how to start (GUI / CLI / agent), "describes commit `abc1234` of `main`, built 2026-10-10" | F+P | git, README |
-| 2 | Rules | Bankroll, target, bet range, payouts, double / surrender, dealer rule, run end | F+P | `default` balance profile (`data/seed/default.sql` via the `Balance` loader) |
-| 3 | Chaos rules (index + one card each) | Icon, id, display name, effect, tuning params, stub weight, which permission profiles allow it, enabled flag, strategy notes | F+P | registry (`register_rule`), `chaos_rule` table, `ui/descriptions.py`, `ai/permissions/*.json`, `assets/<id>.png` |
-| 4 | Items (index + one card each) | Icon, id, help text, price, params, when usable, strategy notes | F+P | registry (`register_item`), `ITEM_HELP`, `shop_item` table, assets |
-| 5 | Shop & economy | Slots, restock interval, purchase floor, price table | F+P | balance profile |
-| 6 | The Chaos AI | Pipeline (observe → JSON → permission check → registry), budget, difficulty profiles, prompt personalities, stub vs real LLM, safety | F+P | `ai/permissions/*.json`, `ai/prompts/*.txt` (names only), README |
-| 7 | Balance profile reference | Every setting: key, default, type, min/max, description | F | `setting` table |
-| 8 | How to play: GUI | Controls table per phase, scenes, settings | F+P | README / `gui` key map |
-| 9 | How to play: agents | Command reference, observation fields, legal actions, error codes, **live transcript** | F+P | agent CLI; transcript produced by actually running `python -m chaos_blackjack.agent` with a fixed seed |
-| 10 | Content packs / modding | How to add a rule, item, prompt, pack (once `codex/content-workflow` lands on `main`) | F+P | `extensions/`, `docs/CONTENT_WORKFLOW.md` |
-| 11 | Art gallery | Every manifest asset: id, category, size, final vs placeholder, thumbnail | F | `gui/assets/manifest.py`, `assets/` |
-| 12 | Balance data (optional) | House edge per chaos rule, item EV, run win rate | F | latest `black-jack-sim` report (JSON), stamped with its own commit |
-| 13 | Architecture | Layer diagram, module table, plugin rule | F+P | README, package tree |
-| 14 | Changelog | Player-visible changes per merge to `main`, newest first | F+P | `git log` on `main` + facts diff between builds |
-| 15 | Glossary | Natural, push, bust, hole card, chaos budget, restock… | P | — |
+| Nav group | Page (source path) | Content | Kind | Source in the game |
+|-----------|--------------------|---------|------|--------------------|
+| Start | Home (`index`) | Pitch, how to start (GUI / CLI / agent), the commit the site describes | F+P | git, README |
+| Start | Play (`play`) | GUI controls per phase, scenes, choosing a table | F+P | README / `gui` key map |
+| Start | Rules (`rules`) | Classic baseline: bankroll, target, bets, payouts, double / surrender, dealer rule | F+P | `default` balance profile |
+| Tables and dealers | Tables (`tables`) + one page per table | Host, goal, bet range, payout, rule / item pools, experimental state | F+P | game modes (`tables` in facts) |
+| Tables and dealers | Dealers (`dealers`) + one page per dealer | Character, quote, tables hosted | F+P | host profiles (`dealers` in facts) |
+| Catalog | Environment (`environment`) + one card each | Environment cards and how the offline director uses them | F+P | Poker Head environment registry, director settings |
+| Catalog | Chaos rules (`chaos`) + one card each | Icon, effect, params, stub weight, permission profiles, tables, strategy notes | F+P | registry (`register_rule`), `chaos_rule` table, `ai/permissions/*.json` |
+| Catalog | Items (`items`) + one card each | Icon, help, price / kind, timing, params, tables, strategy notes | F+P | registry (`register_item`), shop tables, Poker Head catalog |
+| Guides | Poker Head builds (`guides/poker-head-builds`) | Cores, slots, cash / debt, product catalog by kind | F+P | Poker Head catalog, mode settings |
+| Progression and collection | `growth/progression`, `profile`, `shop`, `cosmetics`, `achievements` | Upgrades, profile and saves, in-run shop, cosmetic and achievement catalogs | F+P | meta progression catalogs, balance profile |
+| Under the hood | `dev/agents` | Command reference, observation fields, actions, error codes, **live transcript** | F+P | agent CLI run with a fixed seed |
+| Under the hood | `dev/chaos-ai` | Director / AI pipeline, budgets, difficulty profiles, stub vs real LLM | F+P | `ai/permissions/*.json`, `ai/prompts/*.txt` (names only) |
+| Under the hood | `dev/settings` | Every setting: key, default, type, min/max, description | F | `setting` table |
+| Under the hood | `dev/balance`, `dev/simulator` | House edge per rule, item gain, win rates, bands; how to run the simulator | F+P | latest `black-jack-sim` results, stamped with their commit |
+| Under the hood | `dev/architecture` | Layer diagram, module table, plugin rule | F+P | README, package tree |
+| Design | Design (`design`) + one page per doc | Branch design docs with a "planned / in main" banner; early concepts as history | F+P | `docs/design/*.md` on every local branch |
+| Reference | `reference/gallery`, `changelog`, `glossary` | Every art asset; player-visible changes; terms | F / F+P / P | asset manifest, `git log`, — |
+
+Catalog pages group their cards by the table that offers each id (the table's
+`rules`, `environment_rules`, `items` + `products`), released tables first,
+then experimental ones, then "Not used at any table". The "Experimental" label
+comes from `tables.<id>.experimental`; nothing in `wiki/*.py` names a game id.
 
 Every rule/item card has the same layout, so new content needs only a
 paragraph of prose to look complete; without prose it still renders from facts
-and shows a "no notes yet" badge.
+and shows a "no notes yet" badge. Adding a table or dealer to the game adds its
+nav entry and catalog section by itself; the wiki only needs its
+`{tables,dealers}/<id>.md`.
 
 ## 3. Repository layout
 
@@ -54,21 +66,29 @@ Black_jack_wiki/
 ├── DESIGN.md                 # this file
 ├── AGENTS.md                 # the update procedure below, short form
 ├── wiki/
-│   ├── adapter.py            # ONLY module importing chaos_blackjack
-│   ├── extract.py            # adapter → facts/facts.json (sorted, deterministic)
-│   ├── diff.py               # old facts vs new facts → drift report
+│   ├── __main__.py           # CLI: sync / build / check / all
+│   ├── adapter.py            # ONLY module importing chaos_blackjack → facts (sorted, deterministic)
+│   ├── facts.py              # load / save / diff facts.json → drift report
+│   ├── design.py             # docs/design/*.md from every local game branch
+│   ├── sim.py                # balance simulator results (bjsim CLI in a subprocess)
 │   ├── build.py              # facts + content → site/
-│   ├── check.py              # coverage, links, placeholders, stale prose
-│   └── templates/            # page + card HTML, one CSS file
+│   ├── check.py              # links, placeholders, page layout, stale prose and translations
+│   ├── i18n.py               # PAGES (nav), REDIRECTS, interface strings
+│   ├── md.py                 # small Markdown subset
+│   └── static/               # style.css, wiki.js
 ├── facts/
 │   ├── facts.json            # committed: the snapshot the site was built from (incl. the agent transcript)
 │   └── img/<id>.png          # committed: art snapshot from the same commit
 ├── content/                  # hand-written prose, Markdown + front matter
 │   ├── en/ zh/               # same structure per language
-│   │   ├── rules.md ...      # one file per page (wiki/i18n.py: PAGES)
-│   │   ├── chaos/<rule_id>.md  # notes per rule (optional; missing = "no notes yet")
-│   │   ├── items/<item_id>.md
-│   │   └── strings.json      # setting / error-code descriptions
+│   │   ├── index.md play.md rules.md                   # Start
+│   │   ├── tables.md dealers.md environment.md chaos.md items.md design.md
+│   │   │                     # catalog hubs, beside their entity folders:
+│   │   ├── tables/ dealers/ environment/ chaos/ items/ design/  # <id>.md notes per entity
+│   │   ├── guides/ growth/ dev/ reference/              # other pages, grouped by nav group
+│   │   └── strings.json      # setting / error-code / catalog descriptions
+│   ├── img/                  # editorial portraits (never pruned by sync)
+│   └── sources/              # author-supplied source documents, kept as history
 ├── site/                     # build output (git-ignored or a gh-pages branch)
 └── tests/
 ```
@@ -148,7 +168,8 @@ stale    content/rules.md:14         mentions "streak reward" (removed in 1b7a86
 | Coverage | a registered rule/item/setting has no card (prose optional, card required) |
 | Placeholders | `{{ fact: x }}` names a path not in facts |
 | Stale ids | prose mentions an id/command/flag absent from facts |
-| Links | internal link or image target missing |
+| Links | internal link, anchor or image target missing |
+| Page layout | a page source outside the entity folders is not in `PAGES`, or two pages / entity pages / redirects publish the same file name |
 | Translations | (warning) a Chinese `effect`/`help` was made from English text that has since changed (`*_en` mismatch) |
 | Stamp | `site/` built from other facts/content than the current ones |
 
