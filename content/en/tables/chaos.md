@@ -8,3 +8,5 @@ The table shares the common items and also sells {{ link: items.shield }}. Click
 A victory earns the normal run reward plus {{ fact: settings.meta.chaos_win_bonus.value }} extra tokens. Your first victory here unlocks **Poker Face**, granting the deck and table looks listed in [Achievements](achievements.html).
 
 New runs have a host introduction, and completed runs have victory or defeat lines before results. Enter / click advances; Escape skips. The base deck has {{ fact: deck.cards }} cards and is rebuilt each round; J-54's persistent deck manipulation is still a separate [design draft](table-j54.html).
+
+Poker Head's [new environment and offline Agent design](poker-head-environment-plan.html) is in development and has not merged into main. This page continues to describe the released Table.

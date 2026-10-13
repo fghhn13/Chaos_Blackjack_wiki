@@ -30,6 +30,8 @@ The authenticated browser edition runs the same Pygame game in WebAssembly, with
 
 See [browser compatibility and builds](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md) and [deployment instructions](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md).
 
+On touch devices, swipe vertically to scroll lists, reference text and history details. A short tap selects; releasing a drag does not select an entry. Gestures inside the game scroll its content, while the surrounding web page remains scrollable.
+
 ## Text CLI and agents
 
 ```bash

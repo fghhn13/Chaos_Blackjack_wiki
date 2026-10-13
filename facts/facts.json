@@ -184,7 +184,7 @@
     },
     "avatar_joker": {
       "category": "avatar",
-      "file": null,
+      "file": "assets/cosmetics/procedural/avatar_joker.png",
       "name": "White Flag",
       "size": [
         256,
@@ -193,7 +193,7 @@
     },
     "avatar_spade": {
       "category": "avatar",
-      "file": null,
+      "file": "assets/cosmetics/procedural/avatar_spade.png",
       "name": "Ace of Spades",
       "size": [
         256,
@@ -211,7 +211,7 @@
     },
     "card_back_crimson": {
       "category": "card",
-      "file": null,
+      "file": "assets/cosmetics/procedural/card_back_crimson.png",
       "name": "Crimson Lattice",
       "size": [
         512,
@@ -220,7 +220,7 @@
     },
     "card_back_poker_head": {
       "category": "card",
-      "file": null,
+      "file": "assets/cosmetics/procedural/card_back_poker_head.png",
       "name": "Poker Head's Deck",
       "size": [
         512,
@@ -229,7 +229,7 @@
     },
     "card_back_royal": {
       "category": "card",
-      "file": null,
+      "file": "assets/cosmetics/procedural/card_back_royal.png",
       "name": "Royal Flush",
       "size": [
         512,
@@ -247,7 +247,7 @@
     },
     "card_front_poker_head": {
       "category": "card",
-      "file": null,
+      "file": "assets/cosmetics/procedural/card_front_poker_head.png",
       "name": "Poker Head's Deck",
       "size": [
         512,
@@ -256,7 +256,7 @@
     },
     "chaos_angry": {
       "category": "character",
-      "file": null,
+      "file": "assets/defaults/procedural/chaos_angry.png",
       "name": "Chaos AI (angry)",
       "size": [
         512,
@@ -265,7 +265,7 @@
     },
     "chaos_calm": {
       "category": "character",
-      "file": null,
+      "file": "assets/defaults/procedural/chaos_calm.png",
       "name": "Chaos AI (calm)",
       "size": [
         512,
@@ -274,7 +274,7 @@
     },
     "chaos_laugh": {
       "category": "character",
-      "file": null,
+      "file": "assets/defaults/procedural/chaos_laugh.png",
       "name": "Chaos AI (laugh)",
       "size": [
         512,
@@ -283,7 +283,7 @@
     },
     "chaos_smug": {
       "category": "character",
-      "file": null,
+      "file": "assets/defaults/procedural/chaos_smug.png",
       "name": "Chaos AI (smug)",
       "size": [
         512,
@@ -328,7 +328,7 @@
     },
     "chips_gold_1": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_gold_1.png",
       "name": "Gold Chips",
       "size": [
         256,
@@ -337,7 +337,7 @@
     },
     "chips_gold_10": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_gold_10.png",
       "name": "Gold Chips",
       "size": [
         256,
@@ -346,7 +346,7 @@
     },
     "chips_gold_25": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_gold_25.png",
       "name": "Gold Chips",
       "size": [
         256,
@@ -355,7 +355,7 @@
     },
     "chips_gold_5": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_gold_5.png",
       "name": "Gold Chips",
       "size": [
         256,
@@ -364,7 +364,7 @@
     },
     "chips_neon_1": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_neon_1.png",
       "name": "Neon Chips",
       "size": [
         256,
@@ -373,7 +373,7 @@
     },
     "chips_neon_10": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_neon_10.png",
       "name": "Neon Chips",
       "size": [
         256,
@@ -382,7 +382,7 @@
     },
     "chips_neon_25": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_neon_25.png",
       "name": "Neon Chips",
       "size": [
         256,
@@ -391,7 +391,7 @@
     },
     "chips_neon_5": {
       "category": "chip",
-      "file": null,
+      "file": "assets/cosmetics/procedural/chips_neon_5.png",
       "name": "Neon Chips",
       "size": [
         256,
@@ -562,7 +562,7 @@
     },
     "table_background": {
       "category": "background",
-      "file": null,
+      "file": "assets/defaults/procedural/table_background.png",
       "name": "Table background",
       "size": [
         1920,
@@ -571,7 +571,7 @@
     },
     "table_chaos": {
       "category": "background",
-      "file": null,
+      "file": "assets/cosmetics/procedural/table_chaos.png",
       "name": "Chaos Velvet",
       "size": [
         1920,
@@ -580,7 +580,7 @@
     },
     "table_midnight": {
       "category": "background",
-      "file": null,
+      "file": "assets/cosmetics/procedural/table_midnight.png",
       "name": "Midnight Felt",
       "size": [
         1920,
@@ -589,7 +589,7 @@
     },
     "table_poker_head": {
       "category": "background",
-      "file": null,
+      "file": "assets/cosmetics/procedural/table_poker_head.png",
       "name": "Poker Head's Table",
       "size": [
         1920,
@@ -607,6 +607,21 @@
     }
   },
   "changelog": [
+    {
+      "commit": "84c3a7e",
+      "date": "2026-10-13",
+      "subject": "Fix localized timezone initialization in the browser VM"
+    },
+    {
+      "commit": "cbd2a1e",
+      "date": "2026-10-12",
+      "subject": "Support mobile swipes in Pygame lists and reference panels"
+    },
+    {
+      "commit": "db58829",
+      "date": "2026-10-12",
+      "subject": "Merge pull request #8 from fghhn13/feat/ai-modes"
+    },
     {
       "commit": "3deed1d",
       "date": "2026-10-12",
@@ -791,21 +806,6 @@
       "commit": "5c003b5",
       "date": "2026-04-03",
       "subject": "离线部分"
-    },
-    {
-      "commit": "66cbb60",
-      "date": "2026-04-03",
-      "subject": "全局规则更新"
-    },
-    {
-      "commit": "aebfe97",
-      "date": "2026-04-03",
-      "subject": "v2"
-    },
-    {
-      "commit": "6bd948c",
-      "date": "2026-04-03",
-      "subject": "MPV"
     }
   ],
   "chaos_rules": {
@@ -1175,12 +1175,12 @@
   },
   "design_docs": {
     "ai-modes": {
-      "blob": "9ece66a93360",
-      "commit": "cce7417",
-      "date": "2026-10-12",
-      "on_main": true,
+      "blob": "ee62c586a618",
+      "commit": "d2aaa1d",
+      "date": "2026-10-13",
+      "on_main": false,
       "path": "docs/design/AI_MODES.md",
-      "ref": "main",
+      "ref": "feat/j54-demo",
       "status": "agreed",
       "title": "AI modes: one dealer per mode"
     },
@@ -1204,6 +1204,16 @@
       "status": "agreed",
       "title": "Cosmetics, achievements and the player profile"
     },
+    "j54-table": {
+      "blob": "681e30decd29",
+      "commit": "68bfe24",
+      "date": "2026-10-13",
+      "on_main": false,
+      "path": "docs/design/J54_TABLE.md",
+      "ref": "feat/j54-demo",
+      "status": "concept agreed",
+      "title": "J-54 \"Joker Reshuffler\": table design"
+    },
     "meta-progression": {
       "blob": "b4f8ce97dc79",
       "commit": "cce7417",
@@ -1213,6 +1223,16 @@
       "ref": "main",
       "status": "agreed plan",
       "title": "Meta progression, player saves, run history and the codex"
+    },
+    "table-ui": {
+      "blob": "15ce82dd9107",
+      "commit": "68bfe24",
+      "date": "2026-10-13",
+      "on_main": false,
+      "path": "docs/design/TABLE_UI.md",
+      "ref": "feat/j54-demo",
+      "status": "implemented",
+      "title": "Table UI: parts, widgets and layouts"
     }
   },
   "items": {
@@ -1558,7 +1578,7 @@
       "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "3deed1d",
+    "game_commit": "84c3a7e",
     "measured": {
       "bands": [
         {
@@ -1703,7 +1723,7 @@
         }
       }
     },
-    "measured_on": "3deed1d",
+    "measured_on": "84c3a7e",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -1728,10 +1748,10 @@
     }
   },
   "source": {
-    "commit": "3deed1d",
-    "date": "2026-10-12",
+    "commit": "84c3a7e",
+    "date": "2026-10-13",
     "ref": "main",
-    "subject": "Fix iOS browser startup with trusted touch activation",
+    "subject": "Fix localized timezone initialization in the browser VM",
     "version": "0.2.0"
   },
   "tables": {

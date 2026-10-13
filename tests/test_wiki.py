@@ -98,6 +98,33 @@ def test_design_status_takes_the_bold_part():
     assert slug("docs/design/META_PROGRESSION.md") == "meta-progression"
 
 
+def test_design_main_status_compares_document_contents(tmp_path, monkeypatch):
+    from wiki import design
+
+    path = "docs/design/X.md"
+    shared = "docs/design/SHARED.md"
+
+    def git(repo, *args):
+        if args[0] == "for-each-ref":
+            return "main\nfeat/x"
+        if args[:3] == ("ls-tree", "-r", "--name-only"):
+            return f"{path}\n{shared}"
+        if args[0] == "ls-tree":
+            return f"100644 blob {'a' * 40}\t{path}\n100644 blob {'c' * 40}\t{shared}"
+        if args[0] == "log":
+            return "1\tm1\t2026-10-10" if args[3] == "main" else "2\tf1\t2026-10-11"
+        if args[0] == "show":
+            return "# Example\nStatus: draft."
+        if args[0] == "rev-parse":
+            return "c" * 40 if args[1].endswith(shared) else ("a" if args[1].startswith("main:") else "b") * 40
+        raise AssertionError(args)
+
+    monkeypatch.setattr(design, "_git", git)
+    docs = design.scan(tmp_path)
+    assert docs["x"]["ref"] == "feat/x" and docs["x"]["on_main"] is False
+    assert docs["shared"]["ref"] == "feat/x" and docs["shared"]["on_main"] is True
+
+
 def test_sim_rule_variants_map_to_game_rules(tmp_path):
     from wiki.sim import _dict_keys, game_rule
 

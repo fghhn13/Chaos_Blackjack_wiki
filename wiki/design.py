@@ -35,11 +35,15 @@ def scan(repo: Path, main_ref: str = "main") -> dict[str, Any]:
                     "blob": _git(repo, "rev-parse", f"{ref}:{path}")[:12],
                     "title": _title(text, path), "status": _status(text),
                 }
-    on_main = set(_git(repo, "ls-tree", "-r", "--name-only", main_ref, "--", FOLDER).splitlines())
+    main_blobs = {}
+    for line in _git(repo, "ls-tree", "-r", main_ref, "--", FOLDER).splitlines():
+        entry, path = line.split("\t", 1)
+        main_blobs[path] = entry.split()[2][:12]
     out = {}
     for path, d in sorted(best.items()):
         d.pop("_ts")
-        d["on_main"] = path in on_main
+        # An older document at the same path does not make this version shipped.
+        d["on_main"] = main_blobs.get(path) == d["blob"]
         out[slug(path)] = d
     return out
 

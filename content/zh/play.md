@@ -30,6 +30,8 @@ Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在
 
 访问和部署说明见[浏览器兼容性与构建](https://github.com/fghhn13/Chaos_Blackjack/blob/main/browser/README.md)和[部署指南](https://github.com/fghhn13/Chaos_Blackjack/blob/main/deploy/README.md)。
 
+触屏设备可上下滑动列表、参考说明和历史详情。短按选择，拖动后松手不会误选条目。游戏区域内的手势滚动游戏内容，外围网页仍可正常滚动。
+
 ## 文字命令行与 Agent
 
 ```bash

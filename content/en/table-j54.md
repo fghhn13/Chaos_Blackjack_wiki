@@ -14,6 +14,8 @@ Poker Head changes rules; J-54 changes the cards themselves. Build a favourable 
 
 Based on the author's local [J54_TABLE.md source snapshot](https://github.com/fghhn13/Chaos_Blackjack_wiki/blob/main/content/sources/J54_TABLE.md), content version `ed0f3e1b0d8f`. **All numbers below are provisional design values, not simulator-validated balance.**
 
+**Newer branch demo:** [the current J54_TABLE.md summary](design-j54-table.html) records v1 on `feat/j54-demo`, still unmerged into main. It implements only two protocols and revises several values and inspection behaviour. This page preserves the earlier concept rather than presenting those older values as the demo's settings.
+
 ## 1. Persistent composition and two phases
 
 - The standard base deck has **52 cards, no Joker**. The protocol determines when and how many Jokers enter.

@@ -119,6 +119,6 @@ PAGES: list[tuple[str, str]] = [
     ("agents", "g_inside"),
     ("chaos-ai", "g_inside"), ("settings", "g_inside"), ("balance", "g_inside"), ("simulator", "g_inside"),
     ("architecture", "g_inside"),
-    ("design", "g_design"),
+    ("design", "g_design"), ("poker-head-environment-plan", "g_design"),
     ("gallery", "g_ref"), ("changelog", "g_ref"), ("glossary", "g_ref"),
 ]

@@ -14,6 +14,8 @@ parent: tables
 
 本页依据作者本地文档 [J54_TABLE.md 的原文快照](https://github.com/fghhn13/Chaos_Blackjack_wiki/blob/main/content/sources/J54_TABLE.md)，内容版本 `ed0f3e1b0d8f`。**下列数值均为草案占位值，尚未经过模拟器验证。**
 
+**较新的分支演示：**[当前 J54_TABLE.md 摘要](design-j54-table.html)记录了 `feat/j54-demo` 上的 v1，仍未合并到 main。演示仅实现两种协议，并调整了部分数值与检查方式。本页保留早期构思，不把旧占位值当作演示当前设置。
+
 ## 1. 持久牌堆与两阶段玩法
 
 - 标准基础牌堆为 **52 张，无 Joker**；Joker 的数量与加入时机由协议决定。

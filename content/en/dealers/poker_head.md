@@ -26,3 +26,7 @@ An old friend is still an old friend, of course. But he will collect every chip 
 ## First table victory
 
 The Poker Face achievement rewards his deck and table. See [Achievements](achievements.html) and [Cosmetics](cosmetics.html) for the generated rewards.
+
+## Design in development
+
+The [persistent Chaos environment and offline Agent proposal](poker-head-environment-plan.html) describes his new build Table. It has not merged into main and does not change the hosted Tables above.
