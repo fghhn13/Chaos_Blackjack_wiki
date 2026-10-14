@@ -1,6 +1,6 @@
 ---
 title: 商品、选择与动作：道具架构
-source_blob: f3b0e948f744
+source_blob: 6a3eac59a4ba
 ---
 所有出售或施加自有商品的牌桌都遵循这份约定。它已在扑克头构筑桌（`chaos_blackjack/poker_head/`）实现；J-54 契约与经典道具插件仍走旧路径，迁移列为计划中的可选工作。
 

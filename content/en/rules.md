@@ -5,7 +5,7 @@ These are Classic Blackjack baseline rules. Poker Head's [builds](poker-head-bui
 
 ## Goal
 
-You enter with **{{ fact: settings.run.start_money.value }}** chips. Reach **{{ fact: settings.run.target_money.value }}** to win the run. You lose when you run out of chips or can no longer place a legal bet.
+At the Classic Table you bring {{ fact: settings.mode.normal.stake.value }} chips from your [vault](progression.html) and win the run at **{{ fact: settings.mode.normal.config.target_multiple.value }} times** what you brought. (Without a vault, for example the agent CLI, a run starts with **{{ fact: settings.run.start_money.value }}** chips and the goal is **{{ fact: settings.run.target_money.value }}**.) You lose when you run out of chips or can no longer place a legal bet.
 
 ## Betting
 

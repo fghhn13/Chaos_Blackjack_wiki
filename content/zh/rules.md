@@ -5,7 +5,7 @@ title: 规则
 
 ## 目标
 
-你带着 **{{ fact: settings.run.start_money.value }}** 筹码进场，赚到 **{{ fact: settings.run.target_money.value }}** 就赢下这一轮。筹码输光，或者已经下不出合法的注，就算输。
+在经典牌桌，你从[金库](progression.html)带入 {{ fact: settings.mode.normal.stake.value }} 筹码，涨到带入额的 **{{ fact: settings.mode.normal.config.target_multiple.value }} 倍**就赢下这一轮。（不使用金库时，例如 Agent 命令行，一轮从 **{{ fact: settings.run.start_money.value }}** 筹码开始，目标是 **{{ fact: settings.run.target_money.value }}**。）筹码输光，或者已经下不出合法的注，就算输。
 
 ## 下注
 

@@ -1,6 +1,6 @@
 ---
 title: Products, choices and moves
-source_blob: f3b0e948f744
+source_blob: 6a3eac59a4ba
 ---
 The contract for every Table that sells or applies its own goods. It is implemented for Poker Head's build Table (`chaos_blackjack/poker_head/`); J-54's contracts and the classic item plugins still use their older paths, and moving them over is listed as planned, optional work.
 

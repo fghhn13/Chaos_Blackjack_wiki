@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Home's **Start game** creates a player. **New run** lets you select Classic, Poker Head or J-54 *Experimental, review upgrades and choose starter items. **Continue run** restores an unfinished run. [How to play](play.html) covers desktop, browser and phone controls.
+Home's **Start game** creates a player. **New run** lets you select Classic, Poker Head or J-54 *Experimental, and choose how many chips to bring from your vault. **Continue run** restores an unfinished run. [How to play](play.html) covers desktop, browser and phone controls.
 
 ## Choose a table
 

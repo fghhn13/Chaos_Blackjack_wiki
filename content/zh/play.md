@@ -8,7 +8,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)、[扑克头的牌桌](table-chaos.html)或[J-54 *实验性](table-j54.html)。检查目标、下注范围、规则、荷官和赔率，再勾选开局物品；只有点 **Start run** 才消耗物品。
+Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)、[扑克头的牌桌](table-chaos.html)或[J-54 *实验性](table-j54.html)。检查目标、下注范围、规则、荷官和赔率，选择从金库带入多少筹码，也可加购早期破产险；只有点 **Start run** 才扣除。
 
 新一轮先播放荷官台词，Enter／点击翻页，Escape 跳过。**Continue run** 恢复检查点，不重复播放开场。
 
@@ -20,9 +20,9 @@ Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在
 | 扑克头的牌桌 | 点荷官头像问建议 | Enter 关闭回复 |
 | 任何时候 | Settings | Escape 确认离开；F11 全屏；M 静音；+ / − 音量；F5 重新载入美术和音效 |
 
-主页 **Shop** 花代币买升级、装扮和开局物品；**局内 Shop** 花本轮筹码。详见[玩家成长](progression.html)。点击玩家信息打开[个人资料](profile.html)，**Switch player** 管理槽位。
+主页 **Shop** 用金库里的筹码购买装扮；**局内 Shop** 花本轮现金。详见[玩家成长](progression.html)。点击玩家信息打开[个人资料](profile.html)，**Switch player** 管理槽位。
 
-**Collection** 按经典牌桌和荷官系列分组。经典区展示基础牌桌和通用道具；扑克头区介绍角色、规则池和专属道具。Tab 切换，滚轮或 Page Up / Page Down 滚动。规则和道具详情可播放固定发牌的离线演示：空格暂停、R 重播、左右键逐帧查看，不花代币、不改变进度。
+**Collection** 按经典牌桌和荷官系列分组。经典区展示基础牌桌和通用道具；扑克头区介绍角色、规则池和专属道具。Tab 切换，滚轮或 Page Up / Page Down 滚动。规则和道具详情可播放固定发牌的离线演示：空格暂停、R 重播、左右键逐帧查看，不花筹码、不改变进度。
 
 ## 浏览器与手机
 
@@ -40,7 +40,7 @@ python cli/main.py --enable-chaos
 python -m chaos_blackjack.agent new --seed 7 --chaos
 ```
 
-文字命令行保留原来的要牌／停牌循环。Agent 支持控制器动作，但不应用玩家的局外升级；`--chaos` 保留旧玩法兼容，`--mode chaos` 启动当前构筑桌，详见[Agent 玩家](agents.html)。
+文字命令行保留原来的要牌／停牌循环。Agent 支持控制器动作，但不使用玩家的筹码金库；`--chaos` 保留旧玩法兼容，`--mode chaos` 启动当前构筑桌，详见[Agent 玩家](agents.html)。
 
 默认混沌后端离线。按游戏配置接入真实模型时，请求会计费；具体设置见游戏 README。
 

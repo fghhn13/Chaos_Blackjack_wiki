@@ -1,7 +1,7 @@
 ---
 title: 扑克头构筑桌
 ---
-选择核心，装备最多 {{ fact: settings.mode.chaos.build_slots.value }} 件永久商品，让净资产达到 {{ fact: tables.chaos.target_money }}。[构筑指南](poker-head-builds.html)列出所有核心、商品、消耗品与金融产品，并展示当前效果和价格。
+选择核心，装备最多 {{ fact: settings.mode.chaos.build_slots.value }} 件永久商品，让带入的筹码增值：达到带入额的 {{ fact: settings.mode.chaos.config.exit_multiple.value }} 倍起可满载而归，{{ fact: settings.mode.chaos.config.target_multiple.value }} 倍为上限。[构筑指南](poker-head-builds.html)列出所有核心、商品、消耗品与金融产品，并展示当前效果和价格。
 
 扑克头在购物与下注前公布环境，持续与限时规则可同时存在，详见[环境机制与离线荷官](environment.html)。净资产按现金、未到期本金和全部应还贷款计算，最低下注随回合提高。
 

@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-主页 **Start game** 创建玩家，**New run** 选择经典、扑克头或 J-54 *实验性牌桌、查看升级并勾选开局物品；**Continue run** 恢复未完成的一轮。[玩法](play.html)说明桌面、浏览器和手机操作。
+主页 **Start game** 创建玩家，**New run** 选择经典、扑克头或 J-54 *实验性牌桌、并选择从金库带入多少筹码；**Continue run** 恢复未完成的一轮。[玩法](play.html)说明桌面、浏览器和手机操作。
 
 ## 选择牌桌
 
