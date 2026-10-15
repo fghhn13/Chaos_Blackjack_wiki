@@ -73,12 +73,16 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   | --- | --- |
   | `{{ fact: settings.run.start_money.value }}` | the value (dotted keys work) |
   | `{{ link: items.peek }}` | link to the item / rule page, localized name |
-  | `{{ table: NAME }}` on its own line | generated block: `settings`, `prices`, `permissions`, `commands`, `actions`, `errors`, `transcript`, `gallery`, `changelog`, `chaos_cards`, `item_cards`, `environment_cards`, `poker_products` |
+  | `{{ table: NAME }}` on its own line | generated block: `settings`, `prices`, `permissions`, `commands`, `actions`, `errors`, `transcript`, `gallery`, `changelog`, `chaos_cards`, `item_cards`, `environment_cards`, `poker_products`, `table_cards` |
 
   Card blocks group themselves by the table that offers each id (the table's
   `rules`, `environment_rules`, `items` + `products` in facts), released tables
   first, then experimental ones, then "Not used at any table". Never sort cards
   by id prefix (`ph_`, `j54_`) in `wiki/*.py`.
+  Item and rule hubs get a filter bar (table, kind, style, phase, price sort,
+  compact list) from the same facts; `table_cards` shows each table with its
+  dealer's portrait (`portrait: <file in content/img>` in
+  `content/<lang>/dealers/<id>.md`), goal, stake and pool sizes.
 
   An unknown placeholder fails the build, so renamed ids cannot go unnoticed.
 - Rule / item pages: the card (icon, effect, params, price) is generated; the

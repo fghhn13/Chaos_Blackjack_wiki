@@ -266,8 +266,8 @@
       "chaos": {
         "description": "选择核心、装备永久商品，使用消耗品与金融产品；应对逐步增强的混沌环境，达到净资产目标。",
         "description_en": "Familiar blackjack, with a dealer fond of small adjustments. Watch the rule change announced each round and adapt your strategy.",
-        "goal_text": "净资产达到 {{ fact: tables.chaos.target_money }}",
-        "goal_text_en": "Reach 500 net assets",
+        "goal_text": "净资产达到带入额的 {{ fact: settings.mode.chaos.config.exit_multiple.value }}～{{ fact: settings.mode.chaos.config.target_multiple.value }} 倍时满载而归",
+        "goal_text_en": "Leave with 1600 to 2400 net assets",
         "name": "扑克头构筑桌",
         "name_en": "Poker Head's Table"
       },

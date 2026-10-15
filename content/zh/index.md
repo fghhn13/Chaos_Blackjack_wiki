@@ -14,7 +14,7 @@ python -m chaos_blackjack.gui
 
 ## 选择牌桌
 
-{{ table: tables }}
+{{ table: table_cards }}
 
 ## 继续探索
 
@@ -23,4 +23,4 @@ python -m chaos_blackjack.gui
 - [玩家成长](progression.html)、[装扮](cosmetics.html)、[成就](achievements.html)和[个人资料](profile.html)：跨轮保留的内容。
 - [Agent 玩家](agents.html)、[平衡数据](balance.html)和[混沌 AI](chaos-ai.html)：技术参考。
 
-当前玩法按作者指定的最新开发版本更新，包含本地改动，页脚记录固定来源快照。扑克头按正式构筑方案展示，J-54 标注 *实验性。
+玩法说明跟随游戏主线更新，页脚记录所描述的提交。扑克头按正式构筑方案展示，J-54 标注 *实验性。

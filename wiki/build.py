@@ -30,6 +30,13 @@ KIND_ORDER = ["core", "permanent", "item", "finance", "contract", None]
 # Section headings of a game `details` text -> UI string key.
 DETAIL_KEYS = {"Effect": "d_effect", "Timing": "d_timing", "Limits": "d_limits", "Example": "d_example",
                "Acquisition": "d_acquisition", "Related effects": "d_related"}
+# Item kind -> colour group of its card (matches the game's GROUP_COLORS: permanent gold,
+# consumable teal, special violet).
+KIND_GROUP = {"permanent": "perm", "item": "cons", None: "cons", "core": "special", "finance": "special",
+              "contract": "special"}
+STYLE_ORDER = ["long", "retreat", "exact", "double", "finance", "common"]
+PHASE_ORDER = ["b", "p", "passive"]
+NUMBER_LIST = re.compile(r"^-?\d+(?:\.\d+)?(?:,-?\d+(?:\.\d+)?)+$")
 # Generated page prefix -> search result label (UI key); anything else is a page.
 SEARCH_KINDS = {"item": "k_item", "rule": "k_rule", "environment": "k_environment", "table": "k_table",
                 "dealer": "k_dealer", "design": "k_design"}
@@ -159,7 +166,9 @@ class Site:
             kind, arg = m.group(1), (m.group(2) or "").strip()
             if kind == "fact":
                 try:
-                    return self.fmt(F.lookup(self.facts, arg))
+                    value = F.lookup(self.facts, arg)
+                    key = arg[len("settings."):-len(".value")] if arg.startswith("settings.") and arg.endswith(".value") else ""
+                    return self.fmt_setting(key) if key in self.facts.get("settings", {}) else self.fmt(value)
                 except KeyError:
                     self.errors.append(f"{where}: unknown fact `{arg}`")
                     return "??"
@@ -204,15 +213,37 @@ class Site:
         if isinstance(v, list):
             return ", ".join(self.fmt(x) for x in v)
         if isinstance(v, dict):
-            return ", ".join(f"{k}={self.fmt(x)}" for k, x in v.items())
+            items = self.facts.get("items", {})
+            return ", ".join(f"{items[k]['name'] if k in items else k}: {self.fmt(x)}" for k, x in v.items())
+        if isinstance(v, str) and NUMBER_LIST.match(v):
+            return " · ".join(v.split(","))
+        if isinstance(v, str) and v.startswith("{") and v.endswith("}"):
+            try:
+                obj = json.loads(v)
+            except ValueError:
+                return v
+            if isinstance(obj, dict) and all(not isinstance(x, (dict, list)) for x in obj.values()):
+                return self.fmt(obj)
         return str(v)
+
+    def fmt_setting(self, key: str) -> str:
+        """A setting's value; "min,max" settings read as a range."""
+        s = self.facts["settings"][key]
+        v = s["value"]
+        if isinstance(v, str) and "min,max" in (s.get("description") or "") and NUMBER_LIST.match(v):
+            return "–".join(v.split(","))
+        return self.fmt(v)
 
     # --- generated blocks (t_<name> = {{ table: name }}) ---------------------
 
     def _table(self, head: list[str], rows: list[list[str]], cls: str = "") -> str:
-        th = "".join(f"<th>{self.t.get(h, h)}</th>" for h in head)
-        trs = "".join("<tr>" + "".join(f"<td>{c}</td>" for c in r) + "</tr>" for r in rows)
-        return f'<div class="table-wrap"><table class="{cls}"><thead><tr>{th}</tr></thead><tbody>{trs}</tbody></table></div>'
+        labels = [self.t.get(h, h) for h in head]
+        th = "".join(f"<th>{label}</th>" for label in labels)
+        trs = "".join("<tr>" + "".join(f'<td data-label="{html.escape(_plain(label))}">{c}</td>' for label, c in zip(labels, r))
+                      + "</tr>" for r in rows)
+        classes = " ".join(c for c in ("stack", cls) if c)
+        return (f'<div class="table-wrap"><table class="{classes}"><thead><tr>{th}</tr></thead>'
+                f'<tbody>{trs}</tbody></table></div>')
 
     def _icon(self, eid: str, label: str, size: str = "") -> str:
         if (IMG / f"{eid}.png").exists():
@@ -228,11 +259,15 @@ class Site:
                 continue
             name = self.name(coll, eid)
             text, ok = self.blurb(coll, eid)
-            extra = ""
+            extra, data, group = "", "", ""
             if coll == "items":
                 extra = f'<span class="pill">{self.item_price(e)}</span>'
+                group = " g-" + KIND_GROUP.get(e.get("kind"), "cons")
+                data = (f' data-kind="{e.get("kind") or "classic"}" data-style="{e.get("style") or ""}"'
+                        f' data-phase="{_phases(e.get("phases"))}" data-price="{e["price"] if isinstance(e.get("price"), (int, float)) else ""}"')
+            data += f' data-name="{html.escape(name.lower())}"'
             cards.append(
-                f'<a class="card {prefix}" href="{prefix}-{eid}.html">{self._icon(eid, e["name"])}'
+                f'<a class="card {prefix}{group}" href="{prefix}-{eid}.html"{data}>{self._icon(eid, e["name"])}'
                 f'<span class="card-body"><strong>{html.escape(name)}</strong>{extra}'
                 f'<span class="muted{"" if ok else " en"}">{inline(text)}</span></span></a>')
         return f'<div class="cards">{"".join(cards)}</div>'
@@ -268,18 +303,53 @@ class Site:
         An id offered by several tables is listed under each. With a single group there are
         no headings. Items of one table with several kinds get a sub-heading per kind."""
         groups, unused, headed = self.pool_groups(coll)
+        bar = self._filters(coll, groups, unused, headed)
         if not headed:
-            return self._cards(coll)
+            return f'<div class="catalog-view">{bar}{self._cards(coll)}</div>'
         out = []
         for tid, ids in groups:
             label = f'*{self.t["experimental"]}'
             pill = (f' <span class="pill">{label}</span>'
                     if self.experimental("tables", tid) and label not in self.name("tables", tid) else "")
-            out.append(f'<h2 id="pool-{tid}">{self.entity_link("tables", tid)}{pill}</h2>' + self._kinds(coll, tid, ids))
+            out.append(f'<section class="pool" data-pool="{tid}"><h2 id="pool-{tid}">{self.entity_link("tables", tid)}{pill}</h2>'
+                       + self._kinds(coll, tid, ids) + "</section>")
         if unused:
-            out.append(f'<h2 id="pool-unused">{self.t["unused_pool"]}</h2>'
-                       f'<p class="muted">{self.t["unused_note"]}</p>' + self._cards(coll, unused))
-        return "".join(out)
+            out.append(f'<section class="pool" data-pool="unused"><h2 id="pool-unused">{self.t["unused_pool"]}</h2>'
+                       f'<p class="muted">{self.t["unused_note"]}</p>' + self._cards(coll, unused) + "</section>")
+        return f'<div class="catalog-view">{bar}{"".join(out)}</div>'
+
+    def _filters(self, coll: str, groups: list[tuple[str, list[str]]], unused: list[str], headed: bool) -> str:
+        """Filter / sort / view bar for a card catalog (shown by wiki.js; hidden without it)."""
+        if coll not in ("items", "chaos_rules"):
+            return ""
+        entries = self.facts.get(coll, {})
+        dims: list[tuple[str, str, list[tuple[str, str]]]] = []
+        if headed:
+            pools = [(tid, self.name("tables", tid)) for tid, _ in groups] + ([("unused", self.t["unused_pool"])] if unused else [])
+            dims.append(("pool", self.t["f_table"], pools))
+        if coll == "items":
+            kinds = {e.get("kind") or "classic" for e in entries.values()}
+            dims.append(("kind", self.t["kind"], [(k, self.t[k] if k != "classic" else self.t["classic_items"])
+                                                  for k in [*(k for k in KIND_ORDER if k), "classic"] if k in kinds]))
+            styles = {e.get("style") for e in entries.values()}
+            dims.append(("style", self.t["f_style"], [(s, self.t[f"s_{s}"]) for s in STYLE_ORDER if s in styles]))
+            phases = {p for e in entries.values() for p in _phases(e.get("phases")).split()}
+            dims.append(("phase", self.t["timing"], [(p, self.t[f"ph_{p}"]) for p in PHASE_ORDER if p in phases]))
+        rows = "".join(
+            f'<div class="frow"><span class="flabel">{label}</span>'
+            + "".join(f'<button type="button" data-dim="{dim}" data-val="{val}" aria-pressed="false">{html.escape(text)}</button>'
+                      for val, text in values) + "</div>"
+            for dim, label, values in dims if len(values) > 1)
+        sort = ""
+        if coll == "items":
+            sort = (f'<label>{self.t["f_sort"]} <select data-sort><option value="">{self.t["f_sort_default"]}</option>'
+                    f'<option value="price">{self.t["f_sort_price"]}</option><option value="-price">{self.t["f_sort_price_desc"]}</option>'
+                    f'<option value="name">{self.t["f_sort_name"]}</option></select></label>')
+        tools = (f'<div class="frow ftools"><button type="button" class="ftoggle" data-toggle aria-expanded="false">{self.t["f_filters"]}</button>'
+                 f'{sort}<button type="button" data-view aria-pressed="false">{self.t["f_list"]}</button>'
+                 f'<button type="button" data-clear>{self.t["f_clear"]}</button>'
+                 f'<span class="fcount" aria-live="polite" data-template="{self.t["f_count"]}"></span></div>')
+        return f'<div class="filters" hidden>{rows}{tools}</div>'
 
     def _kinds(self, coll: str, tid: str, ids: list[str]) -> str:
         entries = self.facts[coll]
@@ -287,8 +357,8 @@ class Site:
         if coll != "items" or len(kinds) < 2:
             return self._cards(coll, ids)
         kinds.sort(key=lambda k: KIND_ORDER.index(k) if k in KIND_ORDER else len(KIND_ORDER))
-        return "".join(f'<h3 id="pool-{tid}-{kind or "classic"}">{self.t[kind] if kind else self.t["classic_items"]}</h3>'
-                       + self._cards(coll, [eid for eid in ids if entries[eid].get("kind") == kind]) for kind in kinds)
+        return "".join(f'<div class="kind"><h3 id="pool-{tid}-{kind or "classic"}">{self.t[kind] if kind else self.t["classic_items"]}</h3>'
+                       + self._cards(coll, [eid for eid in ids if entries[eid].get("kind") == kind]) + "</div>" for kind in kinds)
 
     def t_chaos_cards(self) -> str:
         return self._by_table("chaos_rules")
@@ -325,6 +395,49 @@ class Site:
                          self.table_goal(tid),
                          str(len(table.get("environment_rules", table["rules"]))), str(len(table.get("products", table["items"])))])
         return self._table(["name", "host", "description", "goal", "rule_count", "item_count"], rows, "catalog")
+
+    def stake(self, tid: str) -> str:
+        key = f"mode.{tid}.stake"
+        return self.fmt_setting(key) if key in self.facts.get("settings", {}) else ""
+
+    def portrait(self, dealer: str, cls: str) -> str:
+        """The dealer's editorial portrait (`portrait:` in its page), if any."""
+        img = self.entity_text("dealers", dealer)[0].get("portrait") if dealer in self.facts.get("dealers", {}) else None
+        return f'<img class="{cls}" src="../img/{html.escape(img)}" alt="">' if img else ""
+
+    def t_table_cards(self) -> str:
+        cards = []
+        for tid in self.table_order():
+            e = self.facts["tables"][tid]
+            name = self.name("tables", tid)
+            label = f'*{self.t["experimental"]}'
+            pill = f'<span class="pill">{label}</span>' if self.experimental("tables", tid) and label not in name else ""
+            stats = [(self.t["goal"], self.table_goal(tid))]
+            if self.stake(tid):
+                stats.append((self.t["stake"], html.escape(self.stake(tid))))
+            stats += [(self.t["rule_count"], str(len(e.get("environment_rules") or e["rules"]))),
+                      (self.t["item_count"], str(len(e.get("products") or e["items"])))]
+            art = self.portrait(e["host"], "portrait") or self._icon(e.get("icon_asset") or tid, e["name"], "big")
+            cards.append(
+                f'<a class="table-card" href="table-{tid}.html">{art}<span class="tc-body">'
+                f'<strong>{html.escape(name)}</strong>{pill}'
+                f'<span class="host">{self.t["host"]}: {html.escape(self.name("dealers", e["host"]))}</span>'
+                f'<span class="desc">{html.escape(self.catalog_text("tables", tid, "description"))}</span>'
+                f'<span class="mini">' + "".join(f'<span><em>{k}</em>{v}</span>' for k, v in stats) + '</span></span></a>')
+        return f'<div class="table-cards">{"".join(cards)}</div>'
+
+    def chips(self, coll: str, ids: list[str]) -> str:
+        """Small icon + name links, for long lists of rules or items."""
+        if not ids:
+            return self.t["none"]
+        prefix = ENTITY[coll][0]
+        return '<span class="chips">' + "".join(
+            f'<a class="chip" href="{prefix}-{eid}.html">{self._icon(eid, self.facts[coll][eid]["name"])}'
+            f'{html.escape(self.name(coll, eid))}</a>' for eid in ids) + "</span>"
+
+    def _stats(self, stats: list[tuple[str, str]]) -> str:
+        return '<div class="stats">' + "".join(f'<div class="stat"><span>{k}</span><strong>{v}</strong></div>'
+                                               for k, v in stats if v) + "</div>"
 
     def experimental(self, coll: str, eid: str) -> bool:
         """A table is experimental when the game says so; a dealer when all its tables are."""
@@ -386,7 +499,7 @@ class Site:
         for k, s in self.facts.get("settings", {}).items():
             rng = "" if s.get("min") is None and s.get("max") is None else f"{self.fmt(s.get('min'))} – {self.fmt(s.get('max'))}"
             desc = zh.get(k) if self.lang != "en" and zh.get(k) else s.get("description") or ""
-            rows.append([f"<code>{k}</code>", f"<strong>{html.escape(self.fmt(s['value']))}</strong>",
+            rows.append([f"<code>{k}</code>", f"<strong>{html.escape(self.fmt_setting(k))}</strong>",
                          s.get("type", ""), rng, html.escape(desc)])
         return self._table(["key", "value", "type", "range", "description"], rows)
 
@@ -616,22 +729,28 @@ class Site:
         entry = self.facts[coll][eid]
         _, body, ok = self.entity_text(coll, eid)
         name = self.name(coll, eid)
-        rows = []
+        rows, stats = [], ""
         if coll == "tables":
-            rows = [["host", self.entity_link("dealers", entry["host"])],
-                    ["goal", self.table_goal(eid)],
-                    ["bet_limits", f'{entry["min_bet"]} – {entry["max_bet_fraction"]} × {self.t["bankroll"]}'],
-                    ["payout", ":".join(map(str, entry["blackjack_pays"]))],
-                    ["rules", ", ".join(self.entity_link("environment_rules" if entry.get("environment_rules") else "chaos_rules", rid) for rid in entry.get("environment_rules", entry["rules"])) or self.t["none"]],
-                    ["items", ", ".join(self.entity_link("items", iid) for iid in entry.get("products", entry["items"])) or self.t["none"]]]
+            stats = self._stats([(self.t["host"], self.entity_link("dealers", entry["host"])),
+                                 (self.t["goal"], self.table_goal(eid)),
+                                 (self.t["stake"], html.escape(self.stake(eid))),
+                                 (self.t["bet_limits"], f'{entry["min_bet"]} – {self.fmt(entry["max_bet_fraction"])} × {self.t["bankroll"]}'),
+                                 (self.t["payout"], ":".join(map(str, entry["blackjack_pays"])))])
+            rule_coll = "environment_rules" if entry.get("environment_rules") else "chaos_rules"
+            rows = [["rules", self.chips(rule_coll, entry.get("environment_rules") or entry["rules"])],
+                    ["items", self.chips("items", [i for i in self.entity_order("items")
+                                                   if i in (entry.get("products") or entry["items"])])]]
         else:
-            rows = [["tables", ", ".join(self.entity_link("tables", tid) for tid in entry["tables"])]]
-        table = self._table(["key", "value"], [[self.t[key], value] for key, value in rows])
+            quote = f'<blockquote class="quote">{html.escape(entry["quote"])}</blockquote>' if entry.get("quote") and self.lang == "en" else ""
+            stats = self._stats([(self.t["tables"], ", ".join(self.entity_link("tables", tid) for tid in entry["tables"]))]) + quote
+        table = (f'<div class="table-wrap"><table class="facts">'
+                 + "".join(f"<tr><th>{self.t[key]}</th><td>{value}</td></tr>" for key, value in rows)
+                 + "</table></div>") if rows else ""
         prose = self.expand(body, f"{self.lang}/{coll}/{eid}.md")
         if not ok:
             prose = f'<p class="notice">{self.t["untranslated"]}</p>' + prose
         article = (self.crumbs(coll, "", name)
-                   + f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.state(coll, eid)}</span>{table}{prose}'
+                   + f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.state(coll, eid)}</span>{stats}{table}{prose}'
                    + self.pager(coll, eid))
         return self.layout(f"{ENTITY[coll][0]}-{eid}", name, article, self._heads, active=coll,
                            keywords=" ".join(dict.fromkeys([entry.get("name", ""), eid])))
@@ -801,7 +920,7 @@ class Site:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} · {site_name}</title>
 <link rel="stylesheet" href="../style.css{self.v}">
-<script>try{{localStorage.setItem("wiki-lang","{self.lang}")}}catch(e){{}}</script>
+<script>try{{localStorage.setItem("wiki-lang","{self.lang}");var m=localStorage.getItem("wiki-theme");if(m)document.documentElement.dataset.theme=m}}catch(e){{}}</script>
 </head>
 <body>
 <header class="top">
@@ -812,6 +931,7 @@ class Site:
       role="combobox" aria-expanded="false" aria-controls="search-results" data-empty="{t['no_results']}" data-index="search.js{self.v}">
     <div class="results" id="search-results" role="listbox" hidden></div>
   </div>
+  <button class="theme" type="button" aria-label="{t['theme']}" data-labels="{t['theme_auto']}|{t['theme_dark']}|{t['theme_light']}">◐</button>
   <a class="lang" href="../{other}/{slug}.html" hreflang="{other}">{UI[other]['lang_name']}</a>
 </header>
 <div class="layout">
@@ -823,6 +943,13 @@ class Site:
 </body>
 </html>
 """
+
+
+def _phases(phases: str | None) -> str:
+    """Game phase letters -> filter tokens: B before betting, P your turn, '' passive."""
+    if phases is None:
+        return ""
+    return " ".join({"B": "b", "P": "p"}[c] for c in phases if c in "BP") or "passive"
 
 
 def _plain(fragment: str) -> str:

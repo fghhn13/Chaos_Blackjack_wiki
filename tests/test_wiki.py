@@ -373,3 +373,46 @@ def test_search_index_lists_pages_with_keywords():
     entry = json.loads(script[len("window.WIKI_SEARCH="):-2])[0]
     assert entry["u"] == "item-ph_buff.html" and entry["k"] == "道具"
     assert "Court Discount" in entry["w"] and "ph_buff" in entry["w"]
+
+
+def test_readable_values_and_ranges():
+    facts = {**FACTS, "settings": {
+        "mode.normal.stake": {"value": "40,100", "description": "Chips brought: min,max"},
+        "mode.chaos.min_bets": {"value": "5,10,15", "description": "Minimum bets"},
+        "mode.chaos.core_cash": {"value": '{"peek":-60,"other":5}', "description": "Core cash"}}}
+    site = Site(facts, "en", [])
+    assert site.fmt_setting("mode.normal.stake") == "40–100"
+    assert site.fmt_setting("mode.chaos.min_bets") == "5 · 10 · 15"
+    assert site.fmt_setting("mode.chaos.core_cash") == "Peek: -60, other: 5"
+    assert site.fmt({"value": 5}) == "value: 5"
+    assert site.expand_inline("{{ fact: settings.mode.normal.stake.value }}", "t") == "40–100"
+
+
+def test_catalog_cards_carry_filter_data_and_bar():
+    from wiki.build import _phases
+
+    assert (_phases("BP"), _phases(""), _phases(None)) == ("b p", "passive", "")
+    facts = copy.deepcopy(UI_FACTS)
+    facts["items"]["ph_buff"].update(style="exact", phases="")
+    site = Site(facts, "en", [])
+    out = site.t_item_cards()
+    assert '<div class="filters" hidden>' in out and 'data-dim="pool" data-val="ph"' in out
+    assert 'data-dim="kind" data-val="core"' in out and 'data-dim="kind" data-val="permanent"' in out
+    assert 'class="card item g-perm" href="item-ph_buff.html" data-kind="permanent" data-style="exact" data-phase="passive" data-price="40"' in out
+    assert '<section class="pool" data-pool="ph">' in out
+
+
+def test_table_cards_stats_and_stacked_tables():
+    facts = copy.deepcopy(UI_FACTS)
+    facts["settings"] = {"mode.ph.stake": {"value": "400,1000", "description": "min,max"}}
+    facts["dealers"] = {"host": {"name": "Host", "tables": ["home", "ph"]}}
+    for t in facts["tables"].values():
+        t.update(host="host", start_money=100, target_money=400, min_bet=5, max_bet_fraction=0.5, blackjack_pays=[3, 2])
+    site = Site(facts, "en", [])
+    cards = site.t_table_cards()
+    assert cards.index('href="table-home.html"') < cards.index('href="table-ph.html"')
+    assert "<em>Stake</em>400–1000" in cards
+    page = site.entity("tables", "ph")
+    assert '<div class="stat"><span>Stake</span><strong>400–1000</strong></div>' in page
+    assert '<a class="chip" href="item-ph_core.html">' in page
+    assert '<td data-label="Name">' in site._table(["name"], [["x"]]) and 'class="stack"' in site._table(["name"], [["x"]])

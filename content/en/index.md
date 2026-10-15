@@ -14,7 +14,7 @@ Home's **Start game** creates a player. **New run** lets you select Classic, Pok
 
 ## Choose a table
 
-{{ table: tables }}
+{{ table: table_cards }}
 
 ## Explore
 
@@ -23,4 +23,4 @@ Home's **Start game** creates a player. **New run** lets you select Classic, Pok
 - [Player progression](progression.html), [Cosmetics](cosmetics.html), [Achievements](achievements.html) and [Profile](profile.html): what persists between runs.
 - [Agent players](agents.html), [Balance data](balance.html) and [The Chaos AI](chaos-ai.html): technical reference.
 
-Current guides follow the author-selected development version, including its local changes. The footer records the frozen source snapshot. Poker Head uses the official build scheme; J-54 is *Experimental.
+Guides follow the game's main line; the footer records the commit they describe. Poker Head uses the official build scheme; J-54 is *Experimental.

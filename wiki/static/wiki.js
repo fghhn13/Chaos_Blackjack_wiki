@@ -121,6 +121,108 @@
     });
   }
 
+  // --- catalog filters: table sections, kind / style / phase, sort, compact view --------
+  function store(key, value) {
+    try { if (value === undefined) return localStorage.getItem(key); localStorage.setItem(key, value); } catch (e) {}
+    return null;
+  }
+
+  document.querySelectorAll(".catalog-view").forEach(function (view) {
+    var bar = view.querySelector(".filters");
+    if (!bar) return;
+    bar.hidden = false;
+    var cards = Array.prototype.slice.call(view.querySelectorAll(".card"));
+    cards.forEach(function (c, i) { c.dataset.i = i; });
+    var sortSel = bar.querySelector("[data-sort]");
+    var viewBtn = bar.querySelector("[data-view]");
+    var count = bar.querySelector(".fcount");
+
+    function chosen(dim) {
+      return Array.prototype.map.call(bar.querySelectorAll('[data-dim="' + dim + '"][aria-pressed="true"]'),
+        function (b) { return b.dataset.val; });
+    }
+
+    function apply() {
+      var pools = chosen("pool"), kinds = chosen("kind"), styles = chosen("style"), phases = chosen("phase");
+      var shown = {}, total = {};
+      cards.forEach(function (c) {
+        total[c.getAttribute("href")] = 1;
+        var sec = c.closest(".pool");
+        var inPool = !pools.length || !sec || pools.indexOf(sec.dataset.pool) >= 0;
+        var ok = (!kinds.length || kinds.indexOf(c.dataset.kind) >= 0) &&
+          (!styles.length || styles.indexOf(c.dataset.style) >= 0) &&
+          (!phases.length || (c.dataset.phase || "").split(" ").some(function (p) { return phases.indexOf(p) >= 0; }));
+        c.hidden = !(ok && inPool);
+        if (!c.hidden) shown[c.getAttribute("href")] = 1;
+      });
+      // A kind block or table section with nothing left to show disappears with its heading.
+      view.querySelectorAll(".kind, .pool").forEach(function (box) {
+        box.hidden = !box.querySelector(".card:not([hidden])");
+      });
+      var n = Object.keys(shown).length, all = Object.keys(total).length;
+      count.textContent = n === all ? "" : (count.dataset.template || "").replace("{n}", n).replace("{total}", all);
+    }
+
+    function sort() {
+      var how = sortSel ? sortSel.value : "";
+      view.querySelectorAll(".cards").forEach(function (box) {
+        var list = Array.prototype.slice.call(box.children);
+        list.sort(function (a, b) {
+          if (how === "name") return a.dataset.name.localeCompare(b.dataset.name);
+          if (how === "price" || how === "-price") {
+            var pa = a.dataset.price === "" ? null : +a.dataset.price, pb = b.dataset.price === "" ? null : +b.dataset.price;
+            if (pa === null || pb === null) return (pa === null) - (pb === null);
+            if (pa !== pb) return how === "price" ? pa - pb : pb - pa;
+          }
+          return a.dataset.i - b.dataset.i;
+        });
+        list.forEach(function (c) { box.appendChild(c); });
+      });
+    }
+
+    function setView(list) {
+      view.classList.toggle("list", list);
+      viewBtn.setAttribute("aria-pressed", String(list));
+    }
+
+    bar.addEventListener("click", function (e) {
+      var b = e.target.closest("button");
+      if (!b) return;
+      if (b.dataset.dim) b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"));
+      else if (b.hasAttribute("data-toggle")) {
+        b.setAttribute("aria-expanded", String(bar.classList.toggle("open")));
+        return;
+      } else if (b.hasAttribute("data-view")) { setView(!view.classList.contains("list")); store("wiki-view", view.classList.contains("list") ? "list" : "cards"); return; }
+      else if (b.hasAttribute("data-clear")) {
+        bar.querySelectorAll("[data-dim]").forEach(function (x) { x.setAttribute("aria-pressed", "false"); });
+        if (sortSel) { sortSel.value = ""; sort(); }
+      }
+      apply();
+    });
+    if (sortSel) sortSel.addEventListener("change", sort);
+    setView(store("wiki-view") === "list");
+    apply();
+  });
+
+  // --- colour theme: system -> dark -> light ------------------------------------------
+  var themeBtn = document.querySelector(".theme");
+  if (themeBtn) {
+    var modes = ["", "dark", "light"], labels = (themeBtn.dataset.labels || "").split("|");
+    var showTheme = function () {
+      var i = Math.max(0, modes.indexOf(document.documentElement.dataset.theme || ""));
+      themeBtn.title = labels[i] || "";
+      themeBtn.setAttribute("aria-label", labels[i] || "");
+    };
+    themeBtn.addEventListener("click", function () {
+      var i = (Math.max(0, modes.indexOf(document.documentElement.dataset.theme || "")) + 1) % modes.length;
+      if (modes[i]) document.documentElement.dataset.theme = modes[i];
+      else delete document.documentElement.dataset.theme;
+      store("wiki-theme", modes[i]);
+      showTheme();
+    });
+    showTheme();
+  }
+
   // --- mobile menu ------------------------------------------------------------------
   if (menu) {
     menu.addEventListener("click", function () {

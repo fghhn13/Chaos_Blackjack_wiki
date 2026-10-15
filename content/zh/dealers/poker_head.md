@@ -1,5 +1,6 @@
 ---
 title: 扑克头（Poker Head）
+portrait: poker-head.png
 ---
 **第一位正式角色**
 

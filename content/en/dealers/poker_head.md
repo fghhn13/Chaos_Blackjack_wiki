@@ -1,3 +1,6 @@
+---
+portrait: poker-head.png
+---
 **First official character**
 
 ![Poker Head's official portrait: a card-headed dealer on a theatre stage](../img/poker-head.png)
