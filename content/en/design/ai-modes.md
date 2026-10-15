@@ -1,6 +1,6 @@
 ---
 title: Dealer-hosted Tables and series
-source_blob: ee62c586a618
+source_blob: b4292cb59643
 ---
 Each mode is hosted by a dealer and has its own goal, rule pool and item pool. Classic remains the core Table, hosted by Poker Head without rule changes. The former Chaos display becomes Poker Head's Table; the internal `chaos` id is retained for saves and stats.
 
@@ -15,3 +15,5 @@ Current player-facing details are on [Tables](tables.html), [Dealers](dealers.ht
 ## Unmerged extension
 
 The newest document also describes J-54's branch demo, with its own deck rules and contracts. Exclusive mode pools prevent J-54 content from leaking into unrestricted or Poker Head modes. Per-mode balance overrides inherit other defaults; J-54 can restock every round. Tables register their own mechanics through a shared dispatcher. These additions remain on `feat/j54-demo`, not main; see [J-54's branch design](design-j54-table.html).
+
+A mode can also name the onboarding milestone that opens it, the one from which its silhouette shows, a teaser telling how to open it, and a hidden flag for the practice table; see [Onboarding](design-tutorial.html).

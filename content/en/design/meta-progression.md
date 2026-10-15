@@ -1,6 +1,6 @@
 ---
 title: Meta progression, saves and run history
-source_blob: 373ede6b0dcf
+source_blob: 00513f4ac45e
 ---
 A player is a named save slot holding tokens, permanent upgrades and starter items. Starting a run combines a balance profile, table mode, applicable permanent upgrades and selected consumables. Finishing records rewards, history and codex encounters. Abandoning pays no tokens. The agent CLI stays independent of player progression.
 
@@ -17,3 +17,5 @@ Reward formulas and the original catalog are defined by the contract; shipped pr
 Meta upgrades and starter items are switched off in this version (`meta.upgrades_enabled`): nothing is sold or applied and the GUI hides those areas; a development switch turns the dormant system back on. Their planned replacement is the [carried-chips economy](design-carried-chips.zh-cn.html).
 
 The player's tokens are now a **chip vault** (every screen says chips). A Table with a stake setting takes its starting cash from the vault within a range; a free Table, such as J-54's demo, takes none. A win brings the final cash home; a defeat brings nothing and remaining debt comes out of the vault, never below zero; abandoning loses the stake. Victory and consolation payouts are off, and achievements pay chips. When the vault cannot cover Classic's minimum stake, Poker Head pays a growing relief that a won run resets. Lifetime spend counts chips spent on goods, not bets, and drives membership. Run history records the stake and chips brought back, and every run writes its table notices to a local JSON-lines log. Current values are on [Chip vault and progression](progression.html).
+
+**Onboarding (2026-10-15).** A guided player reaches milestones that open the tables one by one, and a settled run lists the milestones it reached; players from before onboarding are not guided. See [Onboarding](design-tutorial.html).

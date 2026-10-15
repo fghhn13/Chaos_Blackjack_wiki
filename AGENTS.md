@@ -25,7 +25,7 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
   `main` before committing, unless the user explicitly selects the current development version.
   `main` names the game checkout's local branch, which can lag behind GitHub;
   when it does, sync `--ref origin/main` (the site was last built that way on
-  2026-10-14). Poker Head's products and environment are the official current
+  2026-10-15). Poker Head's products and environment are the official current
   scheme; J-54 is experimental. Never modify the shared game checkout.
 - The game repo is the sibling folder `../Black_jack`, or `$CHAOS_BLACKJACK_REPO`.
 

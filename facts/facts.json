@@ -1497,6 +1497,11 @@
   },
   "changelog": [
     {
+      "commit": "892177b",
+      "date": "2026-10-15",
+      "subject": "Merge pull request #15 from fghhn13/feat/collection-shop"
+    },
+    {
       "commit": "7516745",
       "date": "2026-10-14",
       "subject": "Merge pull request #12 from fghhn13/feat/poker-head-builds"
@@ -1690,11 +1695,6 @@
       "commit": "02ca3bd",
       "date": "2026-10-10",
       "subject": "Accept plain Chaos advice and add live memory round harness"
-    },
-    {
-      "commit": "1f93d00",
-      "date": "2026-10-10",
-      "subject": "Add Chaos portrait advice banner and dormant run memory"
     }
   ],
   "chaos_rules": {
@@ -1957,7 +1957,7 @@
       "hidden": false,
       "name": "Pixel Clown",
       "preview_asset": "avatar_j54",
-      "price": 30,
+      "price": 1500,
       "rarity": "rare",
       "series": "j54",
       "slot": "avatar"
@@ -1972,7 +1972,7 @@
       "hidden": false,
       "name": "Red Terminal",
       "preview_asset": "avatar_j54_computer",
-      "price": 30,
+      "price": 1500,
       "rarity": "rare",
       "series": "j54",
       "slot": "avatar"
@@ -2021,7 +2021,7 @@
       "hidden": false,
       "name": "Ace of Spades",
       "preview_asset": "avatar_spade",
-      "price": 30,
+      "price": 300,
       "rarity": "common",
       "series": "core",
       "slot": "avatar"
@@ -2052,7 +2052,7 @@
       "hidden": false,
       "name": "Crimson Lattice",
       "preview_asset": "card_back_crimson",
-      "price": 40,
+      "price": 400,
       "rarity": "common",
       "series": "core",
       "slot": "deck"
@@ -2124,7 +2124,7 @@
       "hidden": false,
       "name": "Pixel Chips",
       "preview_asset": "chips_j54_1",
-      "price": 50,
+      "price": 2500,
       "rarity": "rare",
       "series": "j54",
       "slot": "chips"
@@ -2142,7 +2142,7 @@
       "hidden": false,
       "name": "Neon Chips",
       "preview_asset": "chips_neon_1",
-      "price": 50,
+      "price": 500,
       "rarity": "rare",
       "series": "core",
       "slot": "chips"
@@ -2196,7 +2196,7 @@
       "hidden": false,
       "name": "Pixel Shadow",
       "preview_asset": "card_back_j54",
-      "price": 60,
+      "price": 2000,
       "rarity": "epic",
       "series": "j54",
       "slot": "deck"
@@ -2212,7 +2212,7 @@
       "hidden": false,
       "name": "Calculator Deck",
       "preview_asset": "card_back_j54_calculator",
-      "price": 60,
+      "price": 2000,
       "rarity": "epic",
       "series": "j54",
       "slot": "deck"
@@ -2263,7 +2263,7 @@
       "hidden": false,
       "name": "Chaos Velvet",
       "preview_asset": "table_chaos",
-      "price": 80,
+      "price": 1200,
       "rarity": "epic",
       "series": "core",
       "slot": "table"
@@ -2278,7 +2278,7 @@
       "hidden": false,
       "name": "Signal Argyle",
       "preview_asset": "table_j54",
-      "price": 80,
+      "price": 3000,
       "rarity": "epic",
       "series": "j54",
       "slot": "table"
@@ -2293,7 +2293,7 @@
       "hidden": false,
       "name": "Midnight Felt",
       "preview_asset": "table_midnight",
-      "price": 60,
+      "price": 600,
       "rarity": "rare",
       "series": "core",
       "slot": "table"
@@ -2364,12 +2364,12 @@
   },
   "design_docs": {
     "ai-modes": {
-      "blob": "ee62c586a618",
-      "commit": "d2aaa1d",
-      "date": "2026-10-13",
+      "blob": "b4292cb59643",
+      "commit": "488269c",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/AI_MODES.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "feat/collection-shop",
       "status": "agreed",
       "title": "AI modes: one dealer per mode"
     },
@@ -2379,27 +2379,27 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/CARRIED_CHIPS.zh-CN.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/chaos-rule-tiers",
       "status": null,
       "title": "跨局筹码经济：金库、两档牌桌与满载而归（设计稿）"
     },
     "codex": {
-      "blob": "159b4f5c3fb5",
-      "commit": "bd1af99",
-      "date": "2026-10-14",
+      "blob": "d3060e7664d2",
+      "commit": "01fb137",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/CODEX.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "feat/collection-shop",
       "status": null,
       "title": "Headless codex and controller demonstrations (M4a)"
     },
     "cosmetics-achievements": {
-      "blob": "460ced34e279",
-      "commit": "c39ee48",
-      "date": "2026-10-14",
+      "blob": "29b8dc2f41ba",
+      "commit": "01fb137",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/COSMETICS_ACHIEVEMENTS.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/collection-shop",
       "status": "agreed",
       "title": "Cosmetics, achievements and the player profile"
     },
@@ -2409,7 +2409,7 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/ITEM_ARCHITECTURE.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/chaos-rule-tiers",
       "status": "the contract for every table that sells or applies its own goods",
       "title": "Products, choices and moves: the item architecture"
     },
@@ -2424,12 +2424,12 @@
       "title": "J-54 \"Joker Reshuffler\": table design"
     },
     "meta-progression": {
-      "blob": "373ede6b0dcf",
-      "commit": "c39ee48",
-      "date": "2026-10-14",
+      "blob": "00513f4ac45e",
+      "commit": "488269c",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/META_PROGRESSION.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/collection-shop",
       "status": "agreed plan",
       "title": "Meta progression, player saves, run history and the codex"
     },
@@ -2444,32 +2444,32 @@
       "title": "Poker Head art specification"
     },
     "poker-head-builds.zh-cn": {
-      "blob": "7e4fabb15d1b",
-      "commit": "5e9cf10",
-      "date": "2026-10-14",
+      "blob": "c29e4ff10584",
+      "commit": "1e739ba",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_BUILDS.zh-CN.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/chaos-rule-tiers",
       "status": null,
       "title": "Poker Head：局内构筑设计概览"
     },
     "poker-head-chaos-rules-and-agent.zh-cn": {
-      "blob": "f251e58ec018",
-      "commit": "099eada",
-      "date": "2026-10-14",
+      "blob": "37085682a512",
+      "commit": "1e739ba",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_CHAOS_RULES_AND_AGENT.zh-CN.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "feat/chaos-rule-tiers",
       "status": null,
       "title": "Poker Head：混沌环境规则与渐强离线 Agent"
     },
     "poker-head-effects.zh-cn": {
-      "blob": "88338c767c7d",
-      "commit": "5e9cf10",
-      "date": "2026-10-14",
+      "blob": "82ca8440b0fb",
+      "commit": "1e739ba",
+      "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_EFFECTS.zh-CN.md",
-      "ref": "feat/poker-head-builds",
+      "ref": "feat/chaos-rule-tiers",
       "status": null,
       "title": "Poker Head：道具与增益效果明细"
     },
@@ -2502,6 +2502,16 @@
       "ref": "codex/browser-art-completion",
       "status": "implemented",
       "title": "Table UI: parts, widgets and layouts"
+    },
+    "tutorial": {
+      "blob": "0ae4ac0e081b",
+      "commit": "488269c",
+      "date": "2026-10-15",
+      "on_main": true,
+      "path": "docs/design/TUTORIAL.md",
+      "ref": "feat/collection-shop",
+      "status": null,
+      "title": "Onboarding"
     }
   },
   "environment_rules": {
@@ -2952,8 +2962,8 @@
       "timing": "Automatic while equipped"
     },
     "ph_gift": {
-      "details": "Choose the terms of your invitation.\n\nEffect\nChoose one of two random cores, or take 30 chips and no core for this run.\n\nTiming\nBefore betting\n\nLimits\nFree at the beginning of the run. Taking cash means no core for the entire run and disables Amendment Letter. A successful use consumes one copy.\n\nAcquisition\nFree opening gift\n\nRelated effects\nAmendment Letter",
-      "help": "Choose one of two random cores, or take 30 chips and no core for this run.",
+      "details": "Choose the terms of your invitation.\n\nEffect\nChoose one of two random cores, or take 60 chips and no core for this run.\n\nTiming\nBefore betting\n\nLimits\nFree at the beginning of the run. Taking cash means no core for the entire run and disables Amendment Letter. A successful use consumes one copy.\n\nAcquisition\nFree opening gift\n\nRelated effects\nAmendment Letter",
+      "help": "Choose one of two random cores, or take 60 chips and no core for this run.",
       "icon": "assets/poker_head/ph_gift.png",
       "kind": "item",
       "name": "The Dealer's Invitation",
@@ -3681,11 +3691,11 @@
       "value": "{\"ph_margin\":-60,\"ph_late_retreat\":60}"
     },
     "mode.chaos.decline_cash": {
-      "description": "Extra starting chips for declining a core",
+      "description": "Extra starting chips for declining a core (written for money_base)",
       "max": null,
       "min": 0.0,
       "type": "int",
-      "value": 30
+      "value": 60
     },
     "mode.chaos.director.cooldown_cleared": {
       "description": "Director actions a type waits after the player clears it",
@@ -3708,12 +3718,19 @@
       "type": "int",
       "value": 2
     },
+    "mode.chaos.director.heavy_from": {
+      "description": "Heavy environment rules wait until this round; one at a time",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 9
+    },
     "mode.chaos.director.pools": {
       "description": "Director variant pools per stage",
       "max": null,
       "min": null,
       "type": "str",
-      "value": "[{\"fixed\":{\"single\":2,\"group\":[8,9]},\"shift\":{\"rank\":[1,-1]},\"markup\":[[10,3]]},{\"fixed\":{\"single\":3,\"group\":[7,8]},\"shift\":{\"rank\":[1,-1],\"group\":[1,-1],\"compound\":[1]},\"bust\":[[\"player\",20,2],[\"dealer\",22,2]],\"tie\":[\"dealer\"],\"item_ban\":[2],\"markup\":[[20,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[6,7,8]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[50,3]],\"item_ban\":[2],\"markup\":[[30,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[5,6,7]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,2,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[40,3],[30,3]],\"item_ban\":[3],\"markup\":[[40,3]],\"hidden\":[3]}]"
+      "value": "[{\"fixed\":{\"single\":2,\"group\":[8,9]},\"shift\":{\"rank\":[1,-1]},\"markup\":[[10,3]]},{\"fixed\":{\"single\":3,\"group\":[7,8]},\"shift\":{\"rank\":[1,-1],\"group\":[1,-1],\"compound\":[1]},\"bust\":[[\"player\",20,2],[\"dealer\",22,2]],\"tie\":[\"dealer\"],\"item_ban\":[2],\"markup\":[[20,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[7,8]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[50,3]],\"item_ban\":[2],\"markup\":[[30,3]],\"hidden\":[2]},{\"fixed\":{\"single\":4,\"group\":[7,8]},\"shift\":{\"rank\":[1,-1,2,-2],\"group\":[1,-1,2,-2],\"all\":[1,2,-1]},\"bust\":[[\"player\",19,2],[\"player\",20,2],[\"dealer\",22,2],[\"dealer\",23,2]],\"tie\":[\"dealer\"],\"bust_outcome\":[[\"dealer\",\"push\",2]],\"profit_cap\":[[40,3],[30,3]],\"item_ban\":[3],\"markup\":[[40,3]],\"hidden\":[3]}]"
     },
     "mode.chaos.director.pressure": {
       "description": "Director pressure per rule variant",
@@ -3727,7 +3744,7 @@
       "max": null,
       "min": null,
       "type": "str",
-      "value": "[[1,0.4,1,1],[5,0.6,2,3],[9,0.75,2,5],[13,0.85,3,6]]"
+      "value": "[[1,0.4,1,1],[5,0.6,2,3],[9,0.75,2,5],[13,0.85,2,6]]"
     },
     "mode.chaos.director.weights": {
       "description": "Director type weights per stage",
@@ -3804,7 +3821,7 @@
       "max": null,
       "min": 1.0,
       "type": "int",
-      "value": 3
+      "value": 2
     },
     "mode.chaos.stake": {
       "description": "Chips a Poker Head run brings from the vault: min,max",
@@ -4067,7 +4084,7 @@
       "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "7516745",
+    "game_commit": "892177b",
     "measured": {
       "bands": [
         {
@@ -4194,25 +4211,25 @@
       "runs": {
         "bands": {
           "args": "check",
-          "balance": "default@da0ee84c16b4",
+          "balance": "default@68cf04f66799",
           "seed": 1,
           "title": "Balance bands"
         },
         "edge": {
           "args": "edge --rules all",
-          "balance": "default@da0ee84c16b4",
+          "balance": "default@68cf04f66799",
           "seed": 1,
           "title": "Player EV per round (basic strategy, 20000 rounds)"
         },
         "items": {
           "args": "items --rules none",
-          "balance": "default@da0ee84c16b4",
+          "balance": "default@68cf04f66799",
           "seed": 1,
           "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
         }
       }
     },
-    "measured_on": "7516745",
+    "measured_on": "892177b",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -4237,10 +4254,10 @@
     }
   },
   "source": {
-    "commit": "7516745",
-    "date": "2026-10-14",
+    "commit": "892177b",
+    "date": "2026-10-15",
     "ref": "origin/main",
-    "subject": "Merge pull request #12 from fghhn13/feat/poker-head-builds",
+    "subject": "Merge pull request #15 from fghhn13/feat/collection-shop",
     "version": "0.2.0"
   },
   "tables": {

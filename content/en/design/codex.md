@@ -1,6 +1,6 @@
 ---
 title: Collection and deterministic demos
-source_blob: 159b4f5c3fb5
+source_blob: d3060e7664d2
 ---
 The headless codex provides live entry details and demo frames, while the GUI displays them. Providers query scoped registries, so selected content packs appear without leaking into other configurations. Detail text reads the selected RunConfig; fixed tuning overrides proposed rule parameters.
 
@@ -8,8 +8,10 @@ Collection is now grouped by series. Classic Table contains the core table and s
 
 `codex_kinds`, `codex_entries`, `codex_sections` and `run_demo` expose entries and grouped sections. Demo scripts rig only the deal, then execute real controller actions and capture views, captions and notices. They are offline, do not alter player saves or currencies, and fail visibly on malformed or illegal steps. Naturals settle according to the controller; Reverse Bust ends a busted hand as a push.
 
-The browser now has three columns: a compact character / category sidebar, a filtered card grid and the selected entry's scrollable reference, with series tabs on top. Poker Head adds build-style filters (multi-card, surrender, precision, double, finance, general) combined with product type. Its page lists one `environment` entry per environment rule type, with an example, how it goes away and the director's stages, instead of registry Chaos rules; registry rules no dealer's Table uses any more appear on the Classic Table page. `CodexEntry` gains optional category, style, timing, price and related-entry fields, so build entries show live effect text, readable prices and their adopted icons.
+The browser now has three columns: a compact character / category sidebar, a filtered card grid and the selected entry's scrollable reference, with series tabs on top. Poker Head adds build-style filters (multi-card, surrender, precision, double, finance, general) combined with product type. Its page lists one `environment` entry per environment rule type, with an example, how it goes away and the director's stages, instead of registry Chaos rules; registry rules no listed Table uses any more are left out of the Collection. `CodexEntry` gains optional category, style, timing, price and related-entry fields, so build entries show live effect text, readable prices and their adopted icons.
 
 Clicking a card selects it inline; the reference offers a full-detail or demo button and links to related entries, and scrolls independently of the grid. Tab changes series, arrows select cards, and the wheel or Page Up/Down scroll the grid. Filters, selection and both scroll positions survive opening a detail and returning. Entries without a demo show a compact icon column beside a wide text panel with playback hidden.
 
 The detail scene plays stored frames without additional controller actions. Space pauses, R replays, Left/Right seeks, and playback stops at the last frame. Text scrolls; incompatible or missing demos fall back to readable text. Gallery and detail state are preserved on return. Validation covers registries, live tuning, demo effects, navigation, paging, scrolling, content-pack isolation and rendering.
+
+**Discovery.** A guided player's Collection shows an entry once it has been met: an item or build bought or used, seen on a shelf or offered in a choice, or a rule or environment type that came up. Undiscovered entries are shadowed "???" icons with a hint where to look and no details; the header counts discovered entries. A dealer whose Table is not open yet has a "???" tab with a silhouetted portrait and the unlock condition; tables, the strategy chart and the rules of open tables are always shown. Players from before onboarding see everything.

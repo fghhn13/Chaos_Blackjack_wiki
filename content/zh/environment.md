@@ -21,7 +21,7 @@ J-54 专属牌堆规则与旧版插件见[混沌规则](chaos.html)。
 
 清除后整个类型冷却 {{ fact: settings.mode.chaos.director.cooldown_cleared.value }} 个后续准备阶段；自然到期冷却 {{ fact: settings.mode.chaos.director.cooldown_expired.value }} 个。AI 替换只让旧参数组合冷却 {{ fact: settings.mode.chaos.director.cooldown_replaced.value }} 个阶段。空位不当场补满。荷官仅替换符合条件的持续规则，限时规则等待到期，不靠换同参数续时间。
 
-玩家暗牌与道具封禁绝不共存；同场最多一条高压力规则。候选先过滤类型冲突、冷却、位置和压力预算。
+规则按对你的不利程度分为轻、中、重三级；重级规则（例如降低玩家爆牌线、庄家爆牌改判平局）从第 {{ fact: settings.mode.chaos.director.heavy_from.value }} 回合起才会出现，且同时最多一条，规则列表会标出每条的等级。玩家暗牌与道具封禁绝不共存；同场最多一条高压力规则。候选先过滤类型冲突、冷却、位置和压力预算。
 
 ## 算点、收益与信息
 

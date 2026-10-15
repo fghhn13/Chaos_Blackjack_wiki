@@ -21,7 +21,7 @@ Clause Removal permanently removes one selected environment rule. Silence Seal s
 
 Clearing blocks the entire type for {{ fact: settings.mode.chaos.director.cooldown_cleared.value }} subsequent preparation phases. Natural expiry blocks its type for {{ fact: settings.mode.chaos.director.cooldown_expired.value }} phase(s). AI replacement blocks the old signature for {{ fact: settings.mode.chaos.director.cooldown_replaced.value }} phases. Cleared slots are not immediately refilled. The director replaces eligible persistent rules; timed rules are allowed to expire instead of being renewed.
 
-Hidden Card and Item Ban never coexist. There is at most one high-pressure rule, with legal choices filtered for type conflicts, cooldowns, slot and pressure budgets.
+Rules come in light, medium and heavy tiers by how much they cost you; heavy ones (such as a lower player bust limit or dealer busts turned into pushes) appear only from round {{ fact: settings.mode.chaos.director.heavy_from.value }}, one at a time, and the rule list shows each rule's tier. Hidden Card and Item Ban never coexist. There is at most one high-pressure rule, with legal choices filtered for type conflicts, cooldowns, slot and pressure budgets.
 
 ## Values, profit and information
 
