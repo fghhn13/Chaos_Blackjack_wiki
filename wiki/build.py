@@ -27,6 +27,12 @@ ENTITY = {"chaos_rules": ("rule", "chaos"), "items": ("item", "items"),
 # Table fields listing what a table offers, per collection.
 POOL_FIELDS = {"chaos_rules": ("rules",), "environment_rules": ("environment_rules",), "items": ("items", "products")}
 KIND_ORDER = ["core", "permanent", "item", "finance", "contract", None]
+# Section headings of a game `details` text -> UI string key.
+DETAIL_KEYS = {"Effect": "d_effect", "Timing": "d_timing", "Limits": "d_limits", "Example": "d_example",
+               "Acquisition": "d_acquisition", "Related effects": "d_related"}
+# Generated page prefix -> search result label (UI key); anything else is a page.
+SEARCH_KINDS = {"item": "k_item", "rule": "k_rule", "environment": "k_environment", "table": "k_table",
+                "dealer": "k_dealer", "design": "k_design"}
 NAV_SUBS = {"chaos": ("chaos_rules", "rule"), "items": ("items", "item"), "design": ("design_docs", "design"),
             "environment": ("environment_rules", "environment"),
             "tables": ("tables", "table"), "dealers": ("dealers", "dealer")}
@@ -58,8 +64,11 @@ def build(out: Path = SITE) -> list[str]:
     for f in (F.CONTENT / "img").glob("*.png"):
         shutil.copy2(f, out / "img" / f.name)
     (out / "index.html").write_text(_landing(facts), encoding="utf-8")
+    # Cache-busting query for style.css, wiki.js and search.js: changes with code or content.
+    static = b"".join(f.read_bytes() for f in sorted(STATIC.iterdir()) if f.is_file())
+    version = hashlib.sha256(input_hash().encode() + static).hexdigest()[:10]
     for lang in F.LANGS:
-        site = Site(facts, lang, errors)
+        site = Site(facts, lang, errors, version)
         (out / lang).mkdir()
         for page, _ in PAGES:
             (out / lang / f"{page_slug(page)}.html").write_text(site.page(page), encoding="utf-8")
@@ -70,16 +79,19 @@ def build(out: Path = SITE) -> list[str]:
                 (out / lang / f"{prefix}-{eid}.html").write_text(site.entity(coll, eid), encoding="utf-8")
         for d in facts.get("design_docs", {}):
             (out / lang / f"design-{d}.html").write_text(site.design_doc(d), encoding="utf-8")
+        (out / lang / "search.js").write_text(site.search_js(), encoding="utf-8")
     if out == SITE:
         STAMP.write_text(input_hash() + "\n", encoding="utf-8")
     return sorted(set(errors))
 
 
 class Site:
-    def __init__(self, facts: dict[str, Any], lang: str, errors: list[str]) -> None:
+    def __init__(self, facts: dict[str, Any], lang: str, errors: list[str], version: str = "") -> None:
         self.facts, self.lang, self.errors = facts, lang, errors
+        self.v = f"?v={version}" if version else ""
         self.t = UI[lang]
         self._heads: list[tuple[int, str, str]] = []
+        self.index: list[dict[str, str]] = []
 
     # --- content ----------------------------------------------------------
 
@@ -225,17 +237,38 @@ class Site:
                 f'<span class="muted{"" if ok else " en"}">{inline(text)}</span></span></a>')
         return f'<div class="cards">{"".join(cards)}</div>'
 
-    def _by_table(self, coll: str) -> str:
-        """Cards grouped by the table that offers them; ids no table offers come last as unused.
-
-        An id offered by several tables is listed under each. With a single group there are
-        no headings. Items of one table with several kinds get a sub-heading per kind."""
+    def pool_groups(self, coll: str) -> tuple[list[tuple[str, list[str]]], list[str], bool]:
+        """(per-table groups, unused ids, whether the hub page shows them as headed sections)."""
         entries = self.facts.get(coll, {})
         groups = [(tid, [eid for eid in entries if eid in self.pool(tid, coll)]) for tid in self.table_order()]
         groups = [(tid, ids) for tid, ids in groups if ids]
         offered = {eid for _, ids in groups for eid in ids}
         unused = [eid for eid in entries if eid not in offered]
-        if not groups or (len(groups) == 1 and not unused):
+        return groups, unused, bool(groups) and (len(groups) > 1 or bool(unused))
+
+    def entity_order(self, coll: str) -> list[str]:
+        """Reading order of a collection: the hub page's order (by table, then kind), each id once."""
+        entries = self.facts.get(coll, {})
+        if coll == "tables":
+            return [tid for tid in self.table_order() if tid in entries]
+        if coll not in POOL_FIELDS:
+            return list(entries)
+        groups, unused, _ = self.pool_groups(coll)
+        order: list[str] = []
+        for _, ids in groups:
+            if coll == "items":
+                ids = sorted(ids, key=lambda eid: KIND_ORDER.index(entries[eid].get("kind"))
+                             if entries[eid].get("kind") in KIND_ORDER else len(KIND_ORDER))
+            order += [eid for eid in ids if eid not in order]
+        return order + unused
+
+    def _by_table(self, coll: str) -> str:
+        """Cards grouped by the table that offers them; ids no table offers come last as unused.
+
+        An id offered by several tables is listed under each. With a single group there are
+        no headings. Items of one table with several kinds get a sub-heading per kind."""
+        groups, unused, headed = self.pool_groups(coll)
+        if not headed:
             return self._cards(coll)
         out = []
         for tid, ids in groups:
@@ -495,11 +528,89 @@ class Site:
         if body.strip() and not ok:
             prose = f'<p class="notice">{self.t["untranslated"]}</p>' + prose
         back = "environment" if coll == "environment_rules" else "chaos" if coll == "chaos_rules" else "items"
-        html_ = (f'<p class="crumb"><a href="{back}.html">← {self.t["all_rules" if back in ("chaos", "environment") else "all_items"]}</a></p>'
-                 f'<div class="hero {prefix}">{self._icon(eid, e["name"], "big")}<div><h1>{html.escape(name)}</h1>'
+        tagline, details = self.details(e)
+        if tagline and self.lang == "en":
+            note += f'</p><p class="tagline">{html.escape(tagline)}'
+        html_ = (self.crumbs(back, self.pool_crumb(coll, eid, back), name)
+                 + f'<div class="hero {prefix}">{self._icon(eid, e["name"], "big")}<div><h1>{html.escape(name)}</h1>'
                  f'<p class="lead">{inline(text)}{note}</p></div></div>'
-                 f'<div class="table-wrap"><table class="facts">{facts_tbl}</table></div>{prose}')
-        return self.layout(f"{prefix}-{eid}", name, html_, self._heads if body.strip() else [], active=back)
+                 f'<div class="table-wrap"><table class="facts">{facts_tbl}</table></div>{details}{prose}'
+                 + self.pager(coll, eid))
+        keywords = " ".join(dict.fromkeys([e["name"], eid]))
+        return self.layout(f"{prefix}-{eid}", name, html_, _heads_of(html_), active=back,
+                           keywords=keywords, icon=eid, snippet=_plain(inline(text)))
+
+    def details(self, e: dict[str, Any]) -> tuple[str, str]:
+        """(tagline, rendered sections) from the game's `details` text: a tagline, then blocks
+        headed Effect / Timing / Limits / Example / Acquisition / Related effects. The text is
+        English; other languages label it as the original."""
+        blocks = [b.strip() for b in (e.get("details") or "").split("\n\n") if b.strip()]
+        if not blocks:
+            return "", ""
+        tagline = blocks.pop(0) if blocks[0].split("\n", 1)[0] not in DETAIL_KEYS else ""
+        rows = []
+        for block in blocks:
+            head, _, body = block.partition("\n")
+            key = DETAIL_KEYS.get(head)
+            if key == "d_effect" and self.lang == "en" and body.strip() == e.get("help"):
+                continue  # already the lead
+            value = (self.related_links(body) if key == "d_related"
+                     else "<br>".join(html.escape(line) for line in body.splitlines()))
+            rows.append(f'<dt>{self.t[key] if key else html.escape(head)}</dt><dd>{value}</dd>')
+        if not rows:
+            return tagline, ""
+        note = f'<p class="muted">{self.t["details_original"]}</p>' if self.lang != "en" else ""
+        return tagline, f'<h2 id="details">{self.t["details"]}</h2>{note}<dl class="details">{"".join(rows)}</dl>'
+
+    def related_links(self, text: str) -> str:
+        """Comma-separated English names -> links to those entries, in this language."""
+        if not hasattr(self, "_by_name"):
+            self._by_name = {e["name"]: (coll, eid) for coll in ("items", "chaos_rules", "environment_rules")
+                             for eid, e in self.facts.get(coll, {}).items() if e.get("name")}
+        out = []
+        for name in (n.strip() for n in text.replace("\n", ",").split(",")):
+            if name:
+                hit = self._by_name.get(name)
+                out.append(self.entity_link(*hit) if hit else html.escape(name))
+        return ", ".join(out)
+
+    def hub_title(self, hub: str) -> str:
+        path = next((p for p, _ in PAGES if page_slug(p) == hub), hub)
+        return self._read(f"{path}.md")[0].get("title", hub)
+
+    def crumbs(self, hub: str, middle: str, name: str) -> str:
+        """Nav group › hub page › (section) › this page."""
+        group = next((g for p, g in PAGES if page_slug(p) == hub), None)
+        parts = ([html.escape(self.t[group])] if group else []) + [
+            f'<a href="{hub}.html">{html.escape(self.hub_title(hub))}</a>'] + ([middle] if middle else [])
+        parts.append(f'<span aria-current="page">{html.escape(name)}</span>')
+        return f'<nav class="crumbs" aria-label="{self.t["breadcrumb"]}">{" <span class=sep>›</span> ".join(parts)}</nav>'
+
+    def pool_crumb(self, coll: str, eid: str, hub: str) -> str:
+        """Link to the hub section that lists this id (first table offering it, or unused)."""
+        groups, unused, headed = self.pool_groups(coll)
+        if not headed:
+            return ""
+        tid = next((t for t, ids in groups if eid in ids), None)
+        if tid is None:
+            return f'<a href="{hub}.html#pool-unused">{html.escape(self.t["unused_pool"])}</a>'
+        return f'<a href="{hub}.html#pool-{tid}">{html.escape(self.name("tables", tid))}</a>'
+
+    def pager(self, coll: str, eid: str) -> str:
+        """Previous / next entry in the collection's reading order."""
+        order = self.entity_order(coll)
+        if eid not in order or len(order) < 2:
+            return ""
+        i = order.index(eid)
+        prefix = ENTITY[coll][0] if coll in ENTITY else "design"
+        links = []
+        if i > 0:
+            links.append(f'<a rel="prev" href="{prefix}-{order[i - 1]}.html"><small>{self.t["prev"]}</small>'
+                         f'{html.escape(self.name(coll, order[i - 1]))}</a>')
+        if i + 1 < len(order):
+            links.append(f'<a rel="next" href="{prefix}-{order[i + 1]}.html"><small>{self.t["next"]}</small>'
+                         f'{html.escape(self.name(coll, order[i + 1]))}</a>')
+        return f'<nav class="pager">{"".join(links)}</nav>'
 
     def catalog_entity(self, coll: str, eid: str) -> str:
         entry = self.facts[coll][eid]
@@ -519,8 +630,11 @@ class Site:
         prose = self.expand(body, f"{self.lang}/{coll}/{eid}.md")
         if not ok:
             prose = f'<p class="notice">{self.t["untranslated"]}</p>' + prose
-        article = f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.state(coll, eid)}</span>{table}{prose}'
-        return self.layout(f"{ENTITY[coll][0]}-{eid}", name, article, self._heads, active=coll)
+        article = (self.crumbs(coll, "", name)
+                   + f'<h1>{html.escape(name)}</h1><span class="pill ok">{self.state(coll, eid)}</span>{table}{prose}'
+                   + self.pager(coll, eid))
+        return self.layout(f"{ENTITY[coll][0]}-{eid}", name, article, self._heads, active=coll,
+                           keywords=" ".join(dict.fromkeys([entry.get("name", ""), eid])))
 
     def design_doc(self, d: str) -> str:
         doc = self.facts["design_docs"][d]
@@ -539,10 +653,26 @@ class Site:
         if body and not ok:
             notes += f'<p class="notice">{self.t["untranslated"]}</p>'
         prose = self.expand(body, where) if body.strip() else f'<p class="muted">{self.t["design_no_summary"]}</p>'
-        html_ = (f'<p class="crumb"><a href="design.html">← {self.t["all_design"]}</a></p>'
-                 f'<h1>{html.escape(title)}</h1><div class="banner {"" if doc["on_main"] else "planned"}">{banner}</div>'
-                 f'{notes}{prose}')
-        return self.layout(f"design-{d}", title, html_, self._heads if body.strip() else [], active="design")
+        html_ = (self.crumbs("design", "", title)
+                 + f'<h1>{html.escape(title)}</h1><div class="banner {"" if doc["on_main"] else "planned"}">{banner}</div>'
+                 f'{notes}{prose}' + self.pager("design_docs", d))
+        return self.layout(f"design-{d}", title, html_, self._heads if body.strip() else [], active="design",
+                           keywords=" ".join([doc.get("title") or "", doc["path"]]))
+
+    # --- search ------------------------------------------------------------
+
+    def _index(self, slug: str, title: str, article: str, keywords: str, icon: str, snippet: str) -> None:
+        prefix = slug.split("-", 1)[0] if "-" in slug else ""
+        entry = {"u": f"{slug}.html", "t": title, "k": self.t[SEARCH_KINDS.get(prefix, "k_page")],
+                 "w": keywords, "s": snippet, "x": _plain(article)[:4000]}
+        if icon and (IMG / f"{icon}.png").exists():
+            entry["i"] = f"../img/{icon}.png"
+        self.index.append({k: v for k, v in entry.items() if v})
+
+    def search_js(self) -> str:
+        """The page index as a script (not JSON: pages opened from file:// cannot fetch)."""
+        data = json.dumps(self.index, ensure_ascii=False, separators=(",", ":"))
+        return f"window.WIKI_SEARCH={data};\n"
 
     # --- simulator ----------------------------------------------------------
 
@@ -635,23 +765,29 @@ class Site:
         return self._table(["name", "state", "doc_status", "source", "date"], rows)
 
     def layout(self, slug: str, title: str, article: str, heads: list[tuple[int, str, str]],
-               active: str | None = None) -> str:
+               active: str | None = None, keywords: str = "", icon: str = "", snippet: str = "") -> str:
         t, src = self.t, self.facts["source"]
         active = active or slug
+        self._index(slug, title, article, keywords, icon, snippet)
         groups: dict[str, list[str]] = {}
         for path, group in PAGES:
             page = page_slug(path)
             meta, _, _ = self._read(f"{path}.md")
             cur = ' aria-current="page"' if page == active else ""
             sub = ' class="sub"' if meta.get("parent") else ""
-            groups.setdefault(group, []).append(f'<a href="{page}.html"{sub}{cur}>{html.escape(meta.get("title", page))}</a>')
-            if page in NAV_SUBS:
-                coll, prefix = NAV_SUBS[page]
-                entries = self.facts.get(coll, {})
-                order = sorted(entries, key=lambda eid: (entries[eid].get("series") != "core", eid)) if coll == "tables" else entries
-                for eid in order:
-                    cur = ' aria-current="page"' if slug == f"{prefix}-{eid}" else ""
-                    groups[group].append(f'<a class="sub" href="{prefix}-{eid}.html"{cur}>{html.escape(self.name(coll, eid))}</a>')
+            link = f'<a href="{page}.html"{sub}{cur}>{html.escape(meta.get("title", page))}</a>'
+            if page not in NAV_SUBS:
+                groups.setdefault(group, []).append(link)
+                continue
+            # A hub's entries fold under it; only the section you are in starts open.
+            coll, prefix = NAV_SUBS[page]
+            order = self.entity_order(coll)
+            subs = "".join(f'<a class="sub" href="{prefix}-{eid}.html"'
+                           f'{" aria-current=page" if slug == f"{prefix}-{eid}" else ""}>{html.escape(self.name(coll, eid))}</a>'
+                           for eid in order)
+            opened = " open" if page == active else ""
+            groups.setdefault(group, []).append(
+                f'<details class="subs"{opened}><summary>{link}<span class="count">{len(order)}</span></summary>{subs}</details>')
         nav = "".join(f'<div class="group"><p>{t[g]}</p>{"".join(links)}</div>' for g, links in groups.items())
         toc = "".join(f'<a class="l{lvl}" href="#{hid}">{html.escape(txt)}</a>' for lvl, hid, txt in heads if lvl in (2, 3))
         other = "zh" if self.lang == "en" else "en"
@@ -664,14 +800,18 @@ class Site:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)} · {site_name}</title>
-<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="../style.css{self.v}">
 <script>try{{localStorage.setItem("wiki-lang","{self.lang}")}}catch(e){{}}</script>
 </head>
 <body>
 <header class="top">
   <button class="menu" aria-label="{t['menu']}" aria-expanded="false">☰</button>
-  <a class="brand" href="index.html"><span class="suit">♠</span> Chaos Blackjack <span class="tag">{t['wiki']}</span></a>
-  <input class="filter" type="search" placeholder="{t['filter']}" aria-label="{t['filter']}">
+  <a class="brand" href="index.html" aria-label="Chaos Blackjack"><span class="suit">♠</span> <span class="name">Chaos Blackjack</span> <span class="tag">{t['wiki']}</span></a>
+  <div class="search-wrap">
+    <input class="filter" type="search" placeholder="{t['filter']}" aria-label="{t['filter']}" autocomplete="off"
+      role="combobox" aria-expanded="false" aria-controls="search-results" data-empty="{t['no_results']}" data-index="search.js{self.v}">
+    <div class="results" id="search-results" role="listbox" hidden></div>
+  </div>
   <a class="lang" href="../{other}/{slug}.html" hreflang="{other}">{UI[other]['lang_name']}</a>
 </header>
 <div class="layout">
@@ -679,10 +819,20 @@ class Site:
   <main><article>{article}</article><footer class="stamp">{stamp}</footer></main>
   <aside class="toc">{f'<p>{t["on_this_page"]}</p>{toc}' if toc else ''}</aside>
 </div>
-<script src="../wiki.js"></script>
+<script src="../wiki.js{self.v}"></script>
 </body>
 </html>
 """
+
+
+def _plain(fragment: str) -> str:
+    """Text of an HTML fragment, whitespace collapsed."""
+    return re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", fragment))).strip()
+
+
+def _heads_of(fragment: str) -> list[tuple[int, str, str]]:
+    """(level, id, text) of every heading with an id, for the page TOC."""
+    return [(int(lvl), hid, _plain(text)) for lvl, hid, text in re.findall(r'<h(\d) id="([^"]+)">(.*?)</h\1>', fragment)]
 
 
 def _redirect(target: str, moved: str) -> str:

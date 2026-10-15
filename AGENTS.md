@@ -93,7 +93,13 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   ```
 
   (rules use `effect` / `effect_en`; `*_en` must equal the current English text
-  in `facts.json`).
+  in `facts.json`). An item's game `details` text is rendered by the build as a
+  "Full rules" section (with related entries linked); do not paste it into the
+  body with `{{ fact: items.<id>.details }}`.
+- Every page gets a breadcrumb and, inside a collection, previous / next links in
+  the hub's order; the sidebar folds each hub's entries and opens only the
+  current one. The build also writes `site/<lang>/search.js` (title, keywords,
+  text of every page), which powers the search box (`/` or Ctrl+K) offline.
 - Page list and nav groups: `wiki/i18n.py` (`PAGES`). Sources are grouped in
   folders (`guides/`, `growth/`, `dev/`, `reference/`; catalog hubs such as
   `chaos.md` stay top-level next to their entity folders), but every page is

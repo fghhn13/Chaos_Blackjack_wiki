@@ -322,3 +322,54 @@ def test_catalog_cards_group_by_table_with_unused_last():
     assert site.table_links("items", "core") == '<a href="table-ph.html">PH</a>'
     site.expand("## Intro\n\n{{ table: item_cards }}\n", "test")
     assert [h[1] for h in site._heads][:3] == ["intro", "pool-home", "pool-ph"]
+
+
+UI_FACTS = {**FACTS,
+            "items": {"peek": {**FACTS["items"]["peek"]},
+                      "ph_core": {"name": "Fresh Hand", "help": "Redeal.", "price": None, "kind": "core", "icon": None},
+                      "ph_buff": {"name": "Court Discount", "help": "Faces count low.", "price": 40, "kind": "permanent",
+                                  "icon": None,
+                                  "details": "Even royalty can offer a concession.\n\nEffect\nFaces count low.\n\n"
+                                             "Timing\nWhile equipped\n\nLimits\nOne copy.\nNo refund.\n\n"
+                                             "Related effects\nFresh Hand, Unknown Thing"}},
+            "tables": {"home": {"name": "Home", "series": "core", "rules": [], "items": ["peek"]},
+                       "ph": {"name": "PH", "series": "ph", "rules": [], "items": ["ph_buff"],
+                              "products": ["ph_buff", "ph_core"]}}}
+
+
+def test_entity_order_follows_hub_grouping():
+    site = Site(UI_FACTS, "en", [])
+    assert site.entity_order("items") == ["peek", "ph_core", "ph_buff"]  # table order, then core before permanent
+    assert site.entity_order("tables") == ["home", "ph"]
+
+
+def test_details_become_sections_with_related_links():
+    site = Site(UI_FACTS, "en", [])
+    tagline, block = site.details(UI_FACTS["items"]["ph_buff"])
+    assert tagline == "Even royalty can offer a concession."
+    assert "<dt>Effect</dt>" not in block  # same as the lead
+    assert "<dt>Limits</dt><dd>One copy.<br>No refund.</dd>" in block
+    assert '<a href="item-ph_core.html">Fresh Hand</a>, Unknown Thing' in block
+    _, zh = Site(UI_FACTS, "zh", []).details(UI_FACTS["items"]["ph_buff"])
+    assert "<dt>效果</dt>" in zh and "英文原文" in zh
+    assert site.details(UI_FACTS["items"]["peek"]) == ("", "")
+
+
+def test_entity_page_has_crumbs_pager_and_folded_nav():
+    page = Site(UI_FACTS, "en", []).entity("items", "ph_core")
+    assert '<a href="items.html#pool-ph">PH</a>' in page
+    assert 'rel="prev" href="item-peek.html"' in page and 'rel="next" href="item-ph_buff.html"' in page
+    assert '<details class="subs" open><summary><a href="items.html" aria-current="page">' in page
+    assert '<details class="subs"><summary><a href="chaos.html"' in page
+
+
+def test_search_index_lists_pages_with_keywords():
+    site = Site(UI_FACTS, "zh", [], "abc")
+    page = site.entity("items", "ph_buff")
+    assert 'href="../style.css?v=abc"' in page and 'data-index="search.js?v=abc"' in page
+    script = site.search_js()
+    assert script.startswith("window.WIKI_SEARCH=[") and script.endswith("];\n")
+    import json
+    entry = json.loads(script[len("window.WIKI_SEARCH="):-2])[0]
+    assert entry["u"] == "item-ph_buff.html" and entry["k"] == "道具"
+    assert "Court Discount" in entry["w"] and "ph_buff" in entry["w"]

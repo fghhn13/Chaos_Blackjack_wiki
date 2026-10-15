@@ -4,7 +4,7 @@ from __future__ import annotations
 
 UI: dict[str, dict[str, str]] = {
     "en": {
-        "lang_name": "English", "wiki": "Wiki", "filter": "Filter pages…", "on_this_page": "On this page",
+        "lang_name": "English", "wiki": "Wiki", "filter": "Search the wiki  ( / )", "on_this_page": "On this page",
         "menu": "Menu",
         "g_start": "Start", "g_catalog": "Catalog", "g_inside": "Under the hood", "g_ref": "Reference",
         "stamp": "Describes <code>{ref}</code> @ <code>{commit}</code> ({date}) · game v{version}",
@@ -42,7 +42,7 @@ UI: dict[str, dict[str, str]] = {
         "sim_missing": "No simulator results yet: run <code>python -m wiki sync</code> with the simulator present.",
     },
     "zh": {
-        "lang_name": "中文", "wiki": "百科", "filter": "筛选页面…", "on_this_page": "本页目录",
+        "lang_name": "中文", "wiki": "百科", "filter": "搜索百科（按 /）", "on_this_page": "本页目录",
         "menu": "菜单",
         "g_start": "入门", "g_catalog": "图鉴", "g_inside": "机制", "g_ref": "参考",
         "stamp": "对应 <code>{ref}</code> @ <code>{commit}</code>（{date}）· 游戏 v{version}",
@@ -88,6 +88,12 @@ UI["en"].update({
     "classic_items": "Classic items", "core_choice": "Opening choice", "loan_price": "Borrow {advance} / repay {repay}",
     "g_tables": "Tables and dealers", "g_growth": "Progression and collection", "g_guides": "Guides",
     "moved": "This page has moved to",
+    "no_results": "No matches", "breadcrumb": "Breadcrumb", "prev": "Previous", "next": "Next",
+    "details": "Full rules", "details_original": "",
+    "d_effect": "Effect", "d_timing": "Timing", "d_limits": "Limits", "d_example": "Example",
+    "d_acquisition": "How to get it", "d_related": "Related",
+    "k_item": "Item", "k_rule": "Chaos rule", "k_environment": "Environment rule", "k_table": "Table",
+    "k_dealer": "Dealer", "k_design": "Design doc", "k_page": "Page",
     "unused_pool": "Not used at any table",
     "unused_note": "Still registered in the game, but no current table offers it.",
     "host": "Dealer", "tables": "Tables", "goal": "Goal", "rule_count": "Rules", "item_count": "Items",
@@ -108,6 +114,12 @@ UI["zh"].update({
     "classic_items": "经典道具", "core_choice": "开局选择", "loan_price": "借入 {advance}／偿还 {repay}",
     "g_tables": "牌桌与荷官", "g_growth": "成长与收藏", "g_guides": "攻略",
     "moved": "本页已移至",
+    "no_results": "没有找到匹配内容", "breadcrumb": "位置", "prev": "上一条", "next": "下一条",
+    "details": "详细规则", "details_original": "以下为游戏内的英文原文。",
+    "d_effect": "效果", "d_timing": "使用时机", "d_limits": "限制", "d_example": "示例",
+    "d_acquisition": "获取方式", "d_related": "相关条目",
+    "k_item": "道具", "k_rule": "混沌规则", "k_environment": "环境规则", "k_table": "牌桌",
+    "k_dealer": "荷官", "k_design": "设计文档", "k_page": "页面",
     "unused_pool": "当前未用于任何牌桌",
     "unused_note": "仍在游戏中注册，但目前没有牌桌提供。",
     "host": "荷官", "tables": "适用牌桌", "goal": "目标", "rule_count": "规则数", "item_count": "道具数",
