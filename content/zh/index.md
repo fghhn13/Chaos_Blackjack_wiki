@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-主页 **Start game** 创建玩家，**New run** 选择经典、扑克头或 J-54 *实验性牌桌、并选择从金库带入多少筹码；**Continue run** 恢复未完成的一轮。[玩法](play.html)说明桌面、浏览器和手机操作。
+主页 **Start game** 创建玩家，**New run** 选择经典、扑克头或 J-54 的牌桌，并选择从金库带入多少筹码；**Continue run** 恢复未完成的一轮。[玩法](play.html)说明桌面、浏览器和手机操作。
 
 ## 选择牌桌
 
@@ -18,9 +18,9 @@ python -m chaos_blackjack.gui
 
 ## 继续探索
 
-- [荷官](dealers.html)：角色和他们的牌桌。[J-54](dealer-j54.html)以概率、计算和牌堆重构为主题，标注 *实验性。
+- [荷官](dealers.html)：角色和他们的牌桌。[J-54](dealer-j54.html)在牌堆上做实验。
 - [混沌规则](chaos.html)与[道具](items.html)：具体效果及适用牌桌。
 - [玩家成长](progression.html)、[装扮](cosmetics.html)、[成就](achievements.html)和[个人资料](profile.html)：跨轮保留的内容。
 - [Agent 玩家](agents.html)、[平衡数据](balance.html)和[混沌 AI](chaos-ai.html)：技术参考。
 
-玩法说明跟随游戏主线更新，页脚记录所描述的提交。扑克头按正式构筑方案展示，J-54 标注 *实验性。
+玩法说明跟随游戏主线更新，页脚记录所描述的提交。

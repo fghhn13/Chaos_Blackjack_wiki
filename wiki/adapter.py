@@ -67,6 +67,7 @@ def extract_facts(root: Path, ref: str) -> dict[str, Any]:
         "transcript": _transcript(),
         "changelog": _changelog(root),
         **_catalogs(root),
+        **_table_extras(root, balance),
     }
 
 
@@ -203,9 +204,12 @@ def _chaos_rules(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
         params = {}
         if mod is not None and dataclasses.is_dataclass(mod):
             params = {k: v for k, v in dataclasses.asdict(mod).items() if k not in ("id", "chaos_flags")}
+        # Rules that carry their own player-facing text (J-54's conditions) say it themselves.
+        text = params.get("text") if isinstance(params.get("text"), str) and params.get("text") else None
         out[rid] = {
             "name": _title(rid, manifest),
-            "effect": describe_modifier(mod) if mod is not None else "",
+            "effect": text or (describe_modifier(mod) if mod is not None else ""),
+            "camp": params.get("camp"),
             "params": _jsonable(params),
             "flags": sorted(getattr(mod, "chaos_flags", ()) or ()),
             "enabled": tuned.get("enabled", True),
@@ -320,7 +324,10 @@ def _catalogs(root: Path) -> dict[str, Any]:
             tables[mode.id]["goal_text"] = None
         else:
             tables[mode.id]["goal_text"] = table_goal(config)
-        tables[mode.id]["experimental"] = mode.id == "j54"
+        tables[mode.id]["experimental"] = bool(getattr(mode, "experimental", False))
+        tables[mode.id]["requires"] = getattr(mode, "requires", None)
+        tables[mode.id]["reveal"] = getattr(mode, "reveal", None)
+        tables[mode.id]["teaser"] = getattr(mode, "teaser", "") or None
         if mode.id == "chaos" and _environment_rules():
             from chaos_blackjack.poker_head.catalog import PRODUCTS, SHOP_IDS
             tables[mode.id]["rules"] = []
@@ -359,6 +366,27 @@ def _catalogs(root: Path) -> dict[str, Any]:
             "upgrades": upgrades, "series": {s.id: {"name": s.name, "expansion": s.expansion}
                                                for s in series_list()},
             "deck": {"cards": len(_standard_deck()), "reset": "round"}}
+
+
+def _table_extras(root: Path, balance: dict[str, Any]) -> dict[str, Any]:
+    """Table-specific catalogs: J-54's firmwares (the opening build pick) and its table moves."""
+    settings = balance["settings"]
+    value = lambda key: settings.get(key, {}).get("value")  # noqa: E731
+    manifest = _manifest()
+    try:
+        from chaos_blackjack.j54.firmware import CATALOG
+        from chaos_blackjack.j54.table import CUT, HOT_PURGE, RELEASE
+    except ImportError:
+        return {"firmwares": {}, "table_moves": {}}
+    firmwares = {fw.id: {"name": fw.name, "effect": fw.text, "table": "j54",
+                         "price": value(f"mode.j54.firmware.{fw.id}.price"), "icon": _icon(root, fw.id)}
+                 for fw in CATALOG.values()}
+    moves = {}
+    for order, move in enumerate((CUT, HOT_PURGE, RELEASE)):
+        key = f"mode.j54.{move.removeprefix('j54_')}_cost"
+        moves[move] = {"name": _title(move, manifest), "table": "j54", "order": order,
+                       "cost_setting": key, "cost": value(key), "icon": _icon(root, move)}
+    return {"firmwares": dict(sorted(firmwares.items())), "table_moves": moves}
 
 
 def _permissions(root: Path) -> dict[str, Any]:

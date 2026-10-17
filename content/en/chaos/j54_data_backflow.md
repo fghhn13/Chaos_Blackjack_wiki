@@ -1,1 +1,5 @@
-J-54 *Experimental. This rule changes physical cards. Composition changes persist across rounds; ordering applies to the current round. See [J-54's Table](table-j54.html).
+---
+status: retired
+history: j54-table
+---
+A deck operation of J-54's first (demo) table. It is still registered in the game but is no longer part of J-54's program.

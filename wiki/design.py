@@ -22,11 +22,15 @@ def slug(path: str) -> str:
 def scan(repo: Path, main_ref: str = "main") -> dict[str, Any]:
     best: dict[str, dict[str, Any]] = {}
     branches = _git(repo, "for-each-ref", "--format=%(refname:short)", "refs/heads").split()
-    for ref in sorted(branches, key=lambda b: (b != main_ref, b)):
+    # The main ref (possibly a remote one such as origin/main) is read first, so it wins ties.
+    for ref in [main_ref, *sorted(b for b in branches if b != main_ref)]:
         for path in _git(repo, "ls-tree", "-r", "--name-only", ref, "--", FOLDER).splitlines():
             if not path.endswith(".md"):
                 continue
-            ts, commit, date = _git(repo, "log", "-1", "--format=%ct%x09%h%x09%cs", ref, "--", path).split("\t")
+            log = _git(repo, "log", "-1", "--format=%ct%x09%h%x09%cs", ref, "--", path)
+            if not log:
+                continue
+            ts, commit, date = log.split("\t")
             cur = best.get(path)
             if cur is None or int(ts) > cur["_ts"]:
                 text = _git(repo, "show", f"{ref}:{path}")
@@ -44,6 +48,10 @@ def scan(repo: Path, main_ref: str = "main") -> dict[str, Any]:
         d.pop("_ts")
         # An older document at the same path does not make this version shipped.
         d["on_main"] = main_blobs.get(path) == d["blob"]
+        if d["on_main"] and d["ref"] != main_ref:
+            # The same text is in main: name main as its source, not a branch that also has it.
+            _, commit, date = _git(repo, "log", "-1", "--format=%ct%x09%h%x09%cs", main_ref, "--", path).split("\t")
+            d.update(ref=main_ref, commit=commit, date=date)
         out[slug(path)] = d
     return out
 

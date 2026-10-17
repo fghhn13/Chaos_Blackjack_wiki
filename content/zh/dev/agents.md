@@ -42,4 +42,4 @@ python -m chaos_blackjack.agent --brief act hit
 
 ## 当前牌桌模式
 
-使用 `python -m chaos_blackjack.agent new --mode chaos --seed 7` 进入扑克头构筑，`--mode j54` 进入 J-54 *实验性。读取 `obs.choice.options`，先用 `choose <option>` 回答问题；道具可能要求 `--target ID`，牌桌动作使用 `perform <action> [arg]`。`obs.table.public` 提供构筑、现金、投资本金、债务、净资产和合同，不公开私有牌序或股票结果。`--chaos` 仍用于旧玩法兼容。
+使用 `python -m chaos_blackjack.agent new --mode chaos --seed 7` 进入扑克头构筑，`--mode j54` 进入 J-54 的牌桌。在 J-54 的牌桌，固件选择和切牌目标以 `obs.choice` 出现（类型为 `firmware` 和 `cut_target`），牌堆操作在 `obs.table_actions` 中（`perform j54_cut <组>`、`perform j54_hot_purge`、`perform j54_release`），`obs.table.public` 提供算力、当前条件、小丑状态、仪表、热度图和悬赏。读取 `obs.choice.options`，先用 `choose <option>` 回答问题；道具可能要求 `--target ID`，牌桌动作使用 `perform <action> [arg]`。`obs.table.public` 提供构筑、现金、投资本金、债务、净资产和合同，不公开私有牌序或股票结果。`--chaos` 仍用于旧玩法兼容。

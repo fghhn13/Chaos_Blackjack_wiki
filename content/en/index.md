@@ -10,7 +10,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Home's **Start game** creates a player. **New run** lets you select Classic, Poker Head or J-54 *Experimental, and choose how many chips to bring from your vault. **Continue run** restores an unfinished run. [How to play](play.html) covers desktop, browser and phone controls.
+Home's **Start game** creates a player. **New run** lets you select Classic, Poker Head or J-54, and choose how many chips to bring from your vault. **Continue run** restores an unfinished run. [How to play](play.html) covers desktop, browser and phone controls.
 
 ## Choose a table
 
@@ -18,9 +18,9 @@ Home's **Start game** creates a player. **New run** lets you select Classic, Pok
 
 ## Explore
 
-- [Dealers](dealers.html): characters and their tables. [J-54](dealer-j54.html) is *Experimental, about probability and deck reconstruction.
+- [Dealers](dealers.html): characters and their tables. [J-54](dealer-j54.html) runs an experiment on the deck.
 - [Chaos rules](chaos.html) and [Items](items.html): effects and the tables that use them.
 - [Player progression](progression.html), [Cosmetics](cosmetics.html), [Achievements](achievements.html) and [Profile](profile.html): what persists between runs.
 - [Agent players](agents.html), [Balance data](balance.html) and [The Chaos AI](chaos-ai.html): technical reference.
 
-Guides follow the game's main line; the footer records the commit they describe. Poker Head uses the official build scheme; J-54 is *Experimental.
+Guides follow the game's main line; the footer records the commit they describe.

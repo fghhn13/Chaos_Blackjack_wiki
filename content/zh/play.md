@@ -8,7 +8,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)、[扑克头的牌桌](table-chaos.html)或[J-54 *实验性](table-j54.html)。新玩家会先得到一次可跳过的扑克头练习局，之后逐张解锁牌桌：以最高带入额赢下经典牌桌后开放扑克头的牌桌，在扑克头的牌桌获胜后开放 J-54 的牌桌；尚未开放的牌桌显示为剪影并注明条件。检查目标、下注范围、规则、荷官和赔率，选择从金库带入多少筹码，也可加购早期破产险；只有点 **Start run** 才扣除。
+Windows 也可运行 `start_game.bat`。点 **Start game** 创建玩家，再在 **New run** 选择[经典牌桌](table-normal.html)、[扑克头的牌桌](table-chaos.html)或[J-54 的牌桌](table-j54.html)。新玩家会先得到一次可跳过的扑克头练习局，之后逐张解锁牌桌：以最高带入额赢下经典牌桌后开放扑克头的牌桌，在扑克头的牌桌获胜后开放 J-54 的牌桌；尚未开放的牌桌显示为剪影并注明条件。检查目标、下注范围、规则、荷官和赔率，选择从金库带入多少筹码，也可加购早期破产险；只有点 **Start run** 才扣除。
 
 新一轮先播放荷官台词，Enter／点击翻页，Escape 跳过。**Continue run** 恢复检查点，不重复播放开场。
 

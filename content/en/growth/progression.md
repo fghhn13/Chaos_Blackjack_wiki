@@ -12,7 +12,7 @@ In **New run** you choose how much to bring with a slider; the goal follows the 
 | [Classic Table](table-normal.html) | {{ fact: settings.mode.normal.stake.value }} | Reach {{ fact: settings.mode.normal.config.target_multiple.value }} times the stake; that is also the ceiling |
 | [Poker Head's Table](table-chaos.html) | {{ fact: settings.mode.chaos.stake.value }} | From {{ fact: settings.mode.chaos.config.exit_multiple.value }} times the stake you may take **Full Haul** and leave with a win; at {{ fact: settings.mode.chaos.config.target_multiple.value }} times the run ends as a win, and profit beyond it is not paid |
 
-Below the exit point you cannot leave: a run ends in a win or in going broke. [J-54 *Experimental](table-j54.html) is a free demo and takes no stake. Start is disabled when the vault cannot cover the minimum stake.
+Below the exit point you cannot leave: a run ends in a win or in going broke. [J-54's Table](table-j54.html) brings its own starting chips and takes no stake. Start is disabled when the vault cannot cover the minimum stake.
 
 ## Settling a run
 

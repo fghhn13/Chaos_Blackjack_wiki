@@ -3,7 +3,7 @@ title: Poker Head environment rules
 ---
 Poker Head announces persistent or timed environment changes before shopping and betting; in the official current scheme the environment persists across rounds. Up to {{ fact: settings.mode.chaos.rule_slots.value }} types coexist; the early stages use fewer slots. The nine types cover fixed values, offsets, bust limits, ordinary ties, dealer busts, profit caps, consumable bans, shop markup and a hidden player opening card. Each card is one legal example from the current director pool, not a fixed rule script. Actual targets, values and duration are announced in your run.
 
-J-54's separate deck rules and legacy plugins are under [Chaos rules](chaos.html).
+J-54's conditions and the legacy plugins are under [Chaos rules](chaos.html).
 
 ## Environment cards
 

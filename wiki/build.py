@@ -35,6 +35,7 @@ DETAIL_KEYS = {"Effect": "d_effect", "Timing": "d_timing", "Limits": "d_limits",
 KIND_GROUP = {"permanent": "perm", "item": "cons", None: "cons", "core": "special", "finance": "special",
               "contract": "special"}
 STYLE_ORDER = ["long", "retreat", "exact", "double", "finance", "common"]
+CAMP_ORDER = ["classic", "anti", "loner"]
 PHASE_ORDER = ["b", "p", "passive"]
 NUMBER_LIST = re.compile(r"^-?\d+(?:\.\d+)?(?:,-?\d+(?:\.\d+)?)+$")
 # Generated page prefix -> search result label (UI key); anything else is a page.
@@ -230,7 +231,8 @@ class Site:
         """A setting's value; "min,max" settings read as a range."""
         s = self.facts["settings"][key]
         v = s["value"]
-        if isinstance(v, str) and "min,max" in (s.get("description") or "") and NUMBER_LIST.match(v):
+        desc = s.get("description") or ""
+        if isinstance(v, str) and ("min,max" in desc or "lowest,highest" in desc) and NUMBER_LIST.match(v):
             return "–".join(v.split(","))
         return self.fmt(v)
 
@@ -265,6 +267,8 @@ class Site:
                 group = " g-" + KIND_GROUP.get(e.get("kind"), "cons")
                 data = (f' data-kind="{e.get("kind") or "classic"}" data-style="{e.get("style") or ""}"'
                         f' data-phase="{_phases(e.get("phases"))}" data-price="{e["price"] if isinstance(e.get("price"), (int, float)) else ""}"')
+            if e.get("camp"):
+                data += f' data-camp="{e["camp"]}"'
             data += f' data-name="{html.escape(name.lower())}"'
             cards.append(
                 f'<a class="card {prefix}{group}" href="{prefix}-{eid}.html"{data}>{self._icon(eid, e["name"])}'
@@ -278,8 +282,18 @@ class Site:
         groups = [(tid, [eid for eid in entries if eid in self.pool(tid, coll)]) for tid in self.table_order()]
         groups = [(tid, ids) for tid, ids in groups if ids]
         offered = {eid for _, ids in groups for eid in ids}
-        unused = [eid for eid in entries if eid not in offered]
+        unused = [eid for eid in entries if eid not in offered and not self.retired(coll, eid)]
         return groups, unused, bool(groups) and (len(groups) > 1 or bool(unused))
+
+    def retired(self, coll: str, eid: str) -> str:
+        """Design doc slug an entry was retired to (`status: retired`, `history: <slug>`), else "".
+
+        Retired entries are still in the game's registry but belong to an earlier design: they
+        keep their page, marked as history, and leave the catalogs, the sidebar and pagers."""
+        if coll not in F.PROSE_FOLDERS:
+            return ""
+        meta = self.entity_text(coll, eid)[0]
+        return (meta.get("history") or "design") if meta.get("status") == "retired" else ""
 
     def entity_order(self, coll: str) -> list[str]:
         """Reading order of a collection: the hub page's order (by table, then kind), each id once."""
@@ -287,7 +301,7 @@ class Site:
         if coll == "tables":
             return [tid for tid in self.table_order() if tid in entries]
         if coll not in POOL_FIELDS:
-            return list(entries)
+            return [eid for eid in entries if not self.retired(coll, eid)]
         groups, unused, _ = self.pool_groups(coll)
         order: list[str] = []
         for _, ids in groups:
@@ -305,7 +319,7 @@ class Site:
         groups, unused, headed = self.pool_groups(coll)
         bar = self._filters(coll, groups, unused, headed)
         if not headed:
-            return f'<div class="catalog-view">{bar}{self._cards(coll)}</div>'
+            return f'<div class="catalog-view">{bar}{self._cards(coll, [e for _, ids in groups for e in ids] + unused)}</div>'
         out = []
         for tid, ids in groups:
             label = f'*{self.t["experimental"]}'
@@ -327,6 +341,9 @@ class Site:
         if headed:
             pools = [(tid, self.name("tables", tid)) for tid, _ in groups] + ([("unused", self.t["unused_pool"])] if unused else [])
             dims.append(("pool", self.t["f_table"], pools))
+        if coll == "chaos_rules":
+            camps = {e.get("camp") for eid, e in entries.items() if not self.retired(coll, eid)}
+            dims.append(("camp", self.t["camp"], [(c, self.t[f"camp_{c}"]) for c in CAMP_ORDER if c in camps]))
         if coll == "items":
             kinds = {e.get("kind") or "classic" for e in entries.values()}
             dims.append(("kind", self.t["kind"], [(k, self.t[k] if k != "classic" else self.t["classic_items"])
@@ -423,7 +440,8 @@ class Site:
                 f'<strong>{html.escape(name)}</strong>{pill}'
                 f'<span class="host">{self.t["host"]}: {html.escape(self.name("dealers", e["host"]))}</span>'
                 f'<span class="desc">{html.escape(self.catalog_text("tables", tid, "description"))}</span>'
-                f'<span class="mini">' + "".join(f'<span><em>{k}</em>{v}</span>' for k, v in stats) + '</span></span></a>')
+                + (f'<span class="lock">{html.escape(self.catalog_text("tables", tid, "teaser"))}</span>' if e.get("teaser") else "")
+                + '<span class="mini">' + "".join(f'<span><em>{k}</em>{v}</span>' for k, v in stats) + '</span></span></a>')
         return f'<div class="table-cards">{"".join(cards)}</div>'
 
     def chips(self, coll: str, ids: list[str]) -> str:
@@ -434,6 +452,28 @@ class Site:
         return '<span class="chips">' + "".join(
             f'<a class="chip" href="{prefix}-{eid}.html">{self._icon(eid, self.facts[coll][eid]["name"])}'
             f'{html.escape(self.name(coll, eid))}</a>' for eid in ids) + "</span>"
+
+    def t_firmware_cards(self) -> str:
+        """Opening build picks a table offers (J-54's firmwares), with their chip price."""
+        return self._mini_cards("firmwares", lambda e: f'{self.fmt(e["price"])} {self.t["chips"]}' if e.get("price") is not None else "")
+
+    def t_table_moves(self) -> str:
+        """A table's own paid moves (J-54's deck operations), with their compute cost."""
+        moves = self.facts.get("table_moves", {})
+        order = sorted(moves, key=lambda m: moves[m].get("order", 0))
+        return self._mini_cards("table_moves", lambda e: f'{self.fmt(e["cost"])} {self.t["compute"]}', order)
+
+    def _mini_cards(self, coll: str, price: Any, order: list[str] | None = None) -> str:
+        entries = self.facts.get(coll, {})
+        cards = []
+        for eid in order or list(entries):
+            e = entries[eid]
+            effect = self.catalog_text(coll, eid, "effect") if e.get("effect") else ""
+            cards.append(f'<div class="card g-special">{self._icon(eid, e["name"])}<span class="card-body">'
+                         f'<strong>{html.escape(self.catalog_text(coll, eid))}</strong>'
+                         f'<span class="pill">{html.escape(price(e))}</span>'
+                         + (f'<span class="muted">{html.escape(effect)}</span>' if effect else "") + "</span></div>")
+        return f'<div class="cards">{"".join(cards)}</div>' if cards else f'<p class="muted">{self.t["none"]}</p>'
 
     def _stats(self, stats: list[tuple[str, str]]) -> str:
         return '<div class="stats">' + "".join(f'<div class="stat"><span>{k}</span><strong>{v}</strong></div>'
@@ -610,8 +650,11 @@ class Site:
         name = self.name(coll, eid)
         text, text_ok = self.blurb(coll, eid)
         rows = [["id", f"<code>{eid}</code>"]]
+        if e.get("camp"):
+            rows.append(["camp", f'{self.t[f"camp_{e["camp"]}"]} <span class="muted">· {self.t[f"camp_{e["camp"]}_note"]}</span>'])
         if coll in ("chaos_rules", "environment_rules"):
-            rows += [["params", html.escape(self.fmt(e.get("params")))],
+            rows += [["params", html.escape(self.fmt({k: v for k, v in (e.get("params") or {}).items()
+                                                      if k not in ("camp", "name", "text", "rule") and v is not None}))],
                      ["flags", html.escape(self.fmt(e.get("flags")))],
                      ["profiles", html.escape(self.fmt(e.get("profiles")))],
                      ["enabled", self.fmt(e.get("enabled"))]]
@@ -644,11 +687,20 @@ class Site:
         tagline, details = self.details(e)
         if tagline and self.lang == "en":
             note += f'</p><p class="tagline">{html.escape(tagline)}'
-        html_ = (self.crumbs(back, self.pool_crumb(coll, eid, back), name)
+        history = self.retired(coll, eid)
+        if history:
+            doc = f"design-{history}" if history in self.facts.get("design_docs", {}) else "design"
+            title = self.name("design_docs", history) if history in self.facts.get("design_docs", {}) else self.hub_title("design")
+            top = (self.crumbs("design", f'<a href="{doc}.html">{html.escape(title)}</a>', name)
+                   + f'<div class="banner planned">{self.t["retired_banner"].format(link=f"<a href={chr(34)}{doc}.html{chr(34)}>{html.escape(title)}</a>")}</div>')
+            back = "design"
+        else:
+            top = self.crumbs(back, self.pool_crumb(coll, eid, back), name)
+        html_ = (top
                  + f'<div class="hero {prefix}">{self._icon(eid, e["name"], "big")}<div><h1>{html.escape(name)}</h1>'
                  f'<p class="lead">{inline(text)}{note}</p></div></div>'
                  f'<div class="table-wrap"><table class="facts">{facts_tbl}</table></div>{details}{prose}'
-                 + self.pager(coll, eid))
+                 + ("" if history else self.pager(coll, eid)))
         keywords = " ".join(dict.fromkeys([e["name"], eid]))
         return self.layout(f"{prefix}-{eid}", name, html_, _heads_of(html_), active=back,
                            keywords=keywords, icon=eid, snippet=_plain(inline(text)))
@@ -735,7 +787,8 @@ class Site:
                                  (self.t["goal"], self.table_goal(eid)),
                                  (self.t["stake"], html.escape(self.stake(eid))),
                                  (self.t["bet_limits"], f'{entry["min_bet"]} – {self.fmt(entry["max_bet_fraction"])} × {self.t["bankroll"]}'),
-                                 (self.t["payout"], ":".join(map(str, entry["blackjack_pays"])))])
+                                 (self.t["payout"], ":".join(map(str, entry["blackjack_pays"]))),
+                                 (self.t["unlock"], html.escape(self.catalog_text("tables", eid, "teaser")) if entry.get("teaser") else "")])
             rule_coll = "environment_rules" if entry.get("environment_rules") else "chaos_rules"
             rows = [["rules", self.chips(rule_coll, entry.get("environment_rules") or entry["rules"])],
                     ["items", self.chips("items", [i for i in self.entity_order("items")

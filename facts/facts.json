@@ -657,6 +657,42 @@
         256
       ]
     },
+    "fw_fives": {
+      "category": "icon",
+      "file": "assets/j54/fw_fives.png",
+      "name": "Fives Firmware",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "fw_low": {
+      "category": "icon",
+      "file": "assets/j54/fw_low.png",
+      "name": "Low Firmware",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "fw_margin": {
+      "category": "icon",
+      "file": "assets/j54/fw_margin.png",
+      "name": "Margin Firmware",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "fw_mid": {
+      "category": "icon",
+      "file": "assets/j54/fw_mid.png",
+      "name": "Midrange Firmware",
+      "size": [
+        256,
+        256
+      ]
+    },
     "great_crash": {
       "category": "rule",
       "file": "assets/great_crash.png",
@@ -684,6 +720,24 @@
         256
       ]
     },
+    "j54_black_plus": {
+      "category": "rule",
+      "file": "assets/j54/j54_black_plus.png",
+      "name": "Black Bias",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_bounty": {
+      "category": "icon",
+      "file": "assets/j54/j54_bounty.png",
+      "name": "Sample bounty",
+      "size": [
+        256,
+        256
+      ]
+    },
     "j54_burn": {
       "category": "rule",
       "file": "assets/j54/j54_burn.png",
@@ -693,10 +747,46 @@
         256
       ]
     },
+    "j54_compute": {
+      "category": "icon",
+      "file": "assets/j54/j54_compute.png",
+      "name": "Compute",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_cut": {
+      "category": "icon",
+      "file": "assets/j54/j54_cut.png",
+      "name": "Cut",
+      "size": [
+        256,
+        256
+      ]
+    },
     "j54_data_backflow": {
       "category": "rule",
       "file": "assets/j54/j54_data_backflow.png",
       "name": "Data Backflow",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_even_plus": {
+      "category": "rule",
+      "file": "assets/j54/j54_even_plus.png",
+      "name": "Even Bias",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_faces_set": {
+      "category": "rule",
+      "file": "assets/j54/j54_faces_set.png",
+      "name": "Face Reset",
       "size": [
         256,
         256
@@ -729,10 +819,28 @@
         256
       ]
     },
+    "j54_hearts_scale": {
+      "category": "rule",
+      "file": "assets/j54/j54_hearts_scale.png",
+      "name": "Heart Gain",
+      "size": [
+        256,
+        256
+      ]
+    },
     "j54_high_injection": {
       "category": "item",
       "file": "assets/j54/j54_high_injection.png",
       "name": "High Injection Contract",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_hot_purge": {
+      "category": "icon",
+      "file": "assets/j54/j54_hot_purge.png",
+      "name": "Hot Purge",
       "size": [
         256,
         256
@@ -774,10 +882,28 @@
         256
       ]
     },
+    "j54_low_plus": {
+      "category": "rule",
+      "file": "assets/j54/j54_low_plus.png",
+      "name": "Low Bias",
+      "size": [
+        256,
+        256
+      ]
+    },
     "j54_low_purge": {
       "category": "item",
       "file": "assets/j54/j54_low_purge.png",
       "name": "Low Purge Contract",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_next": {
+      "category": "icon",
+      "file": "assets/j54/j54_next.png",
+      "name": "Next condition",
       "size": [
         256,
         256
@@ -792,10 +918,37 @@
         256
       ]
     },
+    "j54_release": {
+      "category": "icon",
+      "file": "assets/j54/j54_release.png",
+      "name": "Release the Joker",
+      "size": [
+        256,
+        256
+      ]
+    },
     "j54_sample_injection": {
       "category": "rule",
       "file": "assets/j54/j54_sample_injection.png",
       "name": "Sample Injection",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_stand_15": {
+      "category": "rule",
+      "file": "assets/j54/j54_stand_15.png",
+      "name": "Low Threshold",
+      "size": [
+        256,
+        256
+      ]
+    },
+    "j54_stand_19": {
+      "category": "rule",
+      "file": "assets/j54/j54_stand_19.png",
+      "name": "High Threshold",
       "size": [
         256,
         256
@@ -1497,6 +1650,11 @@
   },
   "changelog": [
     {
+      "commit": "108b5e1",
+      "date": "2026-10-17",
+      "subject": "Merge pull request #16 from fghhn13/feat/collection-shop"
+    },
+    {
       "commit": "892177b",
       "date": "2026-10-15",
       "subject": "Merge pull request #15 from fghhn13/feat/collection-shop"
@@ -1690,15 +1848,11 @@
       "commit": "af26e05",
       "date": "2026-10-10",
       "subject": "Document one real API round with Chaos memory enabled"
-    },
-    {
-      "commit": "02ca3bd",
-      "date": "2026-10-10",
-      "subject": "Accept plain Chaos advice and add live memory round harness"
     }
   ],
   "chaos_rules": {
     "fragile_bust": {
+      "camp": null,
       "effect": "Fragile Table: bust threshold reduced to 19 (instead of 21).",
       "enabled": true,
       "flags": [
@@ -1716,6 +1870,7 @@
       "stub_weight": 15.0
     },
     "great_crash": {
+      "camp": null,
       "effect": "The Great Crash: all 10/J/Q/K become value 8 (until cleared).",
       "enabled": true,
       "flags": [],
@@ -1731,6 +1886,7 @@
       "stub_weight": 10.0
     },
     "j54_ace_injection": {
+      "camp": null,
       "effect": "Ace Injection: Add 1 card of rank A to the deck.",
       "enabled": true,
       "flags": [],
@@ -1751,9 +1907,31 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 10.0
+      "stub_weight": 0.0
+    },
+    "j54_black_plus": {
+      "camp": "classic",
+      "effect": "J-54's black cards count +1",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_black_plus.png",
+      "name": "Black Bias",
+      "params": {
+        "camp": "classic",
+        "name": "Black Bias",
+        "rule": {
+          "amount": 1,
+          "filter": "color:black",
+          "op": "bonus"
+        },
+        "text": "J-54's black cards count +1",
+        "threshold": null
+      },
+      "profiles": [],
+      "stub_weight": 0.0
     },
     "j54_burn": {
+      "camp": null,
       "effect": "Burn Protocol: After the hand, delete all cards drawn this round from the deck.",
       "enabled": true,
       "flags": [],
@@ -1774,9 +1952,10 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 20.0
+      "stub_weight": 0.0
     },
     "j54_data_backflow": {
+      "camp": null,
       "effect": "Data Backflow: Shuffle 4 removed cards back into the deck.",
       "enabled": true,
       "flags": [],
@@ -1797,9 +1976,73 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 10.0
+      "stub_weight": 0.0
+    },
+    "j54_even_plus": {
+      "camp": "classic",
+      "effect": "J-54's even ranks (2 4 6 8 10 Q) count +2",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_even_plus.png",
+      "name": "Even Bias",
+      "params": {
+        "camp": "classic",
+        "name": "Even Bias",
+        "rule": {
+          "amount": 2,
+          "filter": "parity:even",
+          "op": "bonus"
+        },
+        "text": "J-54's even ranks (2 4 6 8 10 Q) count +2",
+        "threshold": null
+      },
+      "profiles": [],
+      "stub_weight": 0.0
+    },
+    "j54_faces_set": {
+      "camp": "loner",
+      "effect": "J-54's J, Q and K count 5",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_faces_set.png",
+      "name": "Face Reset",
+      "params": {
+        "camp": "loner",
+        "name": "Face Reset",
+        "rule": {
+          "filter": "face",
+          "op": "set",
+          "value": 5
+        },
+        "text": "J-54's J, Q and K count 5",
+        "threshold": null
+      },
+      "profiles": [],
+      "stub_weight": 0.0
+    },
+    "j54_hearts_scale": {
+      "camp": "classic",
+      "effect": "J-54's hearts count ×2",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_hearts_scale.png",
+      "name": "Heart Gain",
+      "params": {
+        "camp": "classic",
+        "name": "Heart Gain",
+        "rule": {
+          "factor": 2,
+          "filter": "suit:♥",
+          "op": "scale"
+        },
+        "text": "J-54's hearts count ×2",
+        "threshold": null
+      },
+      "profiles": [],
+      "stub_weight": 0.0
     },
     "j54_layered_sort": {
+      "camp": null,
       "effect": "Layered Sort: Move all high cards (10-A) to the bottom of this round's deck.",
       "enabled": true,
       "flags": [],
@@ -1820,9 +2063,31 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 10.0
+      "stub_weight": 0.0
+    },
+    "j54_low_plus": {
+      "camp": "anti",
+      "effect": "J-54's low cards (2-6) count +3",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_low_plus.png",
+      "name": "Low Bias",
+      "params": {
+        "camp": "anti",
+        "name": "Low Bias",
+        "rule": {
+          "amount": 3,
+          "filter": "low",
+          "op": "bonus"
+        },
+        "text": "J-54's low cards (2-6) count +3",
+        "threshold": null
+      },
+      "profiles": [],
+      "stub_weight": 0.0
     },
     "j54_redundancy_purge": {
+      "camp": null,
       "effect": "Redundancy Purge: Delete 3 cards of one random rank from the deck.",
       "enabled": true,
       "flags": [],
@@ -1843,9 +2108,10 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 25.0
+      "stub_weight": 0.0
     },
     "j54_sample_injection": {
+      "camp": null,
       "effect": "Sample Injection: Add 3 cards of one random rank to the deck.",
       "enabled": true,
       "flags": [],
@@ -1866,9 +2132,44 @@
         "easy",
         "hard"
       ],
-      "stub_weight": 25.0
+      "stub_weight": 0.0
+    },
+    "j54_stand_15": {
+      "camp": "anti",
+      "effect": "J-54 stands on 15",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_stand_15.png",
+      "name": "Low Threshold",
+      "params": {
+        "camp": "anti",
+        "name": "Low Threshold",
+        "rule": null,
+        "text": "J-54 stands on 15",
+        "threshold": 15
+      },
+      "profiles": [],
+      "stub_weight": 0.0
+    },
+    "j54_stand_19": {
+      "camp": "classic",
+      "effect": "J-54 stands on 19",
+      "enabled": true,
+      "flags": [],
+      "icon": "assets/j54/j54_stand_19.png",
+      "name": "High Threshold",
+      "params": {
+        "camp": "classic",
+        "name": "High Threshold",
+        "rule": null,
+        "text": "J-54 stands on 19",
+        "threshold": 19
+      },
+      "profiles": [],
+      "stub_weight": 0.0
     },
     "modify_card_value": {
+      "camp": null,
       "effect": "Rank values shifted by -1 per card (until cleared).",
       "enabled": true,
       "flags": [],
@@ -1884,6 +2185,7 @@
       "stub_weight": 15.0
     },
     "odd_even_chaos": {
+      "camp": null,
       "effect": "Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared).",
       "enabled": true,
       "flags": [],
@@ -1900,6 +2202,7 @@
       "stub_weight": 22.0
     },
     "reverse_bust": {
+      "camp": null,
       "effect": "Reverse Bust: if you bust this round, it is a push instead of a loss.",
       "enabled": true,
       "flags": [
@@ -1915,6 +2218,7 @@
       "stub_weight": 3.0
     },
     "suit_power": {
+      "camp": null,
       "effect": "Suit Power: red suits +1, black suits -1 (until cleared).",
       "enabled": true,
       "flags": [],
@@ -1931,6 +2235,7 @@
       "stub_weight": 20.0
     },
     "tiebreaker_shift": {
+      "camp": null,
       "effect": "Tiebreaker Shift: ties go to Dealer (instead of Push).",
       "enabled": true,
       "flags": [
@@ -2337,7 +2642,7 @@
       "portrait_asset": "host_j54_welcome",
       "profile": [
         "J-54 is a calculating machine built as a circus clown. It performs every gesture as if for a full tent, then reports the result in the voice of a compiler.",
-        "It never bends the rules of blackjack. It rewrites the cards: copies them, deletes them, shuffles the discards back in. The deck you finish with is never the deck you started with."
+        "It never touches your cards. It changes what its own cards are worth, one condition at a time, and leaves you a little compute to rebuild the deck it deals from. Somewhere in that deck, sealed, is the sample it wants back."
       ],
       "quote": "Fifty-four cards. Infinite configurations. One correct one.",
       "tables": [
@@ -2369,7 +2674,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/AI_MODES.md",
-      "ref": "feat/collection-shop",
+      "ref": "origin/main",
       "status": "agreed",
       "title": "AI modes: one dealer per mode"
     },
@@ -2379,7 +2684,7 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/CARRIED_CHIPS.zh-CN.md",
-      "ref": "feat/chaos-rule-tiers",
+      "ref": "origin/main",
       "status": null,
       "title": "跨局筹码经济：金库、两档牌桌与满载而归（设计稿）"
     },
@@ -2389,7 +2694,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/CODEX.md",
-      "ref": "feat/collection-shop",
+      "ref": "origin/main",
       "status": null,
       "title": "Headless codex and controller demonstrations (M4a)"
     },
@@ -2399,7 +2704,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/COSMETICS_ACHIEVEMENTS.md",
-      "ref": "feat/collection-shop",
+      "ref": "origin/main",
       "status": "agreed",
       "title": "Cosmetics, achievements and the player profile"
     },
@@ -2409,19 +2714,49 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/ITEM_ARCHITECTURE.md",
-      "ref": "feat/chaos-rule-tiers",
+      "ref": "origin/main",
       "status": "the contract for every table that sells or applies its own goods",
       "title": "Products, choices and moves: the item architecture"
     },
+    "j54-art": {
+      "blob": "ad236fb18540",
+      "commit": "c80b891",
+      "date": "2026-10-17",
+      "on_main": true,
+      "path": "docs/design/J54_ART.md",
+      "ref": "origin/main",
+      "status": null,
+      "title": "J-54 v2 icon art"
+    },
+    "j54-primitives": {
+      "blob": "f08808fef186",
+      "commit": "0295f16",
+      "date": "2026-10-17",
+      "on_main": true,
+      "path": "docs/design/J54_PRIMITIVES.md",
+      "ref": "origin/main",
+      "status": "framework agreed",
+      "title": "J-54: game primitives"
+    },
     "j54-table": {
-      "blob": "681e30decd29",
-      "commit": "68bfe24",
-      "date": "2026-10-13",
+      "blob": "000dbfcd84a8",
+      "commit": "1f18383",
+      "date": "2026-10-17",
       "on_main": true,
       "path": "docs/design/J54_TABLE.md",
-      "ref": "codex/browser-art-completion",
-      "status": "concept agreed",
+      "ref": "origin/main",
+      "status": "superseded by v2",
       "title": "J-54 \"Joker Reshuffler\": table design"
+    },
+    "j54-v2-spec": {
+      "blob": "68f9249e13ef",
+      "commit": "c6e13d9",
+      "date": "2026-10-17",
+      "on_main": true,
+      "path": "docs/design/J54_V2_SPEC.md",
+      "ref": "origin/main",
+      "status": "scope frozen 2026-10-17",
+      "title": "J-54 v2: implementation specification"
     },
     "meta-progression": {
       "blob": "00513f4ac45e",
@@ -2429,7 +2764,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/META_PROGRESSION.md",
-      "ref": "feat/collection-shop",
+      "ref": "origin/main",
       "status": "agreed plan",
       "title": "Meta progression, player saves, run history and the codex"
     },
@@ -2439,7 +2774,7 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_ART.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head art specification"
     },
@@ -2449,7 +2784,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_BUILDS.zh-CN.md",
-      "ref": "feat/chaos-rule-tiers",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head：局内构筑设计概览"
     },
@@ -2459,7 +2794,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_CHAOS_RULES_AND_AGENT.zh-CN.md",
-      "ref": "feat/chaos-rule-tiers",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head：混沌环境规则与渐强离线 Agent"
     },
@@ -2469,7 +2804,7 @@
       "date": "2026-10-15",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_EFFECTS.zh-CN.md",
-      "ref": "feat/chaos-rule-tiers",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head：道具与增益效果明细"
     },
@@ -2479,7 +2814,7 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_ICON_CANDIDATES.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head icon candidate review"
     },
@@ -2489,27 +2824,27 @@
       "date": "2026-10-14",
       "on_main": true,
       "path": "docs/design/POKER_HEAD_IMPLEMENTATION_PLAN.zh-CN.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "origin/main",
       "status": null,
       "title": "Poker Head：搭建计划与第一版定价"
     },
     "table-ui": {
-      "blob": "dc8611260ba6",
-      "commit": "bd1af99",
-      "date": "2026-10-14",
+      "blob": "a4b3fb7d12b9",
+      "commit": "1f18383",
+      "date": "2026-10-17",
       "on_main": true,
       "path": "docs/design/TABLE_UI.md",
-      "ref": "codex/browser-art-completion",
+      "ref": "origin/main",
       "status": "implemented",
       "title": "Table UI: parts, widgets and layouts"
     },
     "tutorial": {
-      "blob": "0ae4ac0e081b",
-      "commit": "488269c",
-      "date": "2026-10-15",
+      "blob": "d38239066a57",
+      "commit": "014bb95",
+      "date": "2026-10-17",
       "on_main": true,
       "path": "docs/design/TUTORIAL.md",
-      "ref": "feat/collection-shop",
+      "ref": "origin/main",
       "status": null,
       "title": "Onboarding"
     }
@@ -2640,6 +2975,36 @@
       "removal": "Clause Removal removes it, or the dealer may replace it. Silence Seal suppresses it for a round."
     }
   },
+  "firmwares": {
+    "fw_fives": {
+      "effect": "Your 5s and 6s count 10.",
+      "icon": "assets/j54/fw_fives.png",
+      "name": "Fives Firmware",
+      "price": 20,
+      "table": "j54"
+    },
+    "fw_low": {
+      "effect": "Your 2, 3 and 4 count 10.",
+      "icon": "assets/j54/fw_low.png",
+      "name": "Low Firmware",
+      "price": 40,
+      "table": "j54"
+    },
+    "fw_margin": {
+      "effect": "You bust only above 22.",
+      "icon": "assets/j54/fw_margin.png",
+      "name": "Margin Firmware",
+      "price": 30,
+      "table": "j54"
+    },
+    "fw_mid": {
+      "effect": "Your 4, 5 and 6 count 10.",
+      "icon": "assets/j54/fw_mid.png",
+      "name": "Midrange Firmware",
+      "price": 50,
+      "table": "j54"
+    }
+  },
   "items": {
     "danger_radar": {
       "help": "Tell whether your next hit would bust you (under the rules in force).",
@@ -2666,78 +3031,6 @@
       "params": {},
       "price": 2,
       "price_mode": "bankroll_pct"
-    },
-    "j54_freeze": {
-      "help": "At once: stop J-54 adding cards for 3 rounds.",
-      "icon": "assets/j54/j54_freeze.png",
-      "kind": "contract",
-      "name": "Freeze Contract",
-      "params": {
-        "effect": "freeze",
-        "rounds": 3,
-        "trigger": "now"
-      },
-      "price": 15,
-      "price_mode": "fixed",
-      "timing": "Buy before betting"
-    },
-    "j54_high_injection": {
-      "help": "At once: add 3 high cards (10-A) to the deck.",
-      "icon": "assets/j54/j54_high_injection.png",
-      "kind": "contract",
-      "name": "High Injection Contract",
-      "params": {
-        "count": 3,
-        "op": "add",
-        "select": "high",
-        "trigger": "now"
-      },
-      "price": 20,
-      "price_mode": "fixed",
-      "timing": "Buy before betting"
-    },
-    "j54_low_purge": {
-      "help": "At once: delete 6 low cards (2-6) from the deck.",
-      "icon": "assets/j54/j54_low_purge.png",
-      "kind": "contract",
-      "name": "Low Purge Contract",
-      "params": {
-        "count": 6,
-        "op": "remove",
-        "select": "low",
-        "trigger": "now"
-      },
-      "price": 10,
-      "price_mode": "fixed",
-      "timing": "Buy before betting"
-    },
-    "j54_start_experiment": {
-      "help": "At once: release the sealed Joker into the deck (J-54 then adds more cards each round).",
-      "icon": "assets/j54/j54_start_experiment.png",
-      "kind": "contract",
-      "name": "Start Experiment",
-      "params": {
-        "effect": "release_jokers",
-        "trigger": "now"
-      },
-      "price": 50,
-      "price_mode": "fixed",
-      "timing": "Buy before betting"
-    },
-    "j54_streamline": {
-      "help": "When you next win a hand: delete 5 random cards from the deck.",
-      "icon": "assets/j54/j54_streamline.png",
-      "kind": "contract",
-      "name": "Streamline Contract",
-      "params": {
-        "count": 5,
-        "op": "remove",
-        "select": "any",
-        "trigger": "win"
-      },
-      "price": 20,
-      "price_mode": "fixed",
-      "timing": "Buy before betting"
     },
     "peek": {
       "help": "Reveal the rank of the next card in the deck.",
@@ -3851,75 +4144,194 @@
       "type": "int",
       "value": 0
     },
-    "mode.j54.capital_target": {
-      "description": "Capital protocol: bankroll that wins the run",
+    "mode.j54.announce": {
+      "description": "What J-54 says a round ahead about the next condition: camp, rule, none, or schedule (the whole program from round 1)",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "camp"
+    },
+    "mode.j54.bands": {
+      "description": "Meter bands: win probability %:suggested stake % of the bankroll (below the first: the minimum bet)",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "50:10,55:20,60:30"
+    },
+    "mode.j54.bounty": {
+      "description": "Chips per card of the bounty rank in your hand at settlement",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.j54.capture_from_round": {
+      "description": "Holding the Joker at a non-losing settlement wins from this round on",
       "max": null,
       "min": 1.0,
       "type": "int",
-      "value": 250
+      "value": 9
     },
-    "mode.j54.config.shop_refresh_rounds": {
-      "description": "J-54 restocks its contracts every round",
-      "max": null,
-      "min": 1.0,
+    "mode.j54.classic_opening": {
+      "description": "The first condition is a classic one (1) or any (0)",
+      "max": 1.0,
+      "min": 0.0,
       "type": "int",
       "value": 1
     },
+    "mode.j54.compute_cap": {
+      "description": "Most compute the player can hold",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 8
+    },
+    "mode.j54.compute_income": {
+      "description": "Compute credited when a round enters betting (round 1 included)",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 2
+    },
+    "mode.j54.config.start_money": {
+      "description": "Chips at the start of a J-54 run",
+      "max": null,
+      "min": 2.0,
+      "type": "int",
+      "value": 100
+    },
+    "mode.j54.cross_switches": {
+      "description": "Classic <-> anti camp switches per program (lowest,highest; to or from the loner counts half)",
+      "max": null,
+      "min": null,
+      "type": "str",
+      "value": "1,2"
+    },
+    "mode.j54.cut_cost": {
+      "description": "Compute a Cut costs",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 1
+    },
+    "mode.j54.cut_size": {
+      "description": "Cards of the chosen rank and colour a Cut removes (all that remain if fewer)",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 2
+    },
     "mode.j54.dealer_joker_penalty": {
-      "description": "Low cards J-54 adds when it takes a Joker back from the dealer",
+      "description": "Low cards J-54 adds when it shuffles back a Joker it drew",
       "max": null,
       "min": 0.0,
       "type": "int",
       "value": 1
     },
     "mode.j54.entropy": {
-      "description": "Low cards J-54 adds to the deck after each round",
+      "description": "Low cards J-54 adds to the deck after each settlement",
       "max": null,
       "min": 0.0,
       "type": "int",
       "value": 1
     },
-    "mode.j54.entropy_experiment": {
-      "description": "Low cards J-54 adds after each round once the experiment started",
+    "mode.j54.firmware.fw_fives.price": {
+      "description": "Chips for the firmware: your 5s and 6s count 10",
       "max": null,
       "min": 0.0,
       "type": "int",
-      "value": 2
+      "value": 20
     },
-    "mode.j54.experiment_jokers": {
-      "description": "Capture protocol: Jokers released by Start Experiment (all must be drawn)",
+    "mode.j54.firmware.fw_low.price": {
+      "description": "Chips for the firmware: your 2, 3 and 4 count 10",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 40
+    },
+    "mode.j54.firmware.fw_margin.price": {
+      "description": "Chips for the firmware: you bust only above 22",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 30
+    },
+    "mode.j54.firmware.fw_mid.price": {
+      "description": "Chips for the firmware: your 4, 5 and 6 count 10",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 50
+    },
+    "mode.j54.firmwares_offered": {
+      "description": "Firmwares offered at the start of a run (plus No firmware)",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 3
+    },
+    "mode.j54.hot_purge_candidates": {
+      "description": "Hot Purge draws its rank among this many hottest ranks",
       "max": null,
       "min": 1.0,
+      "type": "int",
+      "value": 3
+    },
+    "mode.j54.hot_purge_cost": {
+      "description": "Compute a Hot Purge costs",
+      "max": null,
+      "min": 0.0,
       "type": "int",
       "value": 1
     },
-    "mode.j54.fee_step_rounds": {
-      "description": "Rounds per compute fee step",
+    "mode.j54.hot_purge_size": {
+      "description": "Cards of the drawn rank a Hot Purge removes",
       "max": null,
       "min": 1.0,
       "type": "int",
-      "value": 4
-    },
-    "mode.j54.fee_steps": {
-      "description": "Compute fee per round, one value per fee step; doubles after the last",
-      "max": null,
-      "min": null,
-      "type": "str",
-      "value": "0,1,2,4,8"
+      "value": 3
     },
     "mode.j54.min_deck": {
-      "description": "Deletions never shrink the deck below this many cards",
+      "description": "Removals never shrink the deck below this many cards",
       "max": null,
-      "min": 8.0,
+      "min": 1.0,
       "type": "int",
-      "value": 12
+      "value": 16
     },
-    "mode.j54.protocols": {
-      "description": "Protocols (win conditions) a J-54 run draws from",
+    "mode.j54.release_cost": {
+      "description": "Compute the Joker release costs (once per run)",
+      "max": null,
+      "min": 0.0,
+      "type": "int",
+      "value": 6
+    },
+    "mode.j54.rounds": {
+      "description": "Rounds of a J-54 run; the last settlement ends it",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 16
+    },
+    "mode.j54.segment_len": {
+      "description": "Rounds per condition of the program (lowest,highest)",
       "max": null,
       "min": null,
       "type": "str",
-      "value": "capture,capital"
+      "value": "2,4"
+    },
+    "mode.j54.target_from_round": {
+      "description": "The chip target wins only at a settlement from this round on",
+      "max": null,
+      "min": 1.0,
+      "type": "int",
+      "value": 9
+    },
+    "mode.j54.target_multiple": {
+      "description": "Chip target as a multiple of the starting chips (rounded down to a multiple of 5)",
+      "max": null,
+      "min": 0.05,
+      "type": "float",
+      "value": 1.75
     },
     "mode.normal.config.target_multiple": {
       "description": "Classic goal and ceiling as a multiple of the starting cash (0 = run.target_money)",
@@ -4084,7 +4496,7 @@
       "sweep": "python -m bjsim sweep  --param prices --values game,scaled:3,scaled:5 [run options]",
       "upgrades": "python -m bjsim upgrades [run options]  value and payback of every meta upgrade"
     },
-    "game_commit": "892177b",
+    "game_commit": "108b5e1",
     "measured": {
       "bands": [
         {
@@ -4097,7 +4509,7 @@
           "band": "[-0.120, -0.075]",
           "metric": "EV, offline stub chaos (values -1)",
           "ok": "**NO**",
-          "value": "-0.0158"
+          "value": "-0.0239"
         },
         {
           "band": "[-0.015, +0.025]",
@@ -4121,7 +4533,7 @@
           "band": "[+0.075, +0.130]",
           "metric": "Win rate, offline stub chaos, bet 25%",
           "ok": "**NO**",
-          "value": "+0.2390"
+          "value": "+0.2340"
         }
       ],
       "edge": [
@@ -4211,25 +4623,25 @@
       "runs": {
         "bands": {
           "args": "check",
-          "balance": "default@68cf04f66799",
+          "balance": "default@b574fce2d1a5",
           "seed": 1,
           "title": "Balance bands"
         },
         "edge": {
           "args": "edge --rules all",
-          "balance": "default@68cf04f66799",
+          "balance": "default@b574fce2d1a5",
           "seed": 1,
           "title": "Player EV per round (basic strategy, 20000 rounds)"
         },
         "items": {
           "args": "items --rules none",
-          "balance": "default@68cf04f66799",
+          "balance": "default@b574fce2d1a5",
           "seed": 1,
           "title": "Item value under `none` (baseline EV +0.95%, 20000 rounds)"
         }
       }
     },
-    "measured_on": "892177b",
+    "measured_on": "108b5e1",
     "rules": [
       "modify_card_value-1",
       "modify_card_value+1",
@@ -4254,11 +4666,37 @@
     }
   },
   "source": {
-    "commit": "892177b",
-    "date": "2026-10-15",
+    "commit": "108b5e1",
+    "date": "2026-10-17",
     "ref": "origin/main",
-    "subject": "Merge pull request #15 from fghhn13/feat/collection-shop",
+    "subject": "Merge pull request #16 from fghhn13/feat/collection-shop",
     "version": "0.2.0"
+  },
+  "table_moves": {
+    "j54_cut": {
+      "cost": 1,
+      "cost_setting": "mode.j54.cut_cost",
+      "icon": "assets/j54/j54_cut.png",
+      "name": "Cut",
+      "order": 0,
+      "table": "j54"
+    },
+    "j54_hot_purge": {
+      "cost": 1,
+      "cost_setting": "mode.j54.hot_purge_cost",
+      "icon": "assets/j54/j54_hot_purge.png",
+      "name": "Hot Purge",
+      "order": 1,
+      "table": "j54"
+    },
+    "j54_release": {
+      "cost": 6,
+      "cost_setting": "mode.j54.release_cost",
+      "icon": "assets/j54/j54_release.png",
+      "name": "Release the Joker",
+      "order": 2,
+      "table": "j54"
+    }
   },
   "tables": {
     "chaos": {
@@ -4416,11 +4854,14 @@
         "ph_waiver",
         "ph_yield"
       ],
+      "requires": "classic_max_win",
+      "reveal": null,
       "rule_pool": null,
       "rules": [],
       "series": "poker_head",
       "start_money": 400,
       "target_money": 2400,
+      "teaser": "Win the Classic Table once with the top stake to open this table.",
       "unlocked_by": null
     },
     "j54": {
@@ -4430,47 +4871,40 @@
         2
       ],
       "chaos": true,
-      "description": "J-54 does not bend the rules; it rewrites the deck, and the deck lasts the whole run. Sign contracts to reshape it, pay the compute fee each round and complete the protocol before the deck turns against you.",
-      "experimental": true,
-      "goal_text": "A random protocol: draw the Joker, or reach 250 chips",
+      "description": "J-54 runs an experiment on a deck that lasts the whole run. Its conditions change only its own cards; spend compute to cut the deck, read which way each condition points, and reach the target or capture the sealed Joker.",
+      "experimental": false,
+      "goal_text": "Reach 175 chips from round 9, or capture the Joker",
       "host": "j54",
       "icon_asset": "mode_j54",
-      "item_pool": [
-        "j54_streamline",
-        "j54_low_purge",
-        "j54_high_injection",
-        "j54_freeze",
-        "j54_start_experiment"
-      ],
-      "items": [
-        "j54_freeze",
-        "j54_high_injection",
-        "j54_low_purge",
-        "j54_start_experiment",
-        "j54_streamline"
-      ],
+      "item_pool": [],
+      "items": [],
       "max_bet_fraction": 0.5,
       "min_bet": 5,
-      "name": "J-54's Table (demo)",
+      "name": "J-54's Table",
+      "requires": "poker_head_win",
+      "reveal": "classic_max_win",
       "rule_pool": [
-        "j54_burn",
-        "j54_sample_injection",
-        "j54_redundancy_purge",
-        "j54_ace_injection",
-        "j54_layered_sort",
-        "j54_data_backflow"
+        "j54_black_plus",
+        "j54_even_plus",
+        "j54_hearts_scale",
+        "j54_stand_19",
+        "j54_stand_15",
+        "j54_low_plus",
+        "j54_faces_set"
       ],
       "rules": [
-        "j54_ace_injection",
-        "j54_burn",
-        "j54_data_backflow",
-        "j54_layered_sort",
-        "j54_redundancy_purge",
-        "j54_sample_injection"
+        "j54_black_plus",
+        "j54_even_plus",
+        "j54_faces_set",
+        "j54_hearts_scale",
+        "j54_low_plus",
+        "j54_stand_15",
+        "j54_stand_19"
       ],
       "series": "j54",
       "start_money": 100,
       "target_money": 300,
+      "teaser": "Beat Poker Head's Table once to open this table.",
       "unlocked_by": null
     },
     "normal": {
@@ -4496,11 +4930,14 @@
       "max_bet_fraction": 0.5,
       "min_bet": 5,
       "name": "Classic Table",
+      "requires": null,
+      "reveal": null,
       "rule_pool": [],
       "rules": [],
       "series": "core",
       "start_money": 100,
       "target_money": 400,
+      "teaser": null,
       "unlocked_by": null
     }
   },
@@ -4514,8 +4951,7 @@
           "cmd": "bet"
         },
         "events": [
-          "Round 1 started, bet 10",
-          "⚡ Chaos effect applied: Tiebreaker Shift"
+          "Round 1 started, bet 10"
         ],
         "obs": {
           "bankroll": 100,
@@ -4527,7 +4963,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ = 11. Dealer: K♣ ?? = ?. Active chaos rules: Tiebreaker Shift: ties go to Dealer (instead of Push)."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ = 11. Dealer: K♣ ?? = ?."
         },
         "ok": true
       },
@@ -4547,7 +4983,7 @@
             "stand"
           ],
           "phase": "player_turn",
-          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ Q♥ = 21. Dealer: K♣ ?? = ?. Active chaos rules: Tiebreaker Shift: ties go to Dealer (instead of Push)."
+          "summary": "Round 1. Bankroll 100/300. Bet 10. You: 8♣ 3♥ Q♥ = 21. Dealer: K♣ ?? = ?."
         },
         "ok": true
       },
@@ -4566,7 +5002,7 @@
             5,
             55
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 55. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 55. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
@@ -4606,7 +5042,7 @@
         },
         "events": [
           "Round 2 started, bet 10",
-          "⚡ Chaos effect applied: J54 Redundancy Purge"
+          "⚡ Chaos effect applied: Odd Even Chaos"
         ],
         "obs": {
           "bankroll": 110,
@@ -4618,27 +5054,7 @@
             "surrender"
           ],
           "phase": "player_turn",
-          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ = 16. Dealer: A♦ ?? = ?. Active chaos rules: Redundancy Purge: Delete 3 cards of one random rank from the deck."
-        },
-        "ok": true
-      },
-      {
-        "command": {
-          "action": "hit",
-          "cmd": "act"
-        },
-        "events": [
-          "You draw: A"
-        ],
-        "obs": {
-          "bankroll": 110,
-          "hint": "Your move: act hit | stand",
-          "legal_actions": [
-            "hit",
-            "stand"
-          ],
-          "phase": "player_turn",
-          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ A♠ = 17. Dealer: A♦ ?? = ?. Active chaos rules: Redundancy Purge: Delete 3 cards of one random rank from the deck."
+          "summary": "Round 2. Bankroll 110/300. Bet 10. You: 6♥ Q♦ = 18. Dealer: A♦ ?? = ?. Active chaos rules: Odd-Even Chaos: 2/4/6/8 +2, 3/5/7/9 -1; A/10/J/Q/K unchanged (until cleared)."
         },
         "ok": true
       },
@@ -4648,9 +5064,7 @@
           "cmd": "act"
         },
         "events": [
-          "Dealer draws: 8",
-          "Dealer draws: J",
-          "Dealer busts.",
+          "Dealer stands at 17.",
           "The shop has new stock."
         ],
         "obs": {
@@ -4659,28 +5073,25 @@
             5,
             60
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 60. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 60. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,
             "dealer_cards": [
               "A♦",
-              "4♥",
-              "8♣",
-              "J♥"
+              "4♥"
             ],
-            "dealer_total": 23,
+            "dealer_total": 17,
             "delta": 10,
             "doubled": false,
             "money_after": 120,
             "outcome": "player",
             "player_bust": false,
-            "player_total": 17,
+            "player_total": 18,
             "round": 2,
             "your_cards": [
               "6♥",
-              "Q♦",
-              "A♠"
+              "Q♦"
             ]
           },
           "legal_actions": [
@@ -4750,7 +5161,7 @@
             5,
             65
           ],
-          "hint": "Place a bet: bet <amount> with 5 <= amount <= 65. Or first: buy <item_id> / reroll (see obs.shop, obs.items).",
+          "hint": "Place a bet: bet <amount> with 5 <= amount <= 65. Or first: buy <item_id> / reroll (see obs.shop).",
           "last_round": {
             "bet": 10,
             "dealer_blackjack": false,

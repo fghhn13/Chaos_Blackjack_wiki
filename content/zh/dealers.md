@@ -5,4 +5,4 @@ title: 荷官
 
 {{ table: dealers }}
 
-[扑克头](dealer-poker_head.html)主持经典桌和正式构筑桌；[J-54 *实验性](dealer-j54.html)主持持久牌堆重构玩法。
+[扑克头](dealer-poker_head.html)主持经典桌和正式构筑桌；[J-54](dealer-j54.html)主持在一副贯穿整局的牌堆上做实验的牌桌。

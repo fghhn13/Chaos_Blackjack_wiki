@@ -1,7 +1,7 @@
 ---
 title: Rules
 ---
-These are Classic Blackjack baseline rules. Poker Head's [builds](poker-head-builds.html) and [environment](environment.html), and [J-54 *Experimental](table-j54.html), override the applicable parts.
+These are Classic Blackjack baseline rules. Poker Head's [builds](poker-head-builds.html) and [environment](environment.html), and [J-54's Table](table-j54.html), override the applicable parts.
 
 ## Goal
 

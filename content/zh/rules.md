@@ -1,7 +1,7 @@
 ---
 title: 规则
 ---
-本页是经典 Blackjack 的基础规则；扑克头的[构筑](poker-head-builds.html)与[环境](environment.html)、[J-54 *实验性](table-j54.html)分别覆盖相关机制。
+本页是经典 Blackjack 的基础规则；扑克头的[构筑](poker-head-builds.html)与[环境](environment.html)、[J-54 的牌桌](table-j54.html)分别覆盖相关机制。
 
 ## 目标
 

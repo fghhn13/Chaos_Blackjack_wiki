@@ -122,7 +122,8 @@ def test_design_main_status_compares_document_contents(tmp_path, monkeypatch):
     monkeypatch.setattr(design, "_git", git)
     docs = design.scan(tmp_path)
     assert docs["x"]["ref"] == "feat/x" and docs["x"]["on_main"] is False
-    assert docs["shared"]["ref"] == "feat/x" and docs["shared"]["on_main"] is True
+    # The same text is in main, so main is named as its source even though feat/x touched it later.
+    assert docs["shared"]["ref"] == "main" and docs["shared"]["commit"] == "m1" and docs["shared"]["on_main"] is True
 
 
 def test_sim_rule_variants_map_to_game_rules(tmp_path):
@@ -416,3 +417,41 @@ def test_table_cards_stats_and_stacked_tables():
     assert '<div class="stat"><span>Stake</span><strong>400–1000</strong></div>' in page
     assert '<a class="chip" href="item-ph_core.html">' in page
     assert '<td data-label="Name">' in site._table(["name"], [["x"]]) and 'class="stack"' in site._table(["name"], [["x"]])
+
+
+def test_retired_rules_leave_catalogs_and_point_to_history(tmp_path, monkeypatch):
+    monkeypatch.setattr(F, "CONTENT", tmp_path)
+    (tmp_path / "en/chaos").mkdir(parents=True)
+    (tmp_path / "en/chaos/old_rule.md").write_text("---\nstatus: retired\nhistory: v1-doc\n---\nOld.\n", encoding="utf-8")
+    facts = copy.deepcopy(FACTS)
+    facts["chaos_rules"]["old_rule"] = {**facts["chaos_rules"]["fragile_bust"], "name": "Old Rule"}
+    facts["chaos_rules"]["cond"] = {**facts["chaos_rules"]["fragile_bust"], "name": "Cond", "camp": "anti"}
+    facts["chaos_rules"]["cond2"] = {**facts["chaos_rules"]["fragile_bust"], "name": "Cond2", "camp": "classic"}
+    facts["tables"] = {"lab": {"name": "Lab", "series": "lab", "rules": ["cond", "cond2"], "items": []}}
+    facts["design_docs"] = {"v1-doc": {"title": "V1", "path": "docs/design/V1.md", "ref": "main", "commit": "a",
+                                       "date": "d", "blob": "b", "on_main": True}}
+    site = Site(facts, "en", [])
+    cards = site.t_chaos_cards()
+    assert "rule-old_rule.html" not in cards and "rule-fragile_bust.html" in cards
+    assert 'data-dim="camp" data-val="classic"' in cards and 'data-camp="anti"' in cards
+    assert "old_rule" not in site.entity_order("chaos_rules")
+    page = site.entity("chaos_rules", "old_rule")
+    assert 'class="banner planned"' in page and 'href="design-v1-doc.html"' in page and 'class="pager"' not in page
+    assert "Anti camp" in site.entity("chaos_rules", "cond")
+
+
+def test_firmware_and_move_cards_and_unlock_tile():
+    facts = copy.deepcopy(UI_FACTS)
+    facts["firmwares"] = {"fw_a": {"name": "A Firmware", "effect": "Your 5s count 10.", "price": 20, "table": "lab"}}
+    facts["table_moves"] = {"cut": {"name": "Cut", "cost": 1, "order": 1, "table": "lab"},
+                            "first": {"name": "First", "cost": 6, "order": 0, "table": "lab"}}
+    for t in facts["tables"].values():
+        t.update(host="host", start_money=100, target_money=400, min_bet=5, max_bet_fraction=0.5, blackjack_pays=[3, 2])
+    facts["tables"]["ph"]["teaser"] = "Win at Home first."
+    facts["dealers"] = {"host": {"name": "Host", "tables": ["home", "ph"]}}
+    site = Site(facts, "en", [])
+    assert "<strong>A Firmware</strong><span class=\"pill\">20 chips</span>" in site.t_firmware_cards()
+    moves = site.t_table_moves()
+    assert moves.index("First") < moves.index("Cut") and "6 compute" in moves
+    assert '<div class="stat"><span>How to open</span><strong>Win at Home first.</strong></div>' in site.entity("tables", "ph")
+    assert '<span class="lock">Win at Home first.</span>' in site.t_table_cards()

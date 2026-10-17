@@ -12,7 +12,7 @@ title: 筹码金库与局外成长
 | [经典牌桌](table-normal.html) | {{ fact: settings.mode.normal.stake.value }} | 达到带入额的 {{ fact: settings.mode.normal.config.target_multiple.value }} 倍，这同时是上限 |
 | [扑克头的牌桌](table-chaos.html) | {{ fact: settings.mode.chaos.stake.value }} | 达到带入额的 {{ fact: settings.mode.chaos.config.exit_multiple.value }} 倍起可选择**满载而归**，以胜利离场；达到 {{ fact: settings.mode.chaos.config.target_multiple.value }} 倍时直接胜利结束，超出部分的盈利不支付 |
 
-未达到离场线时不能离开：一局只能以胜利或破产结束。[J-54 *实验性](table-j54.html)是免费演示桌，不需要带入。金库不足最低带入额时不能开始。
+未达到离场线时不能离开：一局只能以胜利或破产结束。[J-54 的牌桌](table-j54.html)自带起始筹码，不需要从金库带入。金库不足最低带入额时不能开始。
 
 ## 一局如何结算
 

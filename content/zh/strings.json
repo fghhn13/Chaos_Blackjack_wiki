@@ -269,15 +269,19 @@
         "goal_text": "净资产达到带入额的 {{ fact: settings.mode.chaos.config.exit_multiple.value }}～{{ fact: settings.mode.chaos.config.target_multiple.value }} 倍时满载而归",
         "goal_text_en": "Leave with 1600 to 2400 net assets",
         "name": "扑克头构筑桌",
-        "name_en": "Poker Head's Table"
+        "name_en": "Poker Head's Table",
+        "teaser": "以最高带入额赢一次经典牌桌即可开放。",
+        "teaser_en": "Win the Classic Table once with the top stake to open this table."
       },
       "j54": {
-        "description": "跨回合重构牌堆，签约、支付算力费，完成单次捕获或资本协议。",
-        "description_en": "J-54 does not bend the rules; it rewrites the deck, and the deck lasts the whole run. Sign contracts to reshape it, pay the compute fee each round and complete the protocol before the deck turns against you.",
-        "goal_text": "随机协议：玩家抽到 Joker，或筹码达到 {{ fact: settings.mode.j54.capital_target.value }}",
-        "goal_text_en": "A random protocol: draw the Joker, or reach 250 chips",
-        "name": "J-54 的牌桌 *实验性",
-        "name_en": "J-54's Table (demo)"
+        "description": "J-54 在一副贯穿整局的牌堆上做实验。它的条件只改它自己的牌；花算力改造牌堆，看清每条条件指向哪边，达到目标或捕获封存的小丑。",
+        "description_en": "J-54 runs an experiment on a deck that lasts the whole run. Its conditions change only its own cards; spend compute to cut the deck, read which way each condition points, and reach the target or capture the sealed Joker.",
+        "goal_text": "从第 {{ fact: settings.mode.j54.target_from_round.value }} 回合起筹码达到起始的 {{ fact: settings.mode.j54.target_multiple.value }} 倍，或捕获小丑",
+        "goal_text_en": "Reach 175 chips from round 9, or capture the Joker",
+        "name": "J-54 的牌桌",
+        "name_en": "J-54's Table",
+        "teaser": "赢一次扑克头的牌桌即可开放。",
+        "teaser_en": "Beat Poker Head's Table once to open this table."
       },
       "normal": {
         "description": "扑克头按规矩发牌，规则始终不变。了解 Blackjack，凭判断赢下每一手。",
@@ -286,7 +290,47 @@
         "name_en": "Classic Table"
       }
     },
-    "upgrades": {}
+    "upgrades": {},
+    "firmwares": {
+      "fw_fives": {
+        "name": "五六固件",
+        "name_en": "Fives Firmware",
+        "effect": "你的 5、6 算 10。",
+        "effect_en": "Your 5s and 6s count 10."
+      },
+      "fw_low": {
+        "name": "低位固件",
+        "name_en": "Low Firmware",
+        "effect": "你的 2、3、4 算 10。",
+        "effect_en": "Your 2, 3 and 4 count 10."
+      },
+      "fw_margin": {
+        "name": "余量固件",
+        "name_en": "Margin Firmware",
+        "effect": "你超过 22 才爆牌。",
+        "effect_en": "You bust only above 22."
+      },
+      "fw_mid": {
+        "name": "中段固件",
+        "name_en": "Midrange Firmware",
+        "effect": "你的 4、5、6 算 10。",
+        "effect_en": "Your 4, 5 and 6 count 10."
+      }
+    },
+    "table_moves": {
+      "j54_cut": {
+        "name": "切牌",
+        "name_en": "Cut"
+      },
+      "j54_hot_purge": {
+        "name": "热清除",
+        "name_en": "Hot Purge"
+      },
+      "j54_release": {
+        "name": "释放小丑",
+        "name_en": "Release the Joker"
+      }
+    }
   },
   "error_codes": {
     "illegal_action": "现在不允许（阶段不对、下注超范围、没有这件道具）。",

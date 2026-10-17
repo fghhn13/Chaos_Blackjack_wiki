@@ -1,6 +1,6 @@
 ---
 title: Table UI — parts, widgets and layouts
-source_blob: dc8611260ba6
+source_blob: a4b3fb7d12b9
 ---
 The document marks this framework implemented, and it is now in the game's main line. It supports dealers with different mechanics while preserving the shared central play area.
 
@@ -10,7 +10,7 @@ Each Table chooses an ordered left/right layout. Parts that do not fit direct th
 
 Items appear as quick slots, clickable or usable with keys 1–9 during the player's turn; the Bag tab replaces the old item scene. The side feed shows recent events and errors. The full run log retains up to 400 lines and survives saves; counters keep accumulating after old lines are dropped.
 
-The default layout (Classic and the mode-less `--chaos` run) uses the shared host, rules, feed, shoe, item slots and buttons, with Bag, Rules, Log and Run tabs. Poker Head's build Table adds its status, table actions and Build and Finance tabs, from parts that read only its public snapshot. J-54 adds deck distribution, badges, contracts and goal information, plus Deck and Contracts tabs.
+The default layout (Classic and the mode-less `--chaos` run) uses the shared host, rules, feed, shoe, item slots and buttons, with Bag, Rules, Log and Run tabs. Poker Head's build Table adds its status, table actions and Build and Finance tabs, from parts that read only its public snapshot. J-54's parts read only its public snapshot: a heat-coloured deck strip whose bars cut their group, the win-chance meter with the betting bands, badges (compute, condition, announcement, Joker, firmware, bounty) and the operations as clickable badges; it has no item slots since the table sells nothing, and its Deck tab holds the meter and the full heat map. A heat-map bar has a shade and its own tooltip and action, and a progress bar can carry marks.
 
 ## How Tables extend it
 

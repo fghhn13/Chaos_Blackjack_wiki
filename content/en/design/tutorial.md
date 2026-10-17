@@ -1,6 +1,6 @@
 ---
 title: Onboarding
-source_blob: 0ae4ac0e081b
+source_blob: d38239066a57
 ---
 How a new player learns blackjack and meets the tables one by one. Players created before onboarding shipped are not guided: every table is open and no explanation shows.
 
@@ -14,4 +14,10 @@ On the first New run Poker Head offers a practice, which can be skipped. It is a
 
 ## Guidance afterwards
 
-Until a few Classic runs have settled, a guided player's Classic bets are capped at a quarter of the cash instead of half. On the first visit Poker Head explains cores and build buffs, and when his first rule arrives he explains rules, including their tiers. The first relief comes with an explanation; later ones get two short lines. Shop and bag steps and replaying the practice are not covered yet.
+Until a few Classic runs have settled, a guided player's Classic bets are capped at a quarter of the cash instead of half. On the first visit Poker Head explains cores and build buffs, and when his first rule arrives he explains rules, including their tiers. The first relief comes with an explanation; later ones get two short lines. 
+
+## First visit to J-54's Table
+
+There is no practice table for J-54: it explains the real run inside the player's first visit, once each, in its programmatic voice. At the start it explains the deck, the heat strip, compute and the two removals and the two winning routes; then the firmware choice; at the first "Next condition" announcement the conditions and camps; and once Release is first affordable, the sealed Joker and the capture. The area it talks about is highlighted while it speaks, and the first time the meter reaches its second band a one-line hint says what the band suggests. Everything can be skipped, and unguided players get none of it.
+
+Shop and bag steps and replaying the practice are not covered yet.

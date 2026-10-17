@@ -71,9 +71,12 @@ def problems() -> tuple[list[str], list[str]]:
     for lang in F.LANGS[1:]:
         path = F.CONTENT / lang / "strings.json"
         translations = json.loads(path.read_text(encoding="utf-8")).get("catalog", {}) if path.exists() else {}
-        for coll in ("tables", "upgrades", "cosmetics", "achievements"):
+        keys = {"tables": ("description", "teaser"), "upgrades": ("name", "description"),
+                "cosmetics": ("name", "description"), "achievements": ("name", "description"),
+                "firmwares": ("name", "effect"), "table_moves": ("name",)}
+        for coll, fields in keys.items():
             for eid, entry in facts.get(coll, {}).items():
-                for key in (("description",) if coll == "tables" else ("name", "description")):
+                for key in (k for k in fields if entry.get(k)):
                     text = translations.get(coll, {}).get(eid, {})
                     if not text.get(key) or text.get(f"{key}_en") != entry.get(key):
                         warnings.append(f"{lang}: {coll}.{eid} {key} translation missing or stale")

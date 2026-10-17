@@ -8,7 +8,7 @@ pip install -e ".[gui]"
 python -m chaos_blackjack.gui
 ```
 
-On Windows, `start_game.bat` also launches the game. Create a player with **Start game**, then choose [Classic Table](table-normal.html) , [Poker Head's Table](table-chaos.html) or [J-54 *Experimental](table-j54.html) in **New run**. A new player first gets an optional practice with Poker Head, then opens the tables one by one: Poker Head's Table after a Classic win at the top stake, J-54's after a win at Poker Head's Table; a table not open yet shows as a silhouette with its condition. Review the table's goal, bets, rules, host and payout, choose how many chips to bring from your vault and, if you like, early-bust insurance. Nothing is taken until **Start run**.
+On Windows, `start_game.bat` also launches the game. Create a player with **Start game**, then choose [Classic Table](table-normal.html) , [Poker Head's Table](table-chaos.html) or [J-54's Table](table-j54.html) in **New run**. A new player first gets an optional practice with Poker Head, then opens the tables one by one: Poker Head's Table after a Classic win at the top stake, J-54's after a win at Poker Head's Table; a table not open yet shows as a silhouette with its condition. Review the table's goal, bets, rules, host and payout, choose how many chips to bring from your vault and, if you like, early-bust insurance. Nothing is taken until **Start run**.
 
 New runs begin with the host's dialogue. Enter / click advances and Escape skips. **Continue run** resumes a checkpoint without replaying the introduction.
 

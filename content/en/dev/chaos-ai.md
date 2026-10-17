@@ -3,7 +3,7 @@ title: Dealers and Chaos AI
 ---
 ## Poker Head's offline director
 
-The current Poker Head build Table uses an offline director that acts once before shopping and betting, scales with rounds and manages persistent or timed rules. It does not consume player items or target a player's build. See [environment mechanics](environment.html). Classic has no environment changes; J-54 *Experimental has its own deck-rule pool.
+The current Poker Head build Table uses an offline director that acts once before shopping and betting, scales with rounds and manages persistent or timed rules. It does not consume player items or target a player's build. See [environment mechanics](environment.html). Classic has no environment changes; J-54 runs its own program of conditions instead (see [J-54's Table](table-j54.html)).
 
 ## Legacy AI pipeline
 

@@ -26,7 +26,8 @@ git add -A && git commit       # message: "Sync wiki to game <sha>" + DRIFT summ
   `main` names the game checkout's local branch, which can lag behind GitHub;
   when it does, sync `--ref origin/main` (the site was last built that way on
   2026-10-15). Poker Head's products and environment are the official current
-  scheme; J-54 is experimental. Never modify the shared game checkout.
+  scheme; J-54's v2 table is official too (no table is experimental today).
+  Never modify the shared game checkout.
 - The game repo is the sibling folder `../Black_jack`, or `$CHAOS_BLACKJACK_REPO`.
 
 ## Handling DRIFT.md
@@ -73,7 +74,7 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   | --- | --- |
   | `{{ fact: settings.run.start_money.value }}` | the value (dotted keys work) |
   | `{{ link: items.peek }}` | link to the item / rule page, localized name |
-  | `{{ table: NAME }}` on its own line | generated block: `settings`, `prices`, `permissions`, `commands`, `actions`, `errors`, `transcript`, `gallery`, `changelog`, `chaos_cards`, `item_cards`, `environment_cards`, `poker_products`, `table_cards` |
+  | `{{ table: NAME }}` on its own line | generated block: `settings`, `prices`, `permissions`, `commands`, `actions`, `errors`, `transcript`, `gallery`, `changelog`, `chaos_cards`, `item_cards`, `environment_cards`, `poker_products`, `table_cards`, `firmware_cards`, `table_moves` |
 
   Card blocks group themselves by the table that offers each id (the table's
   `rules`, `environment_rules`, `items` + `products` in facts), released tables
@@ -82,7 +83,18 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   Item and rule hubs get a filter bar (table, kind, style, phase, price sort,
   compact list) from the same facts; `table_cards` shows each table with its
   dealer's portrait (`portrait: <file in content/img>` in
-  `content/<lang>/dealers/<id>.md`), goal, stake and pool sizes.
+  `content/<lang>/dealers/<id>.md`), goal, stake, pool sizes and, for a table
+  that opens later, its unlock teaser (`tables.<id>.teaser`, also a tile on the
+  table page). `firmware_cards` / `table_moves` show a table's opening build
+  picks and paid moves (J-54's firmwares and deck operations: `firmwares` and
+  `table_moves` in facts); their Chinese names live in `strings.json`
+  (`catalog.firmwares`, `catalog.table_moves`, with `*_en`). Rules carrying a
+  `camp` (J-54's conditions) show it and can be filtered by it.
+- Entries the game still registers but that belong to an earlier design are
+  **retired**: give their prose page (both languages) `status: retired` and
+  `history: <design doc slug>`. They keep their page with a history banner and
+  breadcrumb to that design doc, and leave the catalogs, the sidebar and pagers.
+  J-54's six v1 deck rules are retired to `j54-table`.
 
   An unknown placeholder fails the build, so renamed ids cannot go unnoticed.
 - Rule / item pages: the card (icon, effect, params, price) is generated; the
@@ -118,15 +130,16 @@ its `effect`/`help` **and** copy the new English text into `effect_en`/`help_en`
   `strings.json` catalog entries retain `name_en` / `description_en` for drift checks.
 - Navigation is generated: a new table or dealer in facts appears under "Tables
   and dealers" by itself; just write its `{tables,dealers}/<id>.md`. The
-  "Experimental" label comes from the game's `tables.<id>.experimental` (a dealer
-  is experimental when all its tables are); never hard-code ids in `wiki/*.py`.
+  "Experimental" label comes from `tables.<id>.experimental`, which the adapter
+  reads from an optional `experimental` attribute of the game's mode (none sets
+  it today; a dealer is experimental when all its tables are); never hard-code
+  ids in `wiki/*.py`.
   `check` rejects top-level pages missing from `PAGES` and `PAGES` entries that
   shadow a generated page (`table-<id>`, `dealer-<id>`, `item-<id>`...).
 - Author-supplied designs that are not in the game yet are editorial top-level
   pages with `status: draft` and `source: user` (added to `PAGES`). J-54 is in
-  the game now, so its pages are `tables/j54.md` and `dealers/j54.md`.
-  The author now requests current J-54 pages with an experimental label, while
-  preserving early concept documents as historical background. Do not invent game ids, prices or measured
+  the game now, so its pages are `tables/j54.md` and `dealers/j54.md`; its
+  concept and v1 demo are history in the `j54-table` design page. Do not invent game ids, prices or measured
   results. Editorial portraits live in `content/img/`, which sync never prunes.
 - Repository language: code, comments and commits in English; Chinese only in
   `content/zh/` and the `zh` interface strings.
